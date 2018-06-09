@@ -18,3 +18,21 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['namespace' => 'Admin',
+              'prefix' => 'admin',
+              'middleware' => ['auth.basic', 'auth']], function() {
+
+
+//    Route::get('/unauthorized', 'HomeController@unauthorized');
+
+
+    Route::prefix('product')->group(function (){
+
+        Route::get('/browse', 'ProductController@index');
+
+
+    });
+
+});
