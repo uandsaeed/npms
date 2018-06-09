@@ -14,12 +14,18 @@ let mix = require('laravel-mix');
 /**
  * Admin
  */
+// mix.js([
+//         'resources/assets/admin/js/index.js'
+//     ],
+//     'public/admin/js/app.js')
+//    .sass('resources/assets/sass/app.scss', 'public/admin/css/app.css');
+
+
 mix.js([
         'resources/assets/admin/js/index.js'
     ],
-    'public/admin/js/app.js')
-   .sass('resources/assets/sass/app.scss', 'public/css');
-
+    'public/admin/js/vendor.js')
+    .sass('resources/assets/sass/app.scss', 'public/admin/css/app.css');
 
 mix.webpackConfig({
     module: {
