@@ -11,5 +11,25 @@ let mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/assets/js/app.js', 'public/js')
+/**
+ * Admin
+ */
+mix.js([
+        'resources/assets/admin/js/index.js'
+    ],
+    'public/admin/js/app.js')
    .sass('resources/assets/sass/app.scss', 'public/css');
+
+
+mix.webpackConfig({
+    module: {
+        rules: [{
+            test: /\.js?$/,
+            exclude: /(node_modules|bower_components)/,
+            use: [{
+                loader: 'babel-loader',
+                options: mix.config.babel()
+            }]
+        }]
+    }
+});

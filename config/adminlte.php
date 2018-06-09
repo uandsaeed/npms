@@ -110,78 +110,72 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
-            'text' => 'Blog',
-            'url'  => 'admin/blog',
-            'can'  => 'manage-blog',
+            'text'    => 'Products',
+            'icon'    => 'fad fa-product-hunt',
+            'submenu' => [
+                [
+                    'text' => 'Browse',
+                    'icon'  => 'far fa-list-alt',
+                    'url'  => 'admin/product/browse',
+                ],
+                [
+                    'text' => 'Create',
+                    'icon' => 'fas fa-plus',
+                    'url'  => 'admin/product/create',
+                ],
+                [
+                    'text' => 'Pending',
+                    'icon' => 'fas fa-sync',
+                    'url'  => 'admin/product/pending',
+                ],
+                [
+                    'text' => 'Product Types',
+                    'icon'  => 'fas fa-equals',
+                    'url'  => 'admin/product/types',
+                ]
+            ],
         ],
         [
-            'text'        => 'Pages',
-            'url'         => 'admin/pages',
-            'icon'        => 'file',
-            'label'       => 4,
-            'label_color' => 'success',
+            'text' => 'Brands',
+            'icon'  => 'fas fa-globe',
+            'url'  => 'admin/brand',
+        ],
+        [
+            'text' => 'Settings',
+            'icon'      => 'fas fa-cogs',
+            'url'  => 'admin/settings',
+        ],
+        [
+            'text'    => 'User Management',
+            'icon'    => 'fas fa-user-secret',
+            'submenu' => [
+                [
+                    'text' => 'admins',
+                    'icon' => 'fas fa-user-secret',
+                    'url'  => 'admin/moderator/browse',
+                ],
+                [
+                    'text' => 'Create',
+                    'icon' => 'fas fa-plus',
+                    'url'  => 'admin/moderator/create',
+                ],
+                [
+                    'text'    => 'Users Management',
+                    'icon'    => 'fas fa-users',
+                    'url'  => 'admin/users/browse',
+                ]
+            ],
         ],
         'ACCOUNT SETTINGS',
         [
             'text' => 'Profile',
             'url'  => 'admin/settings',
-            'icon' => 'user',
+            'icon' => 'fas fa-user-cog',
         ],
         [
             'text' => 'Change Password',
             'url'  => 'admin/settings',
-            'icon' => 'lock',
-        ],
-        [
-            'text'    => 'Multilevel',
-            'icon'    => 'share',
-            'submenu' => [
-                [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-                [
-                    'text'    => 'Level One',
-                    'url'     => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'Level Two',
-                            'url'  => '#',
-                        ],
-                        [
-                            'text'    => 'Level Two',
-                            'url'     => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                                [
-                                    'text' => 'Level Three',
-                                    'url'  => '#',
-                                ],
-                            ],
-                        ],
-                    ],
-                ],
-                [
-                    'text' => 'Level One',
-                    'url'  => '#',
-                ],
-            ],
-        ],
-        'LABELS',
-        [
-            'text'       => 'Important',
-            'icon_color' => 'red',
-        ],
-        [
-            'text'       => 'Warning',
-            'icon_color' => 'yellow',
-        ],
-        [
-            'text'       => 'Information',
-            'icon_color' => 'aqua',
+            'icon' => 'fas fa-unlock',
         ],
     ],
 
