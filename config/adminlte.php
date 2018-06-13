@@ -147,6 +147,16 @@ return [
             ],
         ],
         [
+            'text' => 'Labels',
+            'icon'  => 'fas fa-tags',
+            'url'  => 'admin/label',
+        ],
+        [
+            'text' => 'Questions',
+            'icon'  => 'fas fa-question-circle',
+            'url'  => 'admin/question',
+        ],
+        [
             'text' => 'Brands',
             'icon'  => 'fas fa-globe',
             'url'  => 'admin/brand',
