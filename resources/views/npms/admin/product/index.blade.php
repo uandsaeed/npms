@@ -3,7 +3,7 @@
 @include('npms.admin.components.parts.title')
 
 @section('content_header')
-    <h1>headline</h1>
+    <h1>{{ $title }}</h1>
 @stop
 
 @section('content')
@@ -15,7 +15,7 @@
             @component('npms.admin.components.bootstrap.box', [ 'box_body_class' => 'table-responsive' ])
 
                 @slot('box_title')
-                    Awesome component
+                    All active produts
                 @endslot
 
                 @slot('box_tools')
@@ -32,59 +32,57 @@
                 <table class="table table-hover">
 
                     <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Title</th>
-                            <th>Ingredients</th>
-                            <th>Price</th>
-                            <th>Size</th>
-                            <th>Type</th>
-                            <th>Status</th>
-                            <th>Updated By</th>
-                            <th>Added at</th>
-                        </tr>
+                    <tr>
+                        <th width="20px">ID</th>
+                        <th width="350px">Title</th>
+                        <th width="550px">Ingredients</th>
+                        <th>Brand</th>
+                        <th>Price</th>
+                        <th>Size</th>
+                        <th>Type</th>
+                        <th width="100px">Updated By</th>
+                        <th width="120px">Updated at</th>
+                        <th width="150px">Action</th>
+                    </tr>
                     </thead>
+
                     <tbody>
 
-                        <tr>
-                            <td>183</td>
-                            <td>Title</td>
-                            <td>Ingredients</td>
-                            <td>$10.1</td>
-                            <td>10mg</td>
-                            <td>Vegan</td>
-                            <td>Active</td>
-                            <td>Ariful</td>
-                            <td>11-7-2014</td>
+                    @foreach($products as $product)
+
+                        <tr id="row_{{ $product->id }}">
+                            <td>{{ $product->id }}</td>
+                            <td>{{ $product->title }}</td>
+                            <td>
+                                @foreach(explode(',', $product->ingredients) as $item)
+                                    <label class="label label-default label-ingredient">{{ $item }}</label>
+                                @endforeach
+
+                            </td>
+                            <td>{{ $product->brand->title }}</td>
+                            <td>{{ number_format($product->price, 2, '.', '.') }} <small class="text-muted">{{ $product->currency }}</small></td>
+                            <td>{{ $product->size }}<small class="text-muted">{{ $product->size_unit }}</small></td>
+                            <td>{{ $product->productType->title }}</td>
+                            <td>{{ $product->updatedBy->name }}</td>
+                            <td>{{ $product->updated_at->diffForHumans() }}</td>
+                            <td>
+                                <div class="btn-group btn-group-xs">
+                                    <a href="{{ url('/admin/product/edit/'.$product->id) }}"
+                                       class="btn btn-flat btn-primary"><i class="fas fa-edit"></i> Edit</a>
+                                </div>
+                            </td>
                         </tr>
 
-                        <tr>
-                            <td>183</td>
-                            <td>Title</td>
-                            <td>Ingredients</td>
-                            <td>$10.1</td>
-                            <td>10mg</td>
-                            <td>Vegan</td>
-                            <td>Active</td>
-                            <td>Ariful</td>
-                            <td>11-7-2014</td>
-                        </tr>
-                        <tr>
-                            <td>183</td>
-                            <td>Title</td>
-                            <td>Ingredients</td>
-                            <td>$10.1</td>
-                            <td>10mg</td>
-                            <td>Vegan</td>
-                            <td>Active</td>
-                            <td>Ariful</td>
-                            <td>11-7-2014</td>
-                        </tr>
-
+                    @endforeach
 
 
                     </tbody>
+
                 </table>
+
+                @slot('box_footer')
+                        {{ $products->appends(request()->query())->links() }}
+                @endslot
             @endcomponent
 
         </div>

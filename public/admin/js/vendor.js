@@ -31635,20 +31635,20 @@ $(document).ready(function () {
 
     var page = $('#page_product_pending');
 
+    $('.label-ingredient').on({
+        mouseenter: function mouseenter() {
+            $(this).addClass("label-danger");
+            $(this).removeClass("label-default");
+        },
+        mouseleave: function mouseleave() {
+            $(this).removeClass("label-danger");
+            $(this).addClass("label-default");
+        }
+    });
+
     if (page.length > 0) {
 
         console.log('pending page');
-
-        $('.label-ingredient').on({
-            mouseenter: function mouseenter() {
-                $(this).addClass("label-danger");
-                $(this).removeClass("label-default");
-            },
-            mouseleave: function mouseleave() {
-                $(this).removeClass("label-danger");
-                $(this).addClass("label-default");
-            }
-        });
 
         $('.btn-approve').click(function () {
 
@@ -31663,9 +31663,7 @@ $(document).ready(function () {
                 url: '/admin/product/approve/' + id,
                 method: 'post'
             }).done(function (response) {
-
-                console.log('response ', response);
-
+                // console.log('response ', response);
                 row.remove();
             }).fail(function (xhr) {}).always(function () {
 

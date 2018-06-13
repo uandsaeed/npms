@@ -12,5 +12,7 @@
         {{ $slot }}
 
     </div>
-    <!-- /.box-body -->
+    <div class="box-footer">
+        {{ $box_footer }}
+    </div>
 </div>
