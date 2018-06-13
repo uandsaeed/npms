@@ -15,6 +15,18 @@
     const USER_ROLE_VISITOR = 1;
     const USER_ROLE_ADMIN = 2;
 
+
+    const USER_ROLE  = [
+        0 => 'void',
+        1 => 'visitor',
+        2 => 'admin'
+    ];
+
+    function getUserRole($value){
+        return USER_ROLE[$value];
+    }
+
+
     const USER_STATUS_ACTIVE = 1;
     const USER_STATUS_INACTIVE = 0;
 

@@ -2,11 +2,6 @@ $(document).ready(function () {
 
     let importPage = $('#page_product_import');
 
-    // $(function () {
-    // });
-
-    // $('[data-toggle="popover"]').popover();
-    // $('body').on('ready','[data-toggle="popover"]').popover();
 
     let popOverSettings = {
         placement: 'right',

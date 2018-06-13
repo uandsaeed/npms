@@ -66,17 +66,9 @@
 /******/ ({
 
 /***/ "./resources/assets/admin/js/index.js":
-/***/ (function(module, __webpack_exports__) {
-
-"use strict";
-/**
- * Created by ariful.haque on 09/06/2018.
- */
-// let hi = 'hello';
-// import { hello } from './hello';
+/***/ (function(module, exports) {
 
 
-// console.log('welcome to admin '+ hello());
 
 /***/ }),
 

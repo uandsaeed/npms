@@ -31543,18 +31543,32 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 /***/ }),
 
+/***/ "./resources/assets/admin/js/ajax.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {
+$(document).ready(function () {
+
+    /**
+     * Set csrf token to all ajax call
+     */
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('[name="_token"]').val()
+        }
+    });
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/admin/js/import.js":
 /***/ (function(module, exports, __webpack_require__) {
 
 /* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
 
     var importPage = $('#page_product_import');
-
-    // $(function () {
-    // });
-
-    // $('[data-toggle="popover"]').popover();
-    // $('body').on('ready','[data-toggle="popover"]').popover();
 
     var popOverSettings = {
         placement: 'right',
@@ -31614,6 +31628,56 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
 /***/ }),
 
+/***/ "./resources/assets/admin/js/product_pending.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+
+    var page = $('#page_product_pending');
+
+    if (page.length > 0) {
+
+        console.log('pending page');
+
+        $('.label-ingredient').on({
+            mouseenter: function mouseenter() {
+                $(this).addClass("label-danger");
+                $(this).removeClass("label-default");
+            },
+            mouseleave: function mouseleave() {
+                $(this).removeClass("label-danger");
+                $(this).addClass("label-default");
+            }
+        });
+
+        $('.btn-approve').click(function () {
+
+            var id = $(this).attr('data-id');
+            console.log('id ', id);
+
+            var row = $('#row_' + id);
+
+            row.addClass('warning').find('a,button').attr('disabled', 'disabled');
+
+            $.ajax({
+                url: '/admin/product/approve/' + id,
+                method: 'post'
+            }).done(function (response) {
+
+                console.log('response ', response);
+
+                row.remove();
+            }).fail(function (xhr) {}).always(function () {
+
+                row.removeClass('warning').find('a,button').attr('disabled', false);
+            });
+        });
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/sass/app.scss":
 /***/ (function(module, exports) {
 
@@ -31628,7 +31692,9 @@ __webpack_require__("./public/vendor/adminlte/vendor/jquery/dist/jquery.js");
 __webpack_require__("./public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.js");
 __webpack_require__("./public/vendor/adminlte/dist/js/adminlte.js");
 __webpack_require__("./node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js");
+__webpack_require__("./resources/assets/admin/js/ajax.js");
 __webpack_require__("./resources/assets/admin/js/import.js");
+__webpack_require__("./resources/assets/admin/js/product_pending.js");
 module.exports = __webpack_require__("./resources/assets/sass/app.scss");
 
 

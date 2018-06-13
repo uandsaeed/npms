@@ -110,6 +110,12 @@ return [
     'menu' => [
         'MAIN NAVIGATION',
         [
+            'text'  => 'Dashboard',
+            'icon'  => 'fas fa-tachometer-alt',
+            'url'   => 'home',
+
+        ],
+        [
             'text'    => 'Products',
             'icon'    => 'fad fa-product-hunt',
             'submenu' => [

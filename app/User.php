@@ -26,4 +26,15 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getRoleAttribute($value){
+
+        return getUserRole($value);
+    }
+
 }

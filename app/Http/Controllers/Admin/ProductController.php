@@ -173,4 +173,50 @@ class ProductController extends Controller
 
     }
 
+
+    public function pending(){
+
+        $title = 'Pending products';
+
+
+        $product = $this->repo->getPendingProducts();
+
+
+        return view('npms.admin.product.pending', ['title' => $title, 'products' => $product]);
+
+
+    }
+
+
+    /**
+     * Change a product status from 0 to 1
+     *
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function approve($id){
+
+        $user = getAuthUser();
+
+        dd($user);
+        if ($user->role == 'admin'){
+
+
+            $product = $this->repo->findById($id);
+
+            $product->status = 1;
+            $product->save();
+
+            return response()->json(['product' => $product])->setStatusCode(200);
+
+
+        } else{
+
+            return response()->json(['message' => 'Unauthenticated'])->setStatusCode(403);
+
+        }
+
+
+    }
 }
