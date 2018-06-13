@@ -20,10 +20,13 @@
     class ProductRepository implements IRepository
     {
         public $type = null;
+        public $brand = null;
+
         public function __construct()
         {
 
             $this->type = new ProductTypeRepository();
+            $this->brand = new BrandRepository();
 
         }
 
@@ -40,6 +43,10 @@
             $product->ingredients = $data['ingredients'];
             $product->price = $data['price'];
             $product->currency = $data['currency'];
+
+            $brand = $this->brand->findByNameOrCreate($data['brand']);
+            $product->brand_id = $brand->id;
+
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
@@ -60,7 +67,30 @@
          */
         public function update($data, $id)
         {
-            // TODO: Implement update() method.
+
+            $product = $this->findById($id);
+
+            $product->title = $data['title'];
+            $product->ingredients = $data['ingredients'];
+            $product->price = $data['price'];
+            $product->currency = $data['currency'];
+
+            $brand = $this->brand->findByNameOrCreate($data['brand']);
+
+            $product->brand_id = $brand->id;
+
+            $product->size = $data['size'];
+            $product->size_unit = $data['unit'];
+            $product->product_type_id = $data['product_type_id'];
+//            $product->url = str_slug($data['title']);
+            $product->status = $data['status'];
+
+            $product->updated_by = getAuthUser()->id;
+
+            $product->save();
+
+            return $product;
+
         }
 
         /**

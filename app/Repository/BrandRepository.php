@@ -31,8 +31,8 @@
             $item->slug = isset($data['slug']) ? $data['slug'] : null;
             $item->description = isset($data['description']) ? $data['description'] : null;
 
-            $item->added_by = Auth::user()->id;
-            $item->updated_by = Auth::user()->id;
+            $item->added_by = getAuthUser()->id;
+            $item->updated_by = getAuthUser()->id;
             $item->save();
 
             return $item;
@@ -63,7 +63,49 @@
          */
         public function findById($id)
         {
-            // TODO: Implement findById() method.
+            $brand = Brand::find($id);
+
+            return $brand;
         }
+
+        /**
+         * @param $name
+         */
+        public function findByName($name){
+
+            $brand = Brand::where('title', $name)->first();
+
+            return $brand;
+
+        }
+
+        /**
+         * @param $name
+         * @return Brand
+         */
+        public function findByNameOrCreate($name){
+
+            $brand = Brand::where('title', $name)->first();
+
+            if ($brand){
+
+                return $brand;
+
+            } else{
+
+                $brand = new Brand();
+                $brand->title = $name;
+                $brand->slug = str_slug($name);
+                $brand->created_by = getAuthUser()->id;
+                $brand->updated_by = getAuthUser()->id;
+                $brand->save();
+
+                return $brand;
+
+            }
+
+        }
+
+
 
     }

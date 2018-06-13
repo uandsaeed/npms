@@ -4,7 +4,7 @@
             <h3 class="box-title">Product Information</h3>
         </div>
 
-        <form class="form-horizontal" method="post" action="/admin/product/{{ isset($product) ? 'edit/'.$product->id : ''}}">
+        <form class="form-horizontal" method="post" action="/admin/product/{{ isset($product) ? $product->id : ''}}">
 
             <div class="box-body">
                 {{ csrf_field() }}
@@ -69,8 +69,8 @@
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'brand'])
                         <input type="text" class="form-control" id="id_brand"
-                               value="{{ isset($product) ? isset($product->brand_id) ? $product->brand->title : '' : ''  }}"
-                               placeholder="Brand" name="brand1" maxlength="50">
+                               value="{{ isset($product) ? isset($product->brand->title) ? $product->brand->title : '' : ''  }}"
+                               placeholder="Brand" name="brand" maxlength="50">
                 @endcomponent
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'status'])

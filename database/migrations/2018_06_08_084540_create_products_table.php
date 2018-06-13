@@ -25,22 +25,19 @@ use Illuminate\Database\Migrations\Migration;
             $table->text('ingredients', 2000);
             $table->float('price')->default(0);
             $table->string('currency', 5)->default('GBP');
-            $table->bigInteger('brand_id', 100)->nullable();
+            $table->bigInteger('brand_id')->unsigned()->nullable();
             $table->string('size', 6)->nullable()->default(null);
             $table->string('size_unit', 6)->nullable()->default(null);
-
             $table->integer('product_type_id')->unsigned();
-
             $table->string('url', 256)->nullable();
             $table->tinyInteger('status')->default(1);
 
-            $table->foreign('product_type_id')->references('id')->on('product_types')->onDelete('cascade');
-            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
-
             $table->bigInteger('created_by')->unsigned();
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-
             $table->bigInteger('updated_by')->unsigned();
+
+            $table->foreign('brand_id')->references('id')->on('brands')->onDelete('cascade');
+            $table->foreign('product_type_id')->references('id')->on('product_types')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();

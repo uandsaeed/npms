@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ProductInsertRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Repository\ProductRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -47,7 +48,6 @@ class ProductController extends Controller
 
     public function edit($id){
 
-//        dd($id);
         $title = 'Edit Product';
         $types = $this->repo->type->getAllList();
         $product = $this->repo->findById($id);
@@ -70,6 +70,20 @@ class ProductController extends Controller
 
         return response()->redirectTo('admin/product/edit/'.$product->id);
 
+    }
+
+    /**
+     * @param ProductUpdateRequest $request
+     * @param                      $id
+     *
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function update(ProductUpdateRequest $request, $id){
+
+        $posts = $request->all();
+        $product = $this->repo->update($posts, $id);
+
+        return response()->redirectTo('admin/product/edit/'.$product->id);
 
 
     }
