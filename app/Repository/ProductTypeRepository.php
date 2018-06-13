@@ -8,6 +8,8 @@
 
     namespace App\Repository;
 
+    use App\ProductType;
+
 
     /**
      * Class ProductTypeRepository
@@ -16,6 +18,15 @@
      */
     class ProductTypeRepository implements IRepository
     {
+
+        public function getAllList(){
+
+//            @tood add cache
+            $productTypes = ProductType::all();
+
+            return $productTypes;
+
+        }
 
         public function insert($data){
 

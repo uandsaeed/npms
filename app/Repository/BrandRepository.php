@@ -8,6 +8,9 @@
 
     namespace App\Repository;
 
+    use App\Brand;
+    use Illuminate\Support\Facades\Auth;
+
 
     /**
      * Class BrandRepository
@@ -17,8 +20,22 @@
     class BrandRepository implements IRepository
     {
 
+        /**
+         * @param $data
+         * @return Brand;
+         */
         public function insert($data){
 
+            $item = new Brand();
+            $item->title = $data['title'];
+            $item->slug = isset($data['slug']) ? $data['slug'] : null;
+            $item->description = isset($data['description']) ? $data['description'] : null;
+
+            $item->added_by = Auth::user()->id;
+            $item->updated_by = Auth::user()->id;
+            $item->save();
+
+            return $item;
         }
 
         /**

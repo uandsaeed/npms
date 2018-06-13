@@ -8,6 +8,9 @@
 
     namespace App\Repository;
 
+    use App\Product;
+    use Illuminate\Support\Facades\Auth;
+
 
     /**
      * Class ProductRepository
@@ -16,9 +19,38 @@
      */
     class ProductRepository implements IRepository
     {
+        public $type = null;
+        public function __construct()
+        {
 
+            $this->type = new ProductTypeRepository();
+
+        }
+
+
+        /**
+         * @param $data []
+         *
+         * @return  Product;
+         */
         public function insert($data){
 
+            $product = new Product();
+            $product->title = $data['title'];
+            $product->ingredients = $data['ingredients'];
+            $product->price = $data['price'];
+            $product->currency = $data['currency'];
+            $product->size = $data['size'];
+            $product->size_unit = $data['unit'];
+            $product->product_type_id = $data['product_type_id'];
+            $product->url = str_slug($data['title']);
+            $product->status = $data['status'];
+            $product->created_by = getAuthUser()->id;
+            $product->updated_by = getAuthUser()->id;
+
+            $product->save();
+
+            return $product;
         }
 
         /**
@@ -46,7 +78,11 @@
          */
         public function findById($id)
         {
-            // TODO: Implement findById() method.
+
+            $product = Product::find($id);
+
+            return $product;
+
         }
 
     }
