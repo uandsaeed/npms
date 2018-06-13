@@ -18,3 +18,30 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+
+Route::group(['namespace' => 'Admin',
+              'prefix' => 'admin',
+              'middleware' => ['auth.basic', 'auth']], function() {
+
+
+//    Route::get('/unauthorized', 'HomeController@unauthorized');
+
+
+    Route::prefix('product')->group(function (){
+
+        Route::post('/upload', 'ProductController@upload');
+
+
+        Route::post('/', 'ProductController@insert')->name('insert_product');
+        Route::post('/{id}', 'ProductController@update');
+
+        Route::get('/edit/{id}', 'ProductController@edit');
+        Route::get('/browse', 'ProductController@index');
+        Route::get('/import', 'ProductController@import');
+        Route::get('/create', 'ProductController@create');
+
+
+    });
+
+});

@@ -5,6 +5,7 @@
      * Date: 08/06/2018
      * Time: 3:08 PM
      */
+    use Illuminate\Support\Facades\Auth;
 
     /**
      * User
@@ -29,3 +30,13 @@
     /**
      * Question
      */
+
+
+    /**
+     *
+     * @return \Illuminate\Contracts\Auth\Authenticatable|null
+     */
+    function getAuthUser(){
+
+        return Auth::user();
+    }

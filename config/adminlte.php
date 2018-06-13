@@ -124,6 +124,11 @@ return [
                     'url'  => 'admin/product/create',
                 ],
                 [
+                    'text' => 'Import',
+                    'icon' => 'fas fa-plus',
+                    'url'  => 'admin/product/import',
+                ],
+                [
                     'text' => 'Pending',
                     'icon' => 'fas fa-sync',
                     'url'  => 'admin/product/pending',
