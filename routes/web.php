@@ -30,10 +30,15 @@ Route::group(['namespace' => 'Admin',
 
     Route::prefix('product')->group(function (){
 
+        Route::post('/upload', 'ProductController@upload');
+
+
         Route::post('/', 'ProductController@insert')->name('insert_product');
         Route::post('/{id}', 'ProductController@update');
+
         Route::get('/edit/{id}', 'ProductController@edit');
         Route::get('/browse', 'ProductController@index');
+        Route::get('/import', 'ProductController@import');
         Route::get('/create', 'ProductController@create');
 
 

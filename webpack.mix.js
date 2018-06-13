@@ -14,18 +14,36 @@ let mix = require('laravel-mix');
 /**
  * Admin
  */
-// mix.js([
-//         'resources/assets/admin/js/index.js'
-//     ],
-//     'public/admin/js/app.js')
-//    .sass('resources/assets/sass/app.scss', 'public/admin/css/app.css');
 
+mix.autoload({
+        jquery: ['$', 'window.jQuery',"jQuery","window.$","jquery","window.jquery"]
+    })
+    .js([
+        'public/vendor/adminlte/vendor/jquery/dist/jquery.js',
+        'public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.js',
+        'public/vendor/adminlte/dist/js/adminlte.js',
+        'node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js',
+        'resources/assets/admin/js/import.js'
 
-mix.js([
-        'resources/assets/admin/js/index.js'
-    ],
+        ],
     'public/admin/js/vendor.js')
-    .sass('resources/assets/sass/app.scss', 'public/admin/css/app.css');
+    .sass('resources/assets/sass/app.scss',
+        'public/admin/css/app.css')
+    .version();
+
+/**
+ *
+ * Admin App
+ */
+
+mix.autoload({
+        jquery: ['$', 'window.jQuery',"jQuery","window.$","jquery","window.jquery"]
+    })
+    .js([
+        'resources/assets/admin/js/index.js',
+    ], 'public/admin/js/app.js')
+    .version();;
+
 
 mix.webpackConfig({
     module: {

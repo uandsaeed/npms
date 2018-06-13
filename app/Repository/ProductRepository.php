@@ -9,6 +9,7 @@
     namespace App\Repository;
 
     use App\Product;
+    use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
 
 
@@ -50,7 +51,7 @@
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
-            $product->url = str_slug($data['title']);
+            $product->url = $data['url'];
             $product->status = $data['status'];
             $product->created_by = getAuthUser()->id;
             $product->updated_by = getAuthUser()->id;
@@ -82,7 +83,6 @@
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
-//            $product->url = str_slug($data['title']);
             $product->status = $data['status'];
 
             $product->updated_by = getAuthUser()->id;

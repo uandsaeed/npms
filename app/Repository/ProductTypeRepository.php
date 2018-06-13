@@ -60,4 +60,12 @@
             // TODO: Implement findById() method.
         }
 
+        public function findByNameOrCreate($name){
+
+            $type = ProductType::firstOrCreate(['title' => $name, 'slug' => str_slug($name)]);
+
+            return $type;
+
+        }
+
     }
