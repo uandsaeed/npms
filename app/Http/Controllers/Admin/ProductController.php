@@ -173,4 +173,17 @@ class ProductController extends Controller
 
     }
 
+
+    public function pending(){
+
+        $title = 'Pending products';
+
+
+        $product = $this->repo->getPendingProducts();
+
+
+        return view('npms.admin.product.pending', ['title' => $title, 'products' => $product]);
+
+
+    }
 }

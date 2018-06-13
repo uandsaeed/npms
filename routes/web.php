@@ -37,7 +37,9 @@ Route::group(['namespace' => 'Admin',
         Route::post('/{id}', 'ProductController@update');
 
         Route::get('/edit/{id}', 'ProductController@edit');
+
         Route::get('/browse', 'ProductController@index');
+        Route::get('/pending', 'ProductController@pending');
         Route::get('/import', 'ProductController@import');
         Route::get('/create', 'ProductController@create');
 

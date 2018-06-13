@@ -31550,6 +31550,17 @@ var _typeof = typeof Symbol === "function" && _typeof2(Symbol.iterator) === "sym
 
     var importPage = $('#page_product_import');
 
+    $('.label-ingredient').on({
+        mouseenter: function mouseenter() {
+            $(this).addClass("label-danger");
+            $(this).removeClass("label-default");
+        },
+        mouseleave: function mouseleave() {
+            $(this).removeClass("label-danger");
+            $(this).addClass("label-default");
+        }
+    });
+
     // $(function () {
     // });
 

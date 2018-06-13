@@ -115,4 +115,15 @@
 
         }
 
+
+        /**
+         *
+         */
+        public function getPendingProducts(){
+
+            $products = Product::where('status', 0)->paginate(10);
+
+            return $products;
+
+        }
     }

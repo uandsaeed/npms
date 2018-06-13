@@ -51,7 +51,7 @@ class Product extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(){
-        return $this->belongsTo('App/User', 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     /**
@@ -67,6 +67,6 @@ class Product extends Model
      */
     public function productType(){
 
-        return $this->belongsTo('App/ProductType', 'product_type_id', 'id');
+        return $this->belongsTo(ProductType::class, 'product_type_id', 'id');
     }
 }

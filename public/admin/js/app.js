@@ -66,9 +66,8 @@
 /******/ ({
 
 /***/ "./resources/assets/admin/js/index.js":
-/***/ (function(module, __webpack_exports__) {
+/***/ (function(module, exports) {
 
-"use strict";
 /**
  * Created by ariful.haque on 09/06/2018.
  */
