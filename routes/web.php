@@ -35,6 +35,7 @@ Route::group(['namespace' => 'Admin',
 
         Route::post('/', 'ProductController@insert')->name('insert_product');
         Route::post('/{id}', 'ProductController@update');
+        Route::post('/approve/{id}', 'ProductController@approve');
 
         Route::get('/edit/{id}', 'ProductController@edit');
 

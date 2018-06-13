@@ -23,7 +23,9 @@ mix.autoload({
         'public/vendor/adminlte/vendor/bootstrap/dist/js/bootstrap.js',
         'public/vendor/adminlte/dist/js/adminlte.js',
         'node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js',
-        'resources/assets/admin/js/import.js'
+        'resources/assets/admin/js/ajax.js',
+        'resources/assets/admin/js/import.js',
+        'resources/assets/admin/js/product_pending.js'
 
         ],
     'public/admin/js/vendor.js')

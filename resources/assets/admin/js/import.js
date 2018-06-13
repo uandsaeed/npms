@@ -2,22 +2,6 @@ $(document).ready(function () {
 
     let importPage = $('#page_product_import');
 
-    $('.label-ingredient').on({
-        mouseenter : function() {
-            $(this).addClass("label-danger");
-            $(this).removeClass("label-default");
-        },
-        mouseleave : function() {
-            $(this).removeClass("label-danger");
-            $(this).addClass("label-default");
-        }
-    });
-
-    // $(function () {
-    // });
-
-    // $('[data-toggle="popover"]').popover();
-    // $('body').on('ready','[data-toggle="popover"]').popover();
 
     let popOverSettings = {
         placement: 'right',

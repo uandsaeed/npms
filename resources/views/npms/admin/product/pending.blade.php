@@ -8,7 +8,7 @@
 
 @section('content')
 
-    <div class="row" id="page_pr">
+    <div class="row" id="page_product_pending">
 
         <div class="col-lg-12 col-md-12 col-sm-12">
 
@@ -68,7 +68,8 @@
                                 <div class="btn-group btn-group-xs">
                                     <a href="{{ url('/admin/product/edit/'.$product->id) }}"
                                             class="btn btn-flat btn-primary"><i class="fas fa-edit"></i> Edit</a>
-                                    <button class="btn btn-flat btn-warning"><i class="fas fa-check-square"></i> Approve</button>
+                                    <button class="btn btn-flat btn-warning btn-approve" data-id="{{ $product->id }}">
+                                        <i class="fas fa-check-square"></i> Approve</button>
                                 </div>
                             </td>
                         </tr>
