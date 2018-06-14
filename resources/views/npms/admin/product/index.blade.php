@@ -15,7 +15,7 @@
             @component('npms.admin.components.bootstrap.box', [ 'box_body_class' => 'table-responsive' ])
 
                 @slot('box_title')
-                    All active produts
+                    All active products
                 @endslot
 
                 @slot('box_tools')

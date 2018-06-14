@@ -8,6 +8,10 @@
 
     namespace App\Repository;
 
+    use App\Question;
+    use Illuminate\Http\Request;
+    use Illuminate\Support\Facades\Auth;
+
 
     /**
      * Class QuestionRepository
@@ -16,9 +20,43 @@
      */
     class QuestionRepository implements IRepository
     {
+//        public $type = null;
+//        public $brand = null;
 
+        public function __construct()
+        {
+
+//            $this->type = new ProductTypeRepository();
+//            $this->brand = new BrandRepository();
+
+        }
+
+        public function getAllPaginated(){
+
+            $records = Question::orderBy('updated_at', 'desc')
+                ->paginate(10);
+
+            return $records;
+
+        }
+
+
+        /**
+         * @param $data []
+         * @return Question|mixed $question;
+         */
         public function insert($data){
 
+            $question = new Question();
+            $question->title = $data['title'];
+            $question->description = $data['description'];
+
+            $question->created_by = getAuthUser()->id;
+            $question->updated_by = getAuthUser()->id;
+
+            $question->save();
+
+            return $question;
         }
 
         /**
@@ -28,7 +66,18 @@
          */
         public function update($data, $id)
         {
-            // TODO: Implement update() method.
+
+            $question = $this->findById($id);
+
+            $question->title = $data['title'];
+            $question->description = $data['description'];
+
+            $question->updated_by = getAuthUser()->id;
+
+            $question->save();
+
+            return $question;
+
         }
 
         /**
@@ -46,7 +95,10 @@
          */
         public function findById($id)
         {
-            // TODO: Implement findById() method.
-        }
 
+            $data = Question::find($id);
+
+            return $data;
+
+        }
     }
