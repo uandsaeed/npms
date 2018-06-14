@@ -16,11 +16,13 @@ class QuestionController extends Controller
         $this->repo = new QuestionRepository();
     }
 
-    public function index(){
+    public function index(Request $request){
 
         $title = 'Browse Questions';
+        $posts = $request->all();
+        $page = isset($posts['page']) ? $posts['page'] : 1;
 
-        $questions = $this->repo->getAllPaginated();
+        $questions = $this->repo->getAllPaginated($page);
 
         return view('npms.admin.question.index', ['title' => $title, 'questions' => $questions]);
 
@@ -92,9 +94,7 @@ class QuestionController extends Controller
      */
     public function delete($id){
 
-        $question = $this->repo->findById($id);
-
-        $question->delete();
+        $status = $this->repo->delete($id);
 
         return response()->redirectTo('/admin/question');
 

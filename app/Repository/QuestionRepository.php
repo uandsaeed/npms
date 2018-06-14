@@ -11,6 +11,7 @@
     use App\Question;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Cache;
 
 
     /**
@@ -20,23 +21,25 @@
      */
     class QuestionRepository implements IRepository
     {
-//        public $type = null;
-//        public $brand = null;
 
         public function __construct()
         {
 
-//            $this->type = new ProductTypeRepository();
-//            $this->brand = new BrandRepository();
-
         }
 
-        public function getAllPaginated(){
+        public function getAllPaginated($page){
 
-            $records = Question::orderBy('updated_at', 'desc')
-                ->paginate(10);
 
-            return $records;
+            $data = Cache::tags(['QUESTION_LIST'])
+                    ->remember('QUESTION_BY_LIST_'.$page, 5, function () {
+
+                return Question::with(['createdBy', 'updatedBy'])
+                    ->orderBy('updated_at', 'desc')
+                    ->paginate(10);
+
+            });
+
+            return $data;
 
         }
 
@@ -55,6 +58,8 @@
             $question->updated_by = getAuthUser()->id;
 
             $question->save();
+
+            $this->flushQuestionListCache();
 
             return $question;
         }
@@ -76,6 +81,8 @@
 
             $question->save();
 
+            $this->flushQuestionListCache();
+
             return $question;
 
         }
@@ -87,6 +94,20 @@
         public function delete($id)
         {
             // TODO: Implement delete() method.
+
+            $question = $this->findById($id);
+
+            if($question){
+                $question->delete();
+
+                Cache::forget('QUESTION_BY_ID_'.$id);
+
+                $this->flushQuestionListCache();
+
+                return true;
+            } else{
+                return false;
+            }
         }
 
         /**
@@ -96,9 +117,16 @@
         public function findById($id)
         {
 
-            $data = Question::find($id);
+            $data = Cache::remember('QUESTION_BY_ID_'.$id, 20, function () use($id){
+                return Question::find($id);
+            });
 
             return $data;
 
+        }
+
+        private function flushQuestionListCache(){
+
+            Cache::tags(['QUESTION_LIST'])->flush();
         }
     }
