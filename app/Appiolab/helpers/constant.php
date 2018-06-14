@@ -6,6 +6,7 @@
      * Time: 3:08 PM
      */
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Cache;
 
     /**
      * User
@@ -50,5 +51,7 @@
      */
     function getAuthUser(){
 
-        return Auth::user();
+        return Cache::remember('auth_user', 20, function () {
+            return Auth::user();
+        });
     }
