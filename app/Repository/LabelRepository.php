@@ -8,6 +8,10 @@
 
     namespace App\Repository;
 
+    use App\Label;
+    use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Cache;
+
 
     /**
      * Class LabelRepository
@@ -17,8 +21,50 @@
     class LabelRepository implements IRepository
     {
 
+        public function __construct()
+        {
+
+        }
+
+        /**
+         * @param $page
+         * @return mixed
+         */
+        public function getAllPaginated($page){
+
+
+            $data = Cache::tags(['LABEL_LIST'])
+                ->remember('LABEL_BY_LIST_'.$page, 5, function () {
+
+                    return Label::with(['createdBy', 'updatedBy'])
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
+
+                });
+
+            return $data;
+
+        }
+
+
+        /**
+         * @param $data []
+         * @return Label|mixed $question;
+         */
         public function insert($data){
 
+            $label = new Label();
+            $label->title = $data['title'];
+            $label->description = $data['description'];
+
+            $label->created_by = getAuthUser()->id;
+            $label->updated_by = getAuthUser()->id;
+
+            $label->save();
+
+            $this->flushLabelListCache();
+
+            return $label;
         }
 
         /**
@@ -28,7 +74,20 @@
          */
         public function update($data, $id)
         {
-            // TODO: Implement update() method.
+
+            $label = $this->findById($id);
+
+            $label->title = $data['title'];
+            $label->description = $data['description'];
+
+            $label->updated_by = getAuthUser()->id;
+
+            $label->save();
+
+            $this->flushLabelListCache();
+
+            return $label;
+
         }
 
         /**
@@ -37,7 +96,20 @@
          */
         public function delete($id)
         {
-            // TODO: Implement delete() method.
+
+            $label = $this->findById($id);
+
+            if($label){
+                $label->delete();
+
+                Cache::forget('LABEL_BY_ID_'.$id);
+
+                $this->flushLabelListCache();
+
+                return true;
+            } else{
+                return false;
+            }
         }
 
         /**
@@ -46,7 +118,17 @@
          */
         public function findById($id)
         {
-            // TODO: Implement findById() method.
+
+            $data = Cache::remember('LABEL_BY_ID_'.$id, 20, function () use($id){
+                return Label::find($id);
+            });
+
+            return $data;
+
         }
 
+        private function flushLabelListCache(){
+
+            Cache::tags(['LABEL_LIST'])->flush();
+        }
     }
