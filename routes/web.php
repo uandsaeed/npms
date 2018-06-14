@@ -61,4 +61,18 @@ Route::group(['namespace' => 'Admin',
 
     });
 
+    Route::prefix('label')->group(function () {
+
+        Route::post('/', 'LabelController@insert');
+        Route::post('/{id}', 'LabelController@update');
+        Route::delete('/{id}', 'LabelController@delete');
+
+        Route::get('/create', 'LabelController@create');
+        Route::get('/', 'LabelController@index');
+        Route::get('/{id}', 'LabelController@show');
+        Route::get('/edit/{id}', 'LabelController@edit');
+
+
+    });
+
 });
