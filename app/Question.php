@@ -34,7 +34,7 @@ class Question extends Model
 
     public function label(){
 
-        return $this->belongsTo('App/Label', 'question_id', 'id');
+        return $this->belongsTo(Label::class, 'question_id', 'id');
     }
 
 
