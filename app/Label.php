@@ -39,7 +39,7 @@ class Label extends Model
      */
     public function question(){
 
-        return $this->belongsTo('App/Question', 'question_id', 'id');
+        return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
 
@@ -47,13 +47,17 @@ class Label extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(){
-        return $this->belongsTo('App/User', 'created_by', 'id');
+
+        return $this->belongsTo(User::class, 'created_by', 'id');
+
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function updatedBy(){
-        return $this->belongsTo('App/User', 'updated_by', 'id');
+
+        return $this->belongsTo(User::class, 'updated_by', 'id');
+
     }
 }

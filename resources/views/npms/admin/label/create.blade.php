@@ -19,7 +19,7 @@
     <div class="row" id="page_product_create">
         <div class="col-lg-6 col-md-8 col-sm-12">
 
-            @include('npms.admin.question.create_form')
+            @include('npms.admin.label.create_form')
 
         </div>
 

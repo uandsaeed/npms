@@ -34,9 +34,9 @@
 
 
             $data = Cache::tags(['LABEL_LIST'])
-                ->remember('LABEL_BY_LIST_'.$page, 5, function () {
+                ->remember('LABEL_BY_LIST_'.$page, 20, function () {
 
-                    return Label::with(['createdBy', 'updatedBy'])
+                    return Label::with(['createdBy', 'updatedBy', 'question'])
                         ->orderBy('updated_at', 'desc')
                         ->paginate(10);
 
@@ -55,7 +55,10 @@
 
             $label = new Label();
             $label->title = $data['title'];
-            $label->description = $data['description'];
+            $label->description = trim($data['description']);
+            $label->question_id = $data['question_id'];
+            $label->back_description = trim($data['backend_description']);
+            $label->front_description = trim($data['frontend_description']);
 
             $label->created_by = getAuthUser()->id;
             $label->updated_by = getAuthUser()->id;

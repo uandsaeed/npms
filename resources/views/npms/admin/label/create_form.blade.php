@@ -9,6 +9,14 @@
             <div class="box-body">
                 {{ csrf_field() }}
 
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'question'])
+                    <select class="form-control" name="question_id">
+                        @foreach($questions as $question)
+                            <option value="{{ $question->id }}">{{ $question->title }}</option>
+                        @endforeach
+                    </select>
+                @endcomponent
+
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'title'])
                     <input type="text" class="form-control" id="title"
                            value="{{ isset($label) ? $label->title : ''  }}"
@@ -22,6 +30,23 @@
 
                     </textarea>
                 @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'backend_description'])
+                    <textarea class="form-control" id="backend_description" rows="3"
+                              placeholder="Backend Description"
+                              name="backend_description">{{ isset($label) ? $label->backend_description : ''  }}
+                    </textarea>
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'frontend_description'])
+                    <textarea class="form-control" id="frontend_description" rows="3"
+                              placeholder="Frontend Description"
+                              name="frontend_description">{{ isset($label) ? $label->frontend_description : ''  }}
+                    </textarea>
+                @endcomponent
+
+
+
 
             </div>
 

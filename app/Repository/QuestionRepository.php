@@ -26,11 +26,24 @@
 
         }
 
+        public function getAll(){
+
+            $data = Cache::tags(['QUESTION_LIST'])
+                ->remember('QUESTION_BY_LIST', 10, function () {
+
+                    return Question::select('id', 'title')
+                    ->orderBy('updated_at', 'desc')->get();
+
+                });
+
+            return $data;
+        }
+
         public function getAllPaginated($page){
 
 
             $data = Cache::tags(['QUESTION_LIST'])
-                    ->remember('QUESTION_BY_LIST_'.$page, 5, function () {
+                    ->remember('QUESTION_BY_LIST_'.$page, 10, function () {
 
                 return Question::with(['createdBy', 'updatedBy'])
                     ->orderBy('updated_at', 'desc')
