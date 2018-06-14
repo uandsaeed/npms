@@ -12,7 +12,9 @@
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'question'])
                     <select class="form-control" name="question_id">
                         @foreach($questions as $question)
-                            <option value="{{ $question->id }}">{{ $question->title }}</option>
+                            <option value="{{ $question->id }}"
+                            selected="{{ $question->id == $label->question_id  ? 'SELECTED' : 'false'}}"
+                            >{{ $question->title }}</option>
                         @endforeach
                     </select>
                 @endcomponent
@@ -26,23 +28,26 @@
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'description'])
                     <textarea class="form-control" id="ingredients"
-                           placeholder="Description" name="description">{{ isset($label) ? $label->description : ''  }}
+                           placeholder="Description" name="description"
+                        >{{ isset($label) ? trim($label->description) : ''  }}</textarea>
+                @endcomponent
 
-                    </textarea>
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'keywords'])
+                    <input type="text" class="form-control" id="keywords"
+                           value="{{ isset($label) ? $label->keywords : ''  }}"
+                           placeholder="Keywords" name="keywords" maxlength="250">
                 @endcomponent
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'backend_description'])
                     <textarea class="form-control" id="backend_description" rows="3"
                               placeholder="Backend Description"
-                              name="backend_description">{{ isset($label) ? $label->backend_description : ''  }}
-                    </textarea>
+                              name="backend_description">{{ isset($label) ? trim($label->back_description) : ''  }}</textarea>
                 @endcomponent
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'frontend_description'])
                     <textarea class="form-control" id="frontend_description" rows="3"
                               placeholder="Frontend Description"
-                              name="frontend_description">{{ isset($label) ? $label->frontend_description : ''  }}
-                    </textarea>
+                              name="frontend_description">{{ isset($label) ? trim($label->front_description) : ''  }}</textarea>
                 @endcomponent
 
 

@@ -66,11 +66,7 @@
 
         public function update(Request $request, $id){
 
-            $label = $this->repo->findById($id);
-
             $posts = $request->all();
-            $label->title = $posts['title'];
-            $label->description = $posts['description'];
 
             $label = $this->repo->update($posts, $id);
 

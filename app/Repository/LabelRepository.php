@@ -82,12 +82,16 @@
 
             $label->title = $data['title'];
             $label->description = $data['description'];
+            $label->keywords = $data['keywords'];
+            $label->question_id = $data['question_id'];
+            $label->back_description = $data['backend_description'];
+            $label->front_description = $data['frontend_description'];
 
             $label->updated_by = getAuthUser()->id;
-
             $label->save();
 
             $this->flushLabelListCache();
+            Cache::forget('LABEL_BY_ID_'.$id);
 
             return $label;
 

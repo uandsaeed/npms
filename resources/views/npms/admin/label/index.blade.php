@@ -41,6 +41,7 @@
                     <tr>
                         <th width="20px">ID</th>
                         <th width="350px">Title</th>
+                        <th width="350px">Keywords</th>
                         <th width="550px">Description</th>
                         <th width="550px">Question</th>
 
@@ -57,6 +58,7 @@
                         <tr id="row_{{ $label->id }}">
                             <td>{{ $label->id }}</td>
                             <td>{{ $label->title }}</td>
+                            <td>{{ $label->keywords }}</td>
                             <td>{{ $label->description }}</td>
                             <td>{{ isset($label->question) ? $label->question->title : '' }}</td>
                             <td>{{ $label->updatedBy->name }}</td>

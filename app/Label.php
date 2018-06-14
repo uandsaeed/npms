@@ -27,6 +27,7 @@ class Label extends Model
     protected $fillable = [
         'title',
         'description',
+        'keywords',
         'back_description',
         'front_description',
         'question_id',
