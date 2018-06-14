@@ -79,6 +79,11 @@
 
                     </tbody>
                 </table>
+
+                @slot('box_footer')
+                        {{ $products->appends(request()->query())->links() }}
+                @endslot
+
             @endcomponent
 
         </div>

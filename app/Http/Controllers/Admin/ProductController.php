@@ -31,7 +31,9 @@ class ProductController extends Controller
 
         $types = $this->repo->type->getAllList();
 
-        return view('npms.admin.product.index', ['title' => $title, 'types' => $types]);
+        $products = $this->repo->getAllPaginated();
+
+        return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
 
 
     }
@@ -199,7 +201,7 @@ class ProductController extends Controller
 
         $user = getAuthUser();
 
-        dd($user);
+//        dd($user);
         if ($user->role == 'admin'){
 
 

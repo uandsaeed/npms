@@ -31,6 +31,19 @@
 
         }
 
+        public function getAllPaginated(){
+
+
+            $products = Product::where('status', 1)
+                ->orderBy('updated_at', 'desc')
+                ->paginate(10);
+
+
+            return $products;
+
+        }
+
+
 
         /**
          * @param $data []

@@ -47,4 +47,18 @@ Route::group(['namespace' => 'Admin',
 
     });
 
+    Route::prefix('question')->group(function () {
+
+        Route::post('/', 'QuestionController@insert');
+        Route::post('/{id}', 'QuestionController@update');
+        Route::delete('/{id}', 'QuestionController@delete');
+
+        Route::get('/create', 'QuestionController@create');
+        Route::get('/', 'QuestionController@index');
+        Route::get('/{id}', 'QuestionController@show');
+        Route::get('/edit/{id}', 'QuestionController@edit');
+
+
+    });
+
 });

@@ -42,14 +42,14 @@ class Question extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(){
-        return $this->belongsTo('App/User', 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function updatedBy(){
-        return $this->belongsTo('App/User', 'updated_by', 'id');
+        return $this->belongsTo(User::class, 'updated_by', 'id');
     }
 
 
