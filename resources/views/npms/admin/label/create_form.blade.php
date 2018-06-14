@@ -13,7 +13,7 @@
                     <select class="form-control" name="question_id">
                         @foreach($questions as $question)
                             <option value="{{ $question->id }}"
-                            selected="{{ $question->id == $label->question_id  ? 'SELECTED' : 'false'}}"
+                            selected="{{ isset($label) ? $question->id == $label->question_id  ? 'SELECTED' : 'false' : false}}"
                             >{{ $question->title }}</option>
                         @endforeach
                     </select>

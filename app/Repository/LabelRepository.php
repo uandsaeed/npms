@@ -56,6 +56,8 @@
             $label = new Label();
             $label->title = $data['title'];
             $label->description = trim($data['description']);
+            $label->keywords = trim($data['keywords']);
+
             $label->question_id = $data['question_id'];
             $label->back_description = trim($data['backend_description']);
             $label->front_description = trim($data['frontend_description']);
