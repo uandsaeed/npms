@@ -36,7 +36,7 @@
             $data = Cache::tags(['LABEL_LIST'])
                 ->remember('LABEL_BY_LIST_'.$page, 20, function () {
 
-                    return Label::with(['createdBy', 'updatedBy', 'question'])
+                    return Label::with(['createdBy', 'updatedBy', 'question', 'products'])
                         ->orderBy('updated_at', 'desc')
                         ->paginate(10);
 
