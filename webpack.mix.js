@@ -25,6 +25,7 @@ mix.autoload({
         'node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js',
         'resources/assets/admin/js/ajax.js',
         'resources/assets/admin/js/import.js',
+        'resources/assets/admin/js/label.js',
         'resources/assets/admin/js/product_pending.js'
 
         ],

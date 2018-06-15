@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\LabelCreated;
+use App\Repository\LabelRepository;
 use App\Repository\SyncRepository;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -13,7 +14,7 @@ use Illuminate\Support\Facades\Log;
  *
  * @package App\Listeners
  */
-class SyncLabel
+class SyncLabel implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -32,14 +33,16 @@ class SyncLabel
      */
     public function handle(LabelCreated $event)
     {
-        //@todo sync labels
 
-        Log::info('SyncLabel Listener', $event->label->toArray());
-        $syncRepo = new SyncRepository();
+        Log::info('SyncLabel Listener ['.$event->label->title.']' );
+        $sync_repo = new SyncRepository();
 
-        $syncRepo->syncByLabelId($event->label);
+        $sync_repo->syncByLabelId($event->label);
 
-//        $event->label->
+        $this->repo->flushLabelListCache();
+
+
+        Log::info('Label ['.$this->label->title . '] synced');
 
     }
 }

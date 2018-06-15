@@ -11,8 +11,9 @@
     use App\Label;
     use App\Product;
     use Carbon\Carbon;
+    use Illuminate\Support\Facades\Cache;
     use Illuminate\Support\Facades\Log;
-
+    use App\Repository\LabelRepository;
 
     /**
      * Class SyncRepository
@@ -25,6 +26,7 @@
 
         /**
          * @param Label $label
+         * @return Label
          */
         public function syncByLabelId(Label $label){
 
@@ -35,8 +37,7 @@
 
             Log::info('Label '.$label->title . ' keywords', $keywords);
 
-
-            $products = Product::where(function ($query) use($keywords){
+            $products = Product::where(function ($query) use($keywords) {
 
                 $first = true;
 
@@ -50,6 +51,7 @@
                         $query->orWhere('ingredients' , 'like', '%'.$keyword.'%');
                     }
                 }
+
             })->get();
 
             foreach ($products as $product) {
@@ -67,8 +69,7 @@
             $label->last_sync = Carbon::now();
             $label->save();
 
-            Log::info('Label '.$label->title . ' synced');
-
+            return $label;
 
         }
 

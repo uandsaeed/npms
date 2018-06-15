@@ -71,6 +71,7 @@ Route::group(['namespace' => 'Admin',
         Route::get('/', 'LabelController@index');
         Route::get('/{id}', 'LabelController@show');
         Route::get('/edit/{id}', 'LabelController@edit');
+        Route::get('/sync/{id}', 'LabelController@sync');
 
 
     });

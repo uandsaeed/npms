@@ -31628,6 +31628,39 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/admin/js/label.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+
+    var tableLabel = $('#table-labels');
+
+    if (tableLabel.length > 0) {
+
+        console.log('Table Label');
+
+        tableLabel.on('click', '.btn-sync', function () {
+
+            var id = $(this).attr('data-id');
+            console.log(' sync ' + id);
+
+            $.ajax({
+                url: '/admin/label/sync/' + id,
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                console.log('response ', response);
+            }).fail(function (xhr, textStatus, errorThrown) {
+
+                console.log('sync error: ', xhr);
+            });
+        });
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/admin/js/product_pending.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31692,6 +31725,7 @@ __webpack_require__("./public/vendor/adminlte/dist/js/adminlte.js");
 __webpack_require__("./node_modules/fine-uploader/jquery.fine-uploader/jquery.fine-uploader.js");
 __webpack_require__("./resources/assets/admin/js/ajax.js");
 __webpack_require__("./resources/assets/admin/js/import.js");
+__webpack_require__("./resources/assets/admin/js/label.js");
 __webpack_require__("./resources/assets/admin/js/product_pending.js");
 module.exports = __webpack_require__("./resources/assets/sass/app.scss");
 
