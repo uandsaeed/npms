@@ -47,6 +47,8 @@
 
                         <th width="100px">Updated By</th>
                         <th width="120px">Updated at</th>
+                        <th width="120px">Last Sync</th>
+
                         <th width="150px">Action</th>
                     </tr>
                     </thead>
@@ -63,6 +65,7 @@
                             <td>{{ isset($label->question) ? $label->question->title : '' }}</td>
                             <td>{{ $label->updatedBy->name }}</td>
                             <td>{{ $label->updated_at->diffForHumans() }}</td>
+                            <td>{{ isset($label->last_sync )? $label->last_sync->diffForHumans() : 'New'}}</td>
                             <td>
                                 <form action="/admin/label/{{ $label->id }}" method="post">
                                     {{ csrf_field() }}

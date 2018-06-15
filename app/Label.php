@@ -31,8 +31,11 @@ class Label extends Model
         'back_description',
         'front_description',
         'question_id',
+        'last_sync',
+        'require_sync',
         'created_by',
         'updated_by'
+
     ];
 
     /**
