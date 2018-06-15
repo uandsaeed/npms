@@ -19,6 +19,10 @@ class Label extends Model
     protected $table = 'labels';
 
 
+    protected $dates = [
+        'last_sync'
+    ];
+
     /**
      * The attributes that are mass assignable.
      *
@@ -37,6 +41,16 @@ class Label extends Model
         'updated_by'
 
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function products(){
+
+        return $this->belongsToMany(Product::class, 'product_label_pivot',
+            'label_id', 'product_id');
+
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

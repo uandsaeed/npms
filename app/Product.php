@@ -48,6 +48,15 @@ class Product extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function labels(){
+
+        return $this->belongsToMany(Label::class, 'product_label_pivot', 'product_id', 'label_id');
+
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(){

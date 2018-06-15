@@ -2,12 +2,14 @@
 
     namespace App\Http\Controllers\Admin;
 
+    use App\Events\LabelCreated;
     use App\Repository\LabelRepository;
 
     use App\Repository\QuestionRepository;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Cache;
+    use Illuminate\Support\Facades\Log;
 
     class LabelController extends Controller
     {
@@ -57,7 +59,13 @@
             $label = $this->repo->insert($posts);
 
             if ($label){
+
+                Log::info('LabelController::insert success', $label->toArray());
+
+                event(new LabelCreated($label));
+
                 return response()->redirectTo('/admin/label');
+
             } else{
 
                 echo 'problem';
