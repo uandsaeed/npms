@@ -32,9 +32,12 @@ class Question extends Model
         'updated_by'
     ];
 
-    public function label(){
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function labels(){
 
-        return $this->belongsTo(Label::class, 'question_id', 'id');
+        return $this->hasMany(Label::class, 'question_id', 'id');
     }
 
 

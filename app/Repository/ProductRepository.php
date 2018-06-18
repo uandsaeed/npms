@@ -64,7 +64,7 @@
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
-            $product->url = $data['url'];
+            $product->url = isset($data['url']) ? $data['url'] : 'test';
             $product->status = $data['status'];
             $product->created_by = getAuthUser()->id;
             $product->updated_by = getAuthUser()->id;

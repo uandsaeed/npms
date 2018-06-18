@@ -11,6 +11,7 @@
     use App\Label;
     use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Cache;
+    use Illuminate\Support\Facades\Log;
 
 
     /**
@@ -36,7 +37,7 @@
             $data = Cache::tags(['LABEL_LIST'])
                 ->remember('LABEL_BY_LIST_'.$page, 20, function () {
 
-                    return Label::with(['createdBy', 'updatedBy', 'question'])
+                    return Label::with(['createdBy', 'updatedBy', 'question', 'products'])
                         ->orderBy('updated_at', 'desc')
                         ->paginate(10);
 
@@ -66,6 +67,8 @@
             $label->updated_by = getAuthUser()->id;
 
             $label->save();
+
+            Log::info('LabelController::insert success', $label->toArray());
 
             $this->flushLabelListCache();
 
@@ -136,8 +139,13 @@
 
         }
 
-        private function flushLabelListCache(){
+        /**
+         * flushLabelListCache
+         */
+        public function flushLabelListCache(){
 
             Cache::tags(['LABEL_LIST'])->flush();
+            Log::info('Cache Flush ', ['LABEL_LIST']);
+
         }
     }

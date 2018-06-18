@@ -36,6 +36,7 @@
                         <th width="20px">ID</th>
                         <th width="350px">Title</th>
                         <th width="550px">Ingredients</th>
+                        <th width="300px">Attached Labels</th>
                         <th>Brand</th>
                         <th>Price</th>
                         <th>Size</th>
@@ -58,6 +59,11 @@
                                     <label class="label label-default label-ingredient">{{ $item }}</label>
                                 @endforeach
 
+                            </td>
+                            <td>
+                                @foreach($product->labels as $label)
+                                    <label class="label label-success label-ingredient">{{ $label->title }}</label>
+                                @endforeach
                             </td>
                             <td>{{ $product->brand->title }}</td>
                             <td>{{ number_format($product->price, 2, '.', '.') }} <small class="text-muted">{{ $product->currency }}</small></td>

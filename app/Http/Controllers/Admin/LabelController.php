@@ -2,13 +2,19 @@
 
     namespace App\Http\Controllers\Admin;
 
+    use App\Events\LabelCreated;
+    use App\Jobs\SyncLabelJob;
     use App\Repository\LabelRepository;
 
     use App\Repository\QuestionRepository;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
-    use Illuminate\Support\Facades\Cache;
 
+    /**
+     * Class LabelController
+     *
+     * @package App\Http\Controllers\Admin
+     */
     class LabelController extends Controller
     {
 
@@ -25,6 +31,7 @@
             $posts = $request->all();
             $page = isset($posts['page']) ? $posts['page'] : 1;
 
+//            $this->repo->flushLabelListCache();
             $labels = $this->repo->getAllPaginated($page);
 
             return view('npms.admin.label.index', ['title' => $title, 'labels' => $labels]);
@@ -56,8 +63,12 @@
 
             $label = $this->repo->insert($posts);
 
-            if ($label){
+            if ($label) {
+
+                event(new LabelCreated($label));
+
                 return response()->redirectTo('/admin/label');
+
             } else{
 
                 echo 'problem';
@@ -111,6 +122,22 @@
 
             return response()->redirectTo('/admin/label');
 
+
+        }
+
+        /**
+         * @param $id
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function sync($id){
+
+            $label = $this->repo->findById($id);
+
+            SyncLabelJob::dispatch($label);
+
+            $this->repo->flushLabelListCache();
+
+            return response()->json(['message'=>'ok'])->setStatusCode(200);
 
         }
 
