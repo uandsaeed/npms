@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Label;
+use App\Product;
+use App\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class HomeController extends Controller
 {
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -23,6 +26,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $productCount = Cache::tags(['counter'])->remember('productCount', 20, function (){
+
+            return Product::all()->count();
+        });
+
+        $questionCount = Cache::tags(['counter'])->remember('questionCount', 20, function (){
+
+            return Question::all()->count();
+        });
+
+
+        $labelCount = Cache::tags(['counter'])->remember('labelCount', 20, function (){
+
+            return Label::all()->count();
+        });
+
+
+        return view('home' , ['products' => $productCount, 'questions' => $questionCount, 'labels' => $labelCount]);
     }
 }

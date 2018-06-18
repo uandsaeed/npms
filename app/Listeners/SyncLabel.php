@@ -35,14 +35,10 @@ class SyncLabel implements ShouldQueue
     {
 
         Log::info('SyncLabel Listener ['.$event->label->title.']' );
-        $sync_repo = new SyncRepository();
 
+        $sync_repo = new SyncRepository();
         $sync_repo->syncByLabelId($event->label);
 
-        $this->repo->flushLabelListCache();
-
-
-        Log::info('Label ['.$this->label->title . '] synced');
 
     }
 }

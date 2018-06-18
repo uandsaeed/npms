@@ -60,7 +60,7 @@
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now()
                 ]);
-                Log::info( 'Syncing ['.$label->title . '] with ['.$product->title. '] ('.$product->id.')');
+                Log::info( 'Syncing label ['.$label->title . '] with product ['.$product->title. '] ('.$product->id.')');
 
             }
 
@@ -72,5 +72,51 @@
             return $label;
 
         }
+
+
+        /**
+         * @param Product $product
+         */
+        public function syncByProductId(Product $product){
+
+
+            $keywords = explode(',', $product->ingredients);
+
+
+            $labels = Label::where(function ($query) use($keywords) {
+
+                $first = true;
+
+                // make a like search for each keyword
+                foreach ($keywords as $keyword){
+
+                    if ( $first== true){
+                        $query->where('keywords' , 'like', '%'.$keyword.'%');
+                        $first = false;
+                    } else{
+                        $query->orWhere('keywords' , 'like', '%'.$keyword.'%');
+                    }
+                }
+
+            })->get();
+
+            foreach ($labels as $label) {
+
+                $label->products()->syncWithoutDetaching([$product->id], [
+                    'created_at' => Carbon::now(),
+                    'updated_at' => Carbon::now()
+                ]);
+
+//                $label->require_sync = false;
+//                $label->last_sync = Carbon::now();
+//                $label->save();
+
+                Log::info( 'Syncing product ['.$product->title . '] with label ['.$label->title. '] ('.$product->id.')');
+
+            }
+
+        }
+
+
 
     }

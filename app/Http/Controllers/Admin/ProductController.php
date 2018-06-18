@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\ProductCreated;
 use App\Http\Requests\ProductInsertRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Repository\ProductRepository;
@@ -83,6 +84,8 @@ class ProductController extends Controller
 
         $posts = $request->all();
         $product = $this->repo->insert($posts);
+
+        event(new ProductCreated($product));
 
         return response()->redirectTo('admin/product/edit/'.$product->id);
 

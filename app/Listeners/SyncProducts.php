@@ -11,7 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
  *
  * @package App\Listeners
  */
-class SyncProducts
+class SyncProducts implements ShouldQueue
 {
     /**
      * Create the event listener.
@@ -30,6 +30,8 @@ class SyncProducts
      */
     public function handle(ProductImported $event)
     {
+
+
 
     }
 }

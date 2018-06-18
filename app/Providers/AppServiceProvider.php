@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Repository\LabelRepository;
 use Illuminate\Queue\Events\JobProcessed;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\ServiceProvider;
@@ -25,7 +27,16 @@ class AppServiceProvider extends ServiceProvider
             // $event->connectionName
             // $event->job
             // $event->job->payload()
-            Log::info('[QUEUE COMPLETE]', $event->job->getName());
+            Log::info('[QUEUE COMPLETE]', ['job name' => $event->job->getConnectionName()]);
+
+            $label_repo = new LabelRepository();
+            $label_repo->flushLabelListCache();
+
+//            Cache::tags(['counter'])->flush();
+            Cache::tags(['LABEL_LIST', 'counter'])->flush();
+
+
+
         });
     }
 
