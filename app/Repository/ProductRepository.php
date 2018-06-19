@@ -31,6 +31,9 @@
 
         }
 
+        /**
+         * @return mixed
+         */
         public function getAllPaginated(){
 
 

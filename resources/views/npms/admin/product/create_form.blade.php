@@ -73,6 +73,14 @@
                                placeholder="Brand" name="brand" maxlength="50">
                 @endcomponent
 
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'URL'])
+                    <input type="url" class="form-control" id="url"
+                           value="{{ isset($product) ? isset($product->url) ? $product->url : '' : ''  }}"
+                           placeholder="URL" name="url" maxlength="255">
+                @endcomponent
+
+
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'status'])
                         <div class="radio" style="float: left;margin-right: 20px">
                             <label>
