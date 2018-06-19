@@ -26,13 +26,20 @@ class ProductController extends Controller
         $this->repo = new ProductRepository();
     }
 
-    public function index(){
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function index(Request $request){
 
+        $posts = $request->all();
+
+        $page = isset($posts['page']) ? $posts['page'] : 1;
         $title = 'Browse Products';
 
-        $types = $this->repo->type->getAllList();
+//        $types = $this->repo->type->getAllList();
 
-        $products = $this->repo->getAllPaginated();
+        $products = $this->repo->getAllPaginated($page);
 
         return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
 
