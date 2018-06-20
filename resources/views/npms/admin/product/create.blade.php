@@ -12,8 +12,15 @@
         <div class="col-lg-6 col-md-8 col-sm-12">
 
             @include('npms.admin.product.create_form')
-
         </div>
+
+        @isset($product)
+            <div class="col-lg-6 col-md-8 col-sm-12">
+
+                @include('npms.admin.product.product_permission')
+            </div>
+
+        @endisset
 
     </div>
 

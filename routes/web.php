@@ -44,6 +44,11 @@ Route::group(['namespace' => 'Admin',
         Route::get('/import', 'ProductController@import');
         Route::get('/create', 'ProductController@create');
 
+        Route::get('/permissions', 'PermissionController@index');
+        Route::post('/global/permissions/', 'PermissionController@insertGlobal');
+        Route::post('/global/permissions/{id}/change', 'PermissionController@changeGlobal');
+        Route::post('/{productId}/permissions/{id}/change', 'PermissionController@change');
+
 
     });
 

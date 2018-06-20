@@ -11,6 +11,7 @@
     use App\Product;
     use Illuminate\Http\Request;
     use Illuminate\Support\Facades\Auth;
+    use Illuminate\Support\Facades\Cache;
 
 
     /**
@@ -125,7 +126,12 @@
         public function findById($id)
         {
 
-            $product = Product::find($id);
+            $product = Cache::tags(['PRODUCT_BY_ID'])->remember('PRODUCT_BY_ID_'.$id, 10, function () use($id){
+
+                return Product::with('permissions', 'brand', 'labels', 'productType', 'createdBy', 'updatedBy')
+                        ->find($id);
+            });
+
 
             return $product;
 
@@ -137,9 +143,33 @@
          */
         public function getPendingProducts(){
 
-            $products = Product::where('status', 0)->paginate(10);
+
+            $products = Cache::tags(['PENDING_PRODUCTS'])->remember('PENDING_PRODUCTS', 10, function () {
+
+                return Product::with('brand', 'labels', 'productType', 'createdBy', 'updatedBy')
+                    ->where('status', 0)->paginate(10);
+
+            });
 
             return $products;
+
+        }
+
+        /**
+         * @param $id
+         */
+        public function flushProductById($id){
+
+            Cache::tags(['PRODUCT_BY_ID'])->flush('PRODUCT_BY_ID_'.$id);
+
+        }
+
+        /**
+         *
+         */
+        public function flushGlobalPermission(){
+
+            Cache::tags(['GLOBAL_PERMISSIONS'])->flush();
 
         }
     }

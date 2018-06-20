@@ -57,6 +57,15 @@ class Product extends Model
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function permissions(){
+
+        return $this->hasMany(ProductPermission::class, 'product_id', 'id');
+
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function createdBy(){
