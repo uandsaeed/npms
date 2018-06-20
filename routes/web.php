@@ -43,6 +43,7 @@ Route::group(['namespace' => 'Admin',
         Route::get('/pending', 'ProductController@pending');
         Route::get('/import', 'ProductController@import');
         Route::get('/create', 'ProductController@create');
+        Route::get('/permissions', 'PermissionController@index');
 
 
     });

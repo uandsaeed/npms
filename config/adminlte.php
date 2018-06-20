@@ -143,6 +143,11 @@ return [
                     'text' => 'Product Types',
                     'icon'  => 'fas fa-equals',
                     'url'  => 'admin/product/types',
+                ],
+                [
+                    'text' => 'Permissions',
+                    'icon'  => 'fas fa-lock',
+                    'url'  => 'admin/product/permissions',
                 ]
             ],
         ],
