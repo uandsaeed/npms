@@ -16,5 +16,6 @@ use Illuminate\Database\Seeder;
     {
          $this->call(UserTableSeeder::class);
          $this->call(ProductTypeSeeder::class);
+         $this->call(GlobalPermissionsTableSeeder::class);
     }
 }

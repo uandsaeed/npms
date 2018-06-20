@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\GlobalPermission;
 use App\ProductPermission;
 use App\Repository\ProductRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class PermissionController
@@ -33,11 +36,14 @@ class PermissionController extends Controller
 
         $title = 'Product Permission';
 
-//        $posts = $request->all();
-//        $page = isset($posts['page']) ? $posts['page'] : 1;
-//        $products = $this->repo->getAllPaginated($page);
 
-        return view('npms.admin.product.permissions', ['title' => $title]);
+        $permissions = Cache::tags(['GLOBAL_PERMISSIONS'])->remember('GLOBAL_PERMISSIONS', 60, function (){
+
+            return GlobalPermission::with(['createdBy', 'updatedBy'])->get();
+
+        });
+
+        return view('npms.admin.product.permissions', ['title' => $title, 'permissions' => $permissions]);
 
     }
 
@@ -55,6 +61,47 @@ class PermissionController extends Controller
         $permission->save();
 
         $this->repo->flushProductById($productId);
+
+        return $permission;
+
+    }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function insertGlobal(Request $request){
+
+        $posts = $request->all();
+
+        $permission = new GlobalPermission();
+
+        $user = Auth::user();
+
+        $permission->product_field = $posts['field'];
+        $permission->permission = $posts['permission'] == 1 ? true : false;
+        $permission->created_by = $user->id;
+        $permission->updated_by = $user->id;
+        $permission->save();
+
+        $this->repo->flushGlobalPermission();
+
+        return response()->json(['permission' => $permission])->setStatusCode(201);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param         $id
+     */
+    public function changeGlobal(Request $request, $id){
+
+        $permission = GlobalPermission::find($id);
+
+        $permission->permission = $permission->permission == true ? false : true;
+        $permission->save();
+
+        $this->repo->flushGlobalPermission();
 
         return $permission;
 

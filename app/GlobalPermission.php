@@ -4,15 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class ProductPermission
- *
- * @package App
- */
-class ProductPermission extends Model
+class GlobalPermission extends Model
 {
-
-    protected $table = 'product_permissions';
+    protected $table = 'global_permissions';
 
 
     /**
@@ -22,7 +16,6 @@ class ProductPermission extends Model
      */
     protected $fillable = [
 
-        'product_id',
         'product_field',
         'permission',
         'created_by',
@@ -30,15 +23,6 @@ class ProductPermission extends Model
 
     ];
 
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function product(){
-
-        return $this->belongsTo(Product::class, 'product_id', 'id');
-
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

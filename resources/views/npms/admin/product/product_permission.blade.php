@@ -5,8 +5,6 @@
     </div>
     <div class="box-body">
         <table class="table table-responsive table-borderless">
-            {{--<thead>--}}
-            {{--</thead>--}}
             <input type="hidden" id="product-id" value="{{ $product->id }}" />
             <tbody>
                 <tr>
@@ -18,7 +16,8 @@
                 @foreach($product->permissions as $permission)
                     <tr id="permission_{{ $permission->id }}">
                         <td>{{ ucfirst($permission->product_field) }}</td>
-                        <td> @if($permission->permission == 1)
+                        <td>
+                            @if($permission->permission == 1)
                                 <label id="label_permission_{{ $permission->id }}"
                                        class='label label-success'>Yes</label>
                             @else

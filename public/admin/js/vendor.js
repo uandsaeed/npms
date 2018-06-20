@@ -31738,6 +31738,76 @@ $(document).ready(function () {
                 permission.find('#permission_' + permissionId).removeClass('warning');
             });
         });
+    } // product permission
+
+
+    var globalPermission = $('#page_global_permission');
+
+    if (globalPermission.length > 0) {
+
+        /**
+         *
+         */
+        $('.btn-insert-permission').click(function () {
+
+            var permissionId = $(this).attr('data-id');
+            permission.find('#permission_' + permissionId).addClass('warning');
+
+            var data = {
+                field: $('#field').val(),
+                permission: $("input[name='permission']:checked").val()
+            };
+
+            $.ajax({
+                url: '/admin/product/global/permissions/',
+                method: 'post',
+                data: data
+            }).done(function (response, textStatus, xhr) {
+
+                var permissionClass = data.permission === "0" ? 'label-default' : 'label-success';
+                var permission = '<label class=\'label ' + permissionClass + '\'>' + (data.permission === "0" ? 'No' : 'Yes') + '</label>';
+
+                var createdBy = '<td><small class="text-muted">' + $('.js-created-by').text() + '</small></td>';
+                var updatedBy = '<td><small class="text-muted">' + $('.js-updated-by').text() + '</small></td>';
+
+                var row = '<tr><td>' + data.field + '</td><td>' + permission + '</td>' + (createdBy + updatedBy) + '</tr>';
+
+                $('#table-global-permissions').append(row);
+            }).fail(function (error, textStatus, errorThrown) {}).always(function () {
+                permission.find('#permission_' + permissionId).removeClass('warning');
+            });
+        });
+
+        /**
+         * Change Permission
+         */
+        $('.btn-change-global-permission').click(function () {
+
+            var permissionId = $(this).attr('data-id');
+            permission.find('#permission_' + permissionId).addClass('warning');
+
+            $.ajax({
+                url: '/admin/product/global/permissions/' + permissionId + '/change',
+                method: 'post'
+            }).done(function (response, textStatus, xhr) {
+
+                var label = $('#label_permission_' + permissionId);
+
+                if (response.permission === true) {
+                    console.log('set success');
+                    label.removeClass('label-default');
+                    label.addClass('label-success');
+                    label.text('Yes');
+                } else {
+                    console.log('set default');
+                    label.text('No');
+                    label.addClass('label-default');
+                    label.removeClass('label-success');
+                }
+            }).fail(function (error, textStatus, errorThrown) {}).always(function () {
+                permission.find('#permission_' + permissionId).removeClass('warning');
+            });
+        });
     }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))

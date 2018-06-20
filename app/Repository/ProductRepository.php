@@ -163,4 +163,13 @@
             Cache::tags(['PRODUCT_BY_ID'])->flush('PRODUCT_BY_ID_'.$id);
 
         }
+
+        /**
+         *
+         */
+        public function flushGlobalPermission(){
+
+            Cache::tags(['GLOBAL_PERMISSIONS'])->flush();
+
+        }
     }
