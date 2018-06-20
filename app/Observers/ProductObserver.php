@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Product;
 use App\ProductPermission;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ProductObserver
@@ -19,7 +20,7 @@ class ProductObserver
      * @param Product $product
      * @return void
      */
-    public function created(Product $product)
+    public function saved(Product $product)
     {
 
         $product_array = $product->toArray();
@@ -45,6 +46,8 @@ class ProductObserver
             $permission->updated_by = $product->updated_by;
             $permission->save();
         }
+
+        Log::info('Permissions created for product => '.$product->title, $product_array);
 
     }
 
