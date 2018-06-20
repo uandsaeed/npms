@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Observers\ProductObserver;
+use App\Product;
 use App\Repository\LabelRepository;
 use Illuminate\Queue\Events\JobProcessed;
 use Illuminate\Support\Facades\Cache;
@@ -24,20 +26,18 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Queue::after(function (JobProcessed $event) {
-            // $event->connectionName
-            // $event->job
-            // $event->job->payload()
+
             Log::info('[QUEUE COMPLETE]', ['job name' => $event->job->getConnectionName()]);
 
             $label_repo = new LabelRepository();
             $label_repo->flushLabelListCache();
 
-//            Cache::tags(['counter'])->flush();
+            Cache::tags(['counter'])->flush();
             Cache::tags(['LABEL_LIST', 'counter'])->flush();
 
-
-
         });
+
+        Product::observe(ProductObserver::class);
     }
 
     /**
