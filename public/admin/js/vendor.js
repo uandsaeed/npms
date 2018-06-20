@@ -31704,6 +31704,41 @@ $(document).ready(function () {
             });
         });
     }
+
+    var permission = $('#product_permission');
+
+    if (permission.length > 0) {
+
+        $('.btn-change-product-permission').click(function () {
+
+            var permissionId = $(this).attr('data-id');
+            var productId = $('#product-id').val();
+
+            permission.find('#permission_' + permissionId).addClass('warning');
+
+            $.ajax({
+                url: '/admin/product/' + productId + '/permissions/' + permissionId + '/change',
+                method: 'post'
+            }).done(function (response, textStatus, xhr) {
+
+                var label = $('#label_permission_' + permissionId);
+
+                if (response.permission === true) {
+                    console.log('set success');
+                    label.removeClass('label-default');
+                    label.addClass('label-success');
+                    label.text('Yes');
+                } else {
+                    console.log('set default');
+                    label.text('No');
+                    label.addClass('label-default');
+                    label.removeClass('label-success');
+                }
+            }).fail(function (error, textStatus, errorThrown) {}).always(function () {
+                permission.find('#permission_' + permissionId).removeClass('warning');
+            });
+        });
+    }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 

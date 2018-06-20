@@ -47,4 +47,44 @@ $(document).ready(function () {
 
     }
 
+    let permission = $('#product_permission');
+
+    if (permission.length > 0){
+
+        $('.btn-change-product-permission').click(function () {
+
+            let permissionId = $(this).attr('data-id');
+            let productId = $('#product-id').val();
+
+            permission.find('#permission_'+permissionId).addClass('warning');
+
+            $.ajax({
+                url : '/admin/product/'+productId+'/permissions/'+permissionId+'/change',
+                method: 'post'
+            }).done(function (response, textStatus, xhr) {
+
+                let label = $('#label_permission_'+permissionId);
+
+                if (response.permission === true){
+                    console.log('set success');
+                    label.removeClass('label-default');
+                    label.addClass('label-success');
+                    label.text('Yes');
+                } else {
+                    console.log('set default');
+                    label.text('No');
+                    label.addClass('label-default');
+                    label.removeClass('label-success');
+                }
+
+            }).fail(function (error, textStatus, errorThrown) {
+
+            }).always(function () {
+                permission.find('#permission_'+permissionId).removeClass('warning');
+            });
+
+        });
+
+    }
+
 });

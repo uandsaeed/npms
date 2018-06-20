@@ -9,6 +9,7 @@
     namespace App\Repository;
 
     use App\ProductType;
+    use Illuminate\Support\Facades\Cache;
 
 
     /**
@@ -21,10 +22,13 @@
 
         public function getAllList(){
 
-//            @tood add cache
-            $productTypes = ProductType::all();
+            $types = Cache::tags(['PRODUCT_TYPES'])->remember('PRODUCT_TYPES_ALL', 20, function (){
 
-            return $productTypes;
+                return ProductType::all();
+
+            });
+
+            return $types;
 
         }
 
