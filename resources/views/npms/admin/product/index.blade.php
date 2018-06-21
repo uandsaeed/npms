@@ -51,7 +51,7 @@
                             <td>{{ $product->id }}</td>
                             <td>{{ $product->title }}</td>
                             <td>
-                                @foreach(explode(',', $product->ingredients) as $item)
+                                @foreach(ingredient_explode($product->ingredients) as $item)
                                     <label class="label label-default label-ingredient">{{ $item }}</label>
                                 @endforeach
 
