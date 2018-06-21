@@ -18,19 +18,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('test', function (){
-
-    $string = "Aqua/Water/Eau, Dicaprylyl carbonate (coconut, based), Cetearyl alcohol (vegetable, based), Glycerin [vegetable, glycerine], Cocoglycerides (coconut based), Butyrospermum parkii (Shea butter), Glyceryl stearate (naturally derived), Cetearyl glucoside (derived from corn sugar), Rhus verniciflua peel wax (Berry wax), Theobroma cacoa (Cocoa butter), Kigelia africana fruit extract (Kigelia africana), Hibiscus sabdariffa flower extract, Adansonia digitata fruit extract (Baobab), Lactose (probiotic bifidoculture milk extract), Lactis proteinum/Milk protein/Protéine du lait (probiotic protein), Bifida ferment lysate (probiotic culture), Schinziophyton Rautanenii kernel (Mongongo) oil, Panthenol (Pro-vitamin B5), Sodium ascorbyl phosphate (Vitamin C), Rosmarinus officinalis leaf (Rosemary) oil, Citrus aurantium bergamia peel (Bergamot) oil, Anthemis nobilis (Chamomile) oil, Eucalyptus globulus leaf (Eucalyptus) oil, Xanthan gum (naturally derived), Sodium stearoyl glutamate (naturally derived), Tocopheryl acetate (Vitamin E), Citric acid (derived from Lemon), Hydroxyacetophenone (preservative booster), Benzyl alcohol, Dehydroacetic acid (natural association approved preservative), Limonene*, Linalool* ";
-
-    $string = str_replace("[", "(", $string);
-    $string = str_replace("]", ")", $string);
-
-    dd(preg_split('~,(?![^()]*\))~', $string));
-//    dd(explode(',', $string));
-
-});
-
+    
 
 Route::group(['namespace' => 'Admin',
               'prefix' => 'admin',
