@@ -55,3 +55,20 @@
             return Auth::user();
         });
     }
+
+
+    /**
+     * @link https://stackoverflow.com/questions/31042097/explode-string-when-not-between
+     *
+     * @param $string
+     * @return array
+     */
+    function ingredient_explode($string){
+
+        $string = str_replace("[", "(", $string);
+        $string = str_replace("]", ")", $string);
+
+        $new_string = preg_split('~,(?![^()]*\))~', $string);
+
+        return $new_string;
+    }
