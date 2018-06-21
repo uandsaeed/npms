@@ -49,10 +49,20 @@ class ProductController extends Controller
      * Search Product
      *
      * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
     public function search(Request $request){
 
-        dd($request->all());
+        $posts = $request->all();
+
+        $page = isset($posts['page']) ? $posts['page'] : 1;
+
+        $products = $this->repo->search($posts['s'], $posts['status'], $page, $posts['per_page']);
+
+        $title = 'Searching '.$posts['s'];
+
+        return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
 
     }
 

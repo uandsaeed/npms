@@ -44,10 +44,7 @@
                         ->paginate(10);
             });
 
-
-
             return $products;
-
         }
 
 
@@ -131,6 +128,39 @@
             return $product;
 
         }
+
+
+        /**
+         * @param     $keyword
+         * @param int $status
+         * @param     $page
+         * @param     $per_page
+         * @return
+         */
+        public function search($keyword, $status = 1, $page, $per_page){
+
+            $key = 'BROWSE_PRODUCTS_SEARCH_'.str_slug($keyword).'_STATUS_'.$status.'_PAGE_'.$page.'_PER_PAGE_'.$per_page;
+
+            $products = Cache::tags(['BROWSE_PRODUCTS_SEARCH'])
+                ->remember($key, 10,
+                function () use($keyword, $status, $per_page){
+
+                    return Product::with(['brand', 'labels', 'createdBy', 'updatedBy', 'productType'])
+                        ->where('status', $status)
+                        ->where(function ($query) use($keyword){
+
+                            $query->where('title', 'LIKE', '%'.$keyword.'%')
+                                ->orWhere('ingredients', 'LIKE', '%'.$keyword.'%');
+
+                        })
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate($per_page);
+            });
+
+            return $products;
+
+        }
+
 
         /**
          * @param $id

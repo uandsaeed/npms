@@ -10,6 +10,9 @@
 
     <div class="row" id="page_product_pending">
 
+        @include('npms.admin.product.search', ['status' => 0, 'url' => 'pending'])
+
+
         <div class="col-lg-12 col-md-12 col-sm-12">
 
             @component('npms.admin.components.bootstrap.box', [ 'box_body_class' => 'table-responsive' ])
@@ -19,13 +22,6 @@
                 @endslot
 
                 @slot('box_tools')
-                    {{--<div class="input-group input-group-sm" style="width: 150px;">--}}
-                        {{--<input type="text" name="table_search" class="form-control pull-right" placeholder="Search">--}}
-
-                        {{--<div class="input-group-btn">--}}
-                            {{--<button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>--}}
-                        {{--</div>--}}
-                    {{--</div>--}}
 
                 @endslot
 
