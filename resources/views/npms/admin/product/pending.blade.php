@@ -41,7 +41,7 @@
                         <th>Size</th>
                         <th>Type</th>
                         <th width="100px">Updated By</th>
-                        <th width="120px">Added at</th>
+                        <th width="120px">Updated at</th>
                         <th width="150px">Action</th>
                     </tr>
                     </thead>
@@ -63,7 +63,7 @@
                             <td>{{ $product->size }}<small class="text-muted">{{ $product->size_unit }}</small></td>
                             <td>{{ $product->productType->title }}</td>
                             <td>{{ $product->createdBy->name }}</td>
-                            <td>{{ $product->created_at->diffForHumans() }}</td>
+                            <td>{{ $product->updated_at->diffForHumans() }}</td>
                             <td>
                                 <div class="btn-group btn-group-xs">
                                     <a href="{{ url('/admin/product/edit/'.$product->id) }}"
