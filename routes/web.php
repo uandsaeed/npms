@@ -41,6 +41,9 @@ Route::group(['namespace' => 'Admin',
 
         Route::get('/browse', 'ProductController@index');
         Route::get('/pending', 'ProductController@pending');
+        Route::get('/{type}/search', 'ProductController@search');
+//        Route::get('/pending/search', 'ProductController@search');
+
         Route::get('/import', 'ProductController@import');
         Route::get('/create', 'ProductController@create');
 

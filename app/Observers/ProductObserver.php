@@ -20,7 +20,7 @@ class ProductObserver
      * @param Product $product
      * @return void
      */
-    public function saved(Product $product)
+    public function created(Product $product)
     {
 
         $product_array = $product->toArray();

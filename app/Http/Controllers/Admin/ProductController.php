@@ -37,8 +37,6 @@ class ProductController extends Controller
         $page = isset($posts['page']) ? $posts['page'] : 1;
         $title = 'Browse Products';
 
-//        $types = $this->repo->type->getAllList();
-
         $products = $this->repo->getAllPaginated($page);
 
         return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
@@ -46,16 +44,41 @@ class ProductController extends Controller
 
     }
 
-    public function create(){
 
+    /**
+     * Search Product
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $request){
+
+        $posts = $request->all();
+
+        $page = isset($posts['page']) ? $posts['page'] : 1;
+
+        $products = $this->repo->search($posts['s'], $posts['status'], $page, $posts['per_page']);
+
+        $title = 'Searching '.$posts['s'];
+
+        return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
+
+    }
+
+
+    /**
+     * Create a product
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(){
 
         $title = 'Create Product';
         $types = $this->repo->type->getAllList();
 
 
         return view('npms.admin.product.create', ['title' => $title, 'types' => $types]);
-
-
     }
 
     /**
@@ -90,7 +113,7 @@ class ProductController extends Controller
     public function insert(ProductInsertRequest $request){
 
         $posts = $request->all();
-        $product = $this->repo->insert($posts);
+        $product = $this->repo->insert($posts, true);
 
         event(new ProductCreated($product));
 
