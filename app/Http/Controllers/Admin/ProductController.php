@@ -37,8 +37,6 @@ class ProductController extends Controller
         $page = isset($posts['page']) ? $posts['page'] : 1;
         $title = 'Browse Products';
 
-//        $types = $this->repo->type->getAllList();
-
         $products = $this->repo->getAllPaginated($page);
 
         return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
@@ -46,16 +44,31 @@ class ProductController extends Controller
 
     }
 
-    public function create(){
 
+    /**
+     * Search Product
+     *
+     * @param Request $request
+     */
+    public function search(Request $request){
+
+        dd($request->all());
+
+    }
+
+
+    /**
+     * Create a product
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function create(){
 
         $title = 'Create Product';
         $types = $this->repo->type->getAllList();
 
 
         return view('npms.admin.product.create', ['title' => $title, 'types' => $types]);
-
-
     }
 
     /**

@@ -10,6 +10,37 @@
 
     <div class="row" id="page_pr">
 
+        <div class="col-lg-12" style="margin-bottom: 20px;">
+            <form class="form-inline" method="get" action="{{ url('/admin/product/search') }}">
+
+                <div class="form-group  col-lg-6">
+                    <div class="input-group"  style="width: 100%;">
+                        <input type="text" name="s"
+                               class="form-control" placeholder="Search">
+                        <span class="input-group-btn">
+                            {{--<button class="btn btn-default" type="button">Go!</button>--}}
+                            <button type="submit" class="btn btn-default">
+                                        <i class="fas fa-search"></i> Search</button>
+                       </span>
+                    </div>
+                </div>
+
+                <div class="form-group  col-lg-6 text-right">
+                    <div class="form-group">
+                        <label for="per_page">Per Page</label>
+                        <select class="form-control" name="per_page" id="per_page">
+                            <option value="10" selected="selected">10</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                            <option value="100">100</option>
+                        </select>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+
+
         <div class="col-lg-12 col-md-12 col-sm-12">
 
             @component('npms.admin.components.bootstrap.box', [ 'box_body_class' => 'table-responsive' ])
@@ -19,13 +50,7 @@
                 @endslot
 
                 @slot('box_tools')
-                    <div class="input-group input-group-sm" style="width: 150px;">
-                        <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
 
-                        <div class="input-group-btn">
-                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                        </div>
-                    </div>
 
                 @endslot
 
