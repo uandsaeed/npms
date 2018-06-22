@@ -95,4 +95,17 @@ class BrandController extends Controller
 
     }
 
+    public function delete($id){
+
+        $user = getAuthUser();
+
+        if ($user->role == getUserRole(USER_ROLE_ADMIN)){
+
+            $this->repo->delete($id);
+
+            return response()->redirectTo('/admin/brand');
+        }
+
+    }
+
 }

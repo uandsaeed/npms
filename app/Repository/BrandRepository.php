@@ -100,7 +100,14 @@
          */
         public function delete($id)
         {
-            // TODO: Implement delete() method.
+            $item = $this->findById($id);
+            $item->delete();
+
+            $this->flushBrandById($id);
+            $this->flushBrowseBrand();
+
+            return true;
+
         }
 
         /**

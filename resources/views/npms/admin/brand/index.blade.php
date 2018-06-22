@@ -61,10 +61,17 @@
                             </td>
 
                             <td>
-                                <div class="btn-group btn-group-xs">
-                                    <a href="{{ url('/admin/brand/'.$brand->id) }}"
-                                       class="btn btn-flat btn-info"><i class="fas fa-edit"></i> Edit</a>
-                                </div>
+                                <form method="post" action="{{ url('/admin/brand/'.$brand->id) }}">
+                                    {{ csrf_field() }}
+                                    <input type="hidden" name="_method" value="DELETE">
+
+                                    <div class="btn-group btn-group-xs">
+                                        <a href="{{ url('/admin/brand/'.$brand->id) }}"
+                                           class="btn btn-flat btn-info"><i class="fas fa-edit"></i> Edit</a>
+                                        <button type="submit" class="btn btn-flat btn-sm btn-warning">Delete</button>
+
+                                    </div>
+                                </form>
                             </td>
                         </tr>
 
