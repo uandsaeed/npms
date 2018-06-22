@@ -91,7 +91,7 @@
             $type->updated_by = getAuthUser()->id;
             $type->save();
 
-            $this->flushProductById($id);
+            $this->flushProductTypeById($id);
             $this->flushBrowseProductTypes();
 
             return $type;
@@ -104,7 +104,14 @@
          */
         public function delete($id)
         {
-            // TODO: Implement delete() method.
+            $item = $this->findById($id);
+
+            $item->delete();
+
+            $this->flushProductTypeById($id);
+            $this->flushBrowseProductTypes();
+            return true;
+
         }
 
         /**
@@ -136,7 +143,7 @@
         /**
          * @param $id
          */
-        public function flushProductById($id){
+        public function flushProductTypeById($id){
 
             Cache::tags(['PRODUCT_TYPE_BY_ID'])->flush('PRODUCT_TYPE_BY_ID_'.$id);
 

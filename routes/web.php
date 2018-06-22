@@ -71,6 +71,7 @@ Route::group(['namespace' => 'Admin',
         Route::get('/types', 'ProductTypeController@index');
         Route::get('/types/{id}', 'ProductTypeController@edit');
         Route::post('/types/{id}', 'ProductTypeController@update');
+        Route::delete('/types/{id}', 'ProductTypeController@delete');
 
 
     });
