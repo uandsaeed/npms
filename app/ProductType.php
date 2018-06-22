@@ -54,7 +54,7 @@ class ProductType extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function products(){
-        return $this->hasMany('App/Product', 'product_type_id', 'id');
+        return $this->hasMany(Product::class, 'product_type_id', 'id');
     }
 
 

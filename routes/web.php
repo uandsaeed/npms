@@ -27,6 +27,20 @@ Route::group(['namespace' => 'Admin',
 
 //    Route::get('/unauthorized', 'HomeController@unauthorized');
 
+    Route::prefix('brand')->group(function () {
+
+        Route::post('/', 'BrandController@insert');
+        Route::post('/{id}/update', 'BrandController@update');
+        Route::delete('/{id}', 'BrandController@delete');
+
+        Route::get('/create', 'BrandController@create');
+        Route::get('/', 'BrandController@index');
+        Route::get('/{id}', 'BrandController@edit');
+
+
+    });
+
+
 
     Route::prefix('product')->group(function (){
 

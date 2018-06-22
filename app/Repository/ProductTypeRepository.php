@@ -24,7 +24,8 @@
 
             $types = Cache::tags(['PRODUCT_TYPES'])->remember('PRODUCT_TYPES_ALL', 20, function (){
 
-                return ProductType::all();
+                return ProductType::with(['createdBy', 'updatedBy', 'products'])
+                        ->get();
 
             });
 
@@ -41,7 +42,7 @@
 
             $products = Cache::tags(['BROWSE_PRODUCT_TYPE'])->remember('BROWSE_PRODUCT_TYPE_'.$page, 10, function (){
 
-                return ProductType::with(['createdBy', 'updatedBy'])
+                return ProductType::with(['createdBy', 'updatedBy', 'products'])
                     ->orderBy('updated_at', 'desc')
                     ->paginate(10);
             });
