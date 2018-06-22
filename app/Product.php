@@ -30,6 +30,8 @@ class Product extends Model
         'price',
         'currency',
         'brand_id',
+        'description',
+        'instructions',
         'size',
         'size_unit',
         'product_type_id',

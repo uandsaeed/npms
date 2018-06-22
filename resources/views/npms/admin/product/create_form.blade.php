@@ -1,4 +1,6 @@
-    <div class="box box-info">
+<script src="https://cdn.ckeditor.com/ckeditor5/10.0.1/classic/ckeditor.js"></script>
+
+<div class="box box-info">
 
         <div class="box-header with-border">
             <h3 class="box-title">Product Information</h3>
@@ -20,6 +22,17 @@
                     <input type="text" class="form-control" id="ingredients"
                            value="{{ isset($product) ? $product->ingredients : ''  }}"
                            placeholder="ingredients" name="ingredients">
+                @endcomponent
+
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'description'])
+                    <textarea type="text" class="form-control" id="description"
+                              placeholder="Description" name="description">{{ isset($product) ? $product->description : ''  }}</textarea>
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'instructions'])
+                    <textarea type="text" class="form-control" id="instructions"
+                              placeholder="Instructions" name="instructions">{{ isset($product) ? $product->instructions : ''  }}</textarea>
                 @endcomponent
 
 
@@ -108,9 +121,41 @@
                 <a href="/admin/product/create" class="btn btn-default btn-flat btn-sm"><i class="fas fa-plus"></i> Add New</a>
                 @endisset
 
-                <button type="submit" class="btn btn-info pull-right"><i class="fas fa-save"></i> Save</button>
+                <button type="submit" class="btn btn-info pull-right"
+                        onclick="document.getElementById('description').value=ClassicEditor.instances.description.getData(); ClassicEditor.instances.description.destroy();
+                                document.getElementById('instructions').value=ClassicEditor.instances.instructions.getData(); ClassicEditor.instances.instructions.destroy()"
+                ><i class="fas fa-save"></i> Save</button>
             </div>
 
         </form>
 
     </div>
+<script>
+
+    var description = null;
+    var instructions = null;
+
+    ClassicEditor.create( document.querySelector( '#description' ) )
+        .then( function (editor) {
+
+            description = editor;
+        })
+        .catch(function(error){
+            console.log('error ', error)
+        });
+
+    ClassicEditor.create( document.querySelector( '#instructions' ) )
+        .then( function (editor) {
+            instructions = editor;
+        })
+        .catch(function(error){
+            console.log('error ', error)
+        });
+
+</script>
+
+<style>
+    .ck-editor__editable {
+        min-height:150px;
+    }
+</style>
