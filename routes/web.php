@@ -34,6 +34,8 @@ Route::group(['namespace' => 'Admin',
 
 
         Route::post('/', 'ProductController@insert')->name('insert_product');
+        Route::post('/types', 'ProductTypeController@insert');
+
         Route::post('/{id}', 'ProductController@update');
         Route::post('/approve/{id}', 'ProductController@approve');
 
@@ -51,6 +53,10 @@ Route::group(['namespace' => 'Admin',
         Route::post('/global/permissions/', 'PermissionController@insertGlobal');
         Route::post('/global/permissions/{id}/change', 'PermissionController@changeGlobal');
         Route::post('/{productId}/permissions/{id}/change', 'PermissionController@change');
+
+        Route::get('/types', 'ProductTypeController@index');
+        Route::get('/types/{id}', 'ProductTypeController@edit');
+        Route::post('/types/{id}', 'ProductTypeController@update');
 
 
     });
