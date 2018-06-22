@@ -65,6 +65,9 @@
             $brand = $this->brand->findByNameOrCreate($data['brand']);
             $product->brand_id = $brand->id;
 
+            $product->description = trim($data['description']);
+            $product->instructions = trim($data['instructions']);
+
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
@@ -103,6 +106,9 @@
             $product->ingredients = $data['ingredients'];
             $product->price = $data['price'];
             $product->currency = $data['currency'];
+
+            $product->description = trim($data['description']);
+            $product->instructions = trim($data['instructions']);
 
             $brand = $this->brand->findByNameOrCreate($data['brand']);
 

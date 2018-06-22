@@ -112,7 +112,11 @@ class ProductController extends Controller
      */
     public function insert(ProductInsertRequest $request){
 
+
         $posts = $request->all();
+
+        dd($posts);
+
         $product = $this->repo->insert($posts, true);
 
         event(new ProductCreated($product));
