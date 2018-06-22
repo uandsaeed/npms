@@ -84,6 +84,19 @@ class ProductTypeController extends Controller
 
         return response()->redirectTo('admin/product/types/'.$type->id);
 
+    }
+
+    public function delete($id){
+
+        $user = getAuthUser();
+
+
+        if ($user->role == getUserRole(USER_ROLE_ADMIN)){
+
+            $this->repo->delete($id);
+
+            return response()->redirectTo('/admin/product/types');
+        }
 
     }
 

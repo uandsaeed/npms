@@ -11,7 +11,7 @@
     <div class="row" id="page_product_create">
         <div class="col-lg-6 col-md-8 col-sm-12">
 
-            @include('npms.admin.product_types.create_form')
+            @include('npms.admin.brand.create_form')
         </div>
 
     </div>

@@ -24,7 +24,8 @@
 
             $types = Cache::tags(['PRODUCT_TYPES'])->remember('PRODUCT_TYPES_ALL', 20, function (){
 
-                return ProductType::all();
+                return ProductType::with(['createdBy', 'updatedBy', 'products'])
+                        ->get();
 
             });
 
@@ -41,7 +42,7 @@
 
             $products = Cache::tags(['BROWSE_PRODUCT_TYPE'])->remember('BROWSE_PRODUCT_TYPE_'.$page, 10, function (){
 
-                return ProductType::with(['createdBy', 'updatedBy'])
+                return ProductType::with(['createdBy', 'updatedBy', 'products'])
                     ->orderBy('updated_at', 'desc')
                     ->paginate(10);
             });
@@ -90,7 +91,7 @@
             $type->updated_by = getAuthUser()->id;
             $type->save();
 
-            $this->flushProductById($id);
+            $this->flushProductTypeById($id);
             $this->flushBrowseProductTypes();
 
             return $type;
@@ -103,7 +104,14 @@
          */
         public function delete($id)
         {
-            // TODO: Implement delete() method.
+            $item = $this->findById($id);
+
+            $item->delete();
+
+            $this->flushProductTypeById($id);
+            $this->flushBrowseProductTypes();
+            return true;
+
         }
 
         /**
@@ -135,7 +143,7 @@
         /**
          * @param $id
          */
-        public function flushProductById($id){
+        public function flushProductTypeById($id){
 
             Cache::tags(['PRODUCT_TYPE_BY_ID'])->flush('PRODUCT_TYPE_BY_ID_'.$id);
 
