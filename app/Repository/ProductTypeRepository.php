@@ -32,8 +32,44 @@
 
         }
 
+
+        /**
+         * @param $page
+         * @return mixed
+         */
+        public function getAllPaginated($page){
+
+            $products = Cache::tags(['BROWSE_PRODUCT_TYPE'])->remember('BROWSE_PRODUCT_TYPE_'.$page, 10, function (){
+
+                return ProductType::with(['createdBy', 'updatedBy'])
+                    ->orderBy('updated_at', 'desc')
+                    ->paginate(10);
+            });
+
+            return $products;
+        }
+
+
+        /**
+         * @param $data
+         * @return ProductType
+         */
         public function insert($data){
 
+            $type = new ProductType();
+            $type->title = $data['title'];
+            $type->slug = $data['slug'];
+            $type->description = $data['description'];
+
+
+            $type->created_by = getAuthUser()->id;
+            $type->updated_by = getAuthUser()->id;
+
+            $type->save();
+
+            $this->flushBrowseProductTypes();
+
+            return $type;
         }
 
         /**
@@ -43,7 +79,22 @@
          */
         public function update($data, $id)
         {
-            // TODO: Implement update() method.
+
+            $type = $this->findById($id);
+
+            $type->title = $data['title'];
+            $type->slug = $data['slug'];
+            $type->description = $data['description'];
+
+
+            $type->updated_by = getAuthUser()->id;
+            $type->save();
+
+            $this->flushProductById($id);
+            $this->flushBrowseProductTypes();
+
+            return $type;
+
         }
 
         /**
@@ -61,7 +112,15 @@
          */
         public function findById($id)
         {
-            // TODO: Implement findById() method.
+
+            $type = Cache::tags(['PRODUCT_TYPE_BY_ID'])->remember('PRODUCT_BY_ID_'.$id, 10, function () use($id){
+
+                return ProductType::with(['createdBy', 'updatedBy'])
+                    ->find($id);
+            });
+
+
+            return $type;
         }
 
         public function findByNameOrCreate($name){
@@ -71,5 +130,23 @@
             return $type;
 
         }
+
+
+        /**
+         * @param $id
+         */
+        public function flushProductById($id){
+
+            Cache::tags(['PRODUCT_TYPE_BY_ID'])->flush('PRODUCT_TYPE_BY_ID_'.$id);
+
+        }
+
+        public function flushBrowseProductTypes(){
+
+            Cache::tags(['BROWSE_PRODUCT_TYPE'])->flush();
+            Cache::tags(['PRODUCT_TYPES'])->flush();
+
+        }
+
 
     }
