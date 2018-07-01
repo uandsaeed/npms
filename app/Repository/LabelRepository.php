@@ -55,16 +55,18 @@
         public function insert($data){
 
             $label = new Label();
-            $label->title = $data['title'];
-            $label->description = trim($data['description']);
-            $label->keywords = trim($data['keywords']);
+            $label->title                   = $data['title'];
+            $label->description             = trim($data['description']);
+            $label->keywords                = trim($data['keywords']);
 
-            $label->question_id = $data['question_id'];
-            $label->back_description = trim($data['backend_description']);
-            $label->front_description = trim($data['frontend_description']);
+            $label->question_id             = $data['question_id'];
+            $label->match                   = $data['match_type'];
+            $label->weight                  = $data['weight'];
+            $label->back_description        = trim($data['backend_description']);
+            $label->front_description       = trim($data['frontend_description']);
 
-            $label->created_by = getAuthUser()->id;
-            $label->updated_by = getAuthUser()->id;
+            $label->created_by              = getAuthUser()->id;
+            $label->updated_by              = getAuthUser()->id;
 
             $label->save();
 
@@ -85,14 +87,15 @@
 
             $label = $this->findById($id);
 
-            $label->title = $data['title'];
-            $label->description = $data['description'];
-            $label->keywords = $data['keywords'];
-            $label->question_id = $data['question_id'];
-            $label->back_description = $data['backend_description'];
-            $label->front_description = $data['frontend_description'];
-
-            $label->updated_by = getAuthUser()->id;
+            $label->title                   = $data['title'];
+            $label->description             = $data['description'];
+            $label->keywords                = $data['keywords'];
+            $label->question_id             = $data['question_id'];
+            $label->match_type              = $data['match_type'];
+            $label->weight                  = $data['weight'];
+            $label->back_description        = $data['backend_description'];
+            $label->front_description       = $data['frontend_description'];
+            $label->updated_by              = getAuthUser()->id;
             $label->save();
 
             $this->flushLabelListCache();

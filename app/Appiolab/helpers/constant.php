@@ -39,6 +39,36 @@
     /**
      * Label
      */
+    const LABEL_RELEVANCE_NEUTRAL = 0;
+    const LABEL_RELEVANCE_NEGATIVE = 1;
+    const LABEL_RELEVANCE_POSITIVE = 2;
+    const LABEL_RELEVANCE = [
+      0 => 'Neutral',
+      1 => 'Negative',
+      2 => 'Positive',
+    ];
+    function getLabelRelevance($value){
+        return LABEL_RELEVANCE[$value];
+    }
+
+
+    const LABEL_WEIGHT_VOID = 0;
+    const LABEL_WEIGHT_LOW = 1;
+    const LABEL_WEIGHT_LOW_MEDIUM = 2;
+    const LABEL_WEIGHT_MEDIUM = 3;
+    const LABEL_WEIGHT_MEDIUM_HIGH = 4;
+    const LABEL_WEIGHT_HIGH = 5;
+    const LABEL_WEIGHT = [
+      0 => 'Void',
+      1 => 'Low',
+      2 => 'Low Medium',
+      3 => 'Medium',
+      4 => 'Medium High',
+      5 => 'High',
+    ];
+    function getLabelWeight($value){
+        return LABEL_WEIGHT[$value];
+    }
 
     /**
      * Question
