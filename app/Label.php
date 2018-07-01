@@ -63,6 +63,14 @@ class Label extends Model
     }
 
 
+    public function getWeightAttribute($value){
+        return getLabelWeight($value);
+    }
+
+    public function getMatchAttribute($value){
+        return getLabelRelevance($value);
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */

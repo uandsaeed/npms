@@ -43,9 +43,9 @@
     const LABEL_RELEVANCE_NEGATIVE = 1;
     const LABEL_RELEVANCE_POSITIVE = 2;
     const LABEL_RELEVANCE = [
-      0 => 'Neutral',
-      1 => 'Negative',
-      2 => 'Positive',
+      0 => ['label' => 'Neutral', 'class' => 'info', 'value' => 0],
+      1 => ['label' => 'Negative', 'class' => 'warning', 'value' => 1],
+      2 => ['label' => 'Positive', 'class' => 'success', 'value' => 2],
     ];
     function getLabelRelevance($value){
         return LABEL_RELEVANCE[$value];

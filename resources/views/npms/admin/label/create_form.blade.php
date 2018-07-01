@@ -39,7 +39,7 @@
                         @endforeach
                     </select>
                 @endcomponent
-                
+
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'weight'])
                     <select class="form-control" id="weight" name="weight">
                         @foreach(LABEL_WEIGHT as $weightKey => $weight)

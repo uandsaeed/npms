@@ -43,14 +43,16 @@
                         <th width="350px">Title</th>
                         <th width="350px">Keywords</th>
                         <th width="100px">Products</th>
-                        <th width="550px">Description</th>
-                        <th width="550px">Question</th>
+                        <th width="530px">Description</th>
+                        <th width="530px">Question</th>
+                        <th width="50px">Weight</th>
+                        <th width="50px">Match Type</th>
 
                         <th width="150px">Updated By</th>
                         <th width="120px">Updated at</th>
                         <th width="120px">Last Sync</th>
 
-                        <th width="270px">Action</th>
+                        <th width="300px">Action</th>
                     </tr>
                     </thead>
 
@@ -66,6 +68,8 @@
                                 >{{ $label->products->count() }}</label> <small>synced</small></td>
                             <td>{{ $label->description }}</td>
                             <td>{{ isset($label->question) ? $label->question->title : '' }}</td>
+                            <td>{{ $label->weight }}</td>
+                            <td> <label class="label label-{{ $label->match['class'] }}">{{ $label->match['label'] }}</label> </td>
                             <td>{{ $label->updatedBy->name }}</td>
                             <td>{{ $label->updated_at->diffForHumans() }}</td>
                             <td>{{ isset($label->last_sync )? $label->last_sync->diffForHumans() : 'New'}}</td>
