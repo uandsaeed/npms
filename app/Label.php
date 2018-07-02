@@ -35,6 +35,8 @@ class Label extends Model
         'back_description',
         'front_description',
         'question_id',
+        'weight',
+        'match',
         'last_sync',
         'require_sync',
         'created_by',
@@ -60,6 +62,14 @@ class Label extends Model
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
+
+    public function getWeightAttribute($value){
+        return getLabelWeight($value);
+    }
+
+    public function getMatchAttribute($value){
+        return getLabelRelevance($value);
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

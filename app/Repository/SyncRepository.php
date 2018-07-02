@@ -39,6 +39,9 @@
 
             $products = Product::where(function ($query) use($keywords) {
 
+                /**
+                 * @TODO use label->match to add products
+                 */
                 $first = true;
 
                 // make a like search for each keyword

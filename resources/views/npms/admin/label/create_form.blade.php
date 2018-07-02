@@ -25,11 +25,28 @@
                            placeholder="title" name="title">
                 @endcomponent
 
-
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'description'])
                     <textarea class="form-control" id="ingredients"
                            placeholder="Description" name="description"
                         >{{ isset($label) ? trim($label->description) : ''  }}</textarea>
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'match_type'])
+                    <select class="form-control" id="match_type" name="match_type">
+                        @foreach(LABEL_RELEVANCE as $matchKey => $match)
+                            <option value="{{ $matchKey }}" {{ isset($label) ? $label->match == $matchKey ? 'SELECTED' : '' : ''  }}
+                            >{{ $match }}</option>
+                        @endforeach
+                    </select>
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'weight'])
+                    <select class="form-control" id="weight" name="weight">
+                        @foreach(LABEL_WEIGHT as $weightKey => $weight)
+                            <option value="{{ $weightKey }}" {{ isset($label) ? $label->weight == $weightKey ? 'SELECTED' : '' : ''  }}
+                            >{{ $weight }}</option>
+                        @endforeach
+                    </select>
                 @endcomponent
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'keywords'])
