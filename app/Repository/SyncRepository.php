@@ -32,6 +32,13 @@
 
             /**
              * Make keyword as array
+             *
+             * Check the label match = neutral or positive or negative
+             *
+             * if neutral, regular search
+             * if positive, ?
+             * if negative, ?
+             *
              */
             $keywords = explode(',', $label->keywords);
 
