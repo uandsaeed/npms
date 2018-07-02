@@ -59,7 +59,7 @@
                             <td>{{ $question->title }}</td>
                             <td>{{ $question->description }}</td>
                             <td>
-                                @foreach($question->answers as $answer)
+                                @foreach($question->answers->sortBy('sort') as $answer)
                                     <label class="">{{ $answer->title }}</label><br/>
                                 @endforeach
                             </td>
