@@ -31563,6 +31563,106 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/admin/js/answers.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+
+    var tableAnswers = $('#table-answers');
+
+    if (tableAnswers.length > 0) {
+        var addAnswer = function addAnswer() {
+
+            $('.btn-add-answer').click(function () {
+
+                var data = {
+                    title: $('#answer_title').val(),
+                    question_id: $('#question_id').val(),
+                    sort: $('#answer_sort').val()
+                };
+
+                var type = $(this).attr('data-type');
+
+                var url = '/admin/answer/';
+
+                if (type === 'update') {
+                    var id = $(this).attr('data-id');
+
+                    url = url + id;
+
+                    $('tr#answer_' + id).addClass('warning');
+                }
+
+                $.ajax({
+                    data: data,
+                    method: 'post',
+                    url: url
+                }).done(function (response, textStatus, xhr) {
+
+                    var sort = '<td>' + response.answer.sort + '</td>';
+                    var title = '<td>' + response.answer.title + '</td>';
+                    var row = '<tr class="success">' + sort + title + '<td>...</td></tr>';
+                    $('#answer-body').append(row);
+
+                    if (type === 'update') {
+                        $('tr#answer_' + response.answer.id).remove();
+                    }
+
+                    clear();
+                }).fail(function (error, textStatus, errorThrown) {});
+            });
+        };
+
+        var clear = function clear() {
+
+            $('#answer_title').val('');
+            $('#answer_sort').val('');
+
+            $('.btn-add-answer').text('Insert');
+            $('.btn-add-answer').attr('data-id', '');
+            $('.btn-add-answer').attr('data-type', 'insert');
+        };
+
+        console.log('Table Answer');
+
+        addAnswer();
+
+        tableAnswers.on('click', '.btn-edit', function () {
+
+            var id = $(this).attr('data-id');
+
+            $('#answer_title').val($(this).attr('data-title'));
+            $('#answer_sort').val($(this).attr('data-sort'));
+            $('.btn-add-answer').text('Update');
+            $('.btn-add-answer').attr('data-id', id);
+            $('.btn-add-answer').attr('data-type', 'update');
+        });
+
+        tableAnswers.on('click', '.btn-remove', function () {
+
+            var id = $(this).attr('data-id');
+
+            $('tr#answer_' + id).addClass('warning');
+
+            $.ajax({
+                url: '/admin/answer/' + id,
+                method: 'delete'
+            }).done(function (response, textStatus, xhr) {
+
+                if (xhr.status === 204) {
+                    $('tr#answer_' + id).remove();
+                }
+            }).fail(function (xhr, textStatus, errorThrown) {
+
+                console.log('sync error: ', xhr);
+            });
+        });
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/admin/js/import.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31831,6 +31931,7 @@ __webpack_require__("./node_modules/fine-uploader/jquery.fine-uploader/jquery.fi
 __webpack_require__("./resources/assets/admin/js/ajax.js");
 __webpack_require__("./resources/assets/admin/js/import.js");
 __webpack_require__("./resources/assets/admin/js/label.js");
+__webpack_require__("./resources/assets/admin/js/answers.js");
 __webpack_require__("./resources/assets/admin/js/product_pending.js");
 module.exports = __webpack_require__("./resources/assets/sass/app.scss");
 

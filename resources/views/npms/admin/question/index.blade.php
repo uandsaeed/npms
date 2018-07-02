@@ -42,7 +42,7 @@
                         <th width="20px">ID</th>
                         <th width="350px">Title</th>
                         <th width="550px">Description</th>
-                        <th width="350px">Laabels</th>
+                        <th width="350px">Answers</th>
 
                         <th width="100px">Updated By</th>
                         <th width="120px">Updated at</th>
@@ -59,8 +59,8 @@
                             <td>{{ $question->title }}</td>
                             <td>{{ $question->description }}</td>
                             <td>
-                                @foreach($question->labels as $label)
-                                    <label class="label label-success">{{ $label->title }}</label>
+                                @foreach($question->answers as $answer)
+                                    <label class="">{{ $answer->title }}</label><br/>
                                 @endforeach
                             </td>
                             <td>{{ $question->updatedBy->name }}</td>

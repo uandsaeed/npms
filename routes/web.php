@@ -90,6 +90,20 @@ Route::group(['namespace' => 'Admin',
 
     });
 
+    Route::prefix('answer')->group(function () {
+
+        Route::post('/', 'AnswerController@insert');
+        Route::post('/{id}', 'AnswerController@update');
+        Route::delete('/{id}', 'AnswerController@delete');
+
+//        Route::get('/create', 'QuestionController@create');
+//        Route::get('/', 'QuestionController@index');
+//        Route::get('/{id}', 'QuestionController@show');
+//        Route::get('/edit/{id}', 'QuestionController@edit');
+
+
+    });
+
     Route::prefix('label')->group(function () {
 
         Route::post('/', 'LabelController@insert');
