@@ -31601,7 +31601,7 @@ $(document).ready(function () {
 
                     var sort = '<td>' + response.answer.sort + '</td>';
                     var title = '<td>' + response.answer.title + '</td>';
-                    var row = '<tr class="success">' + sort + title + '<td>...</td></tr>';
+                    var row = '<tr class="success">' + sort + title + '<td>...</td><td>...</td></tr>';
                     $('#answer-body').append(row);
 
                     if (type === 'update') {

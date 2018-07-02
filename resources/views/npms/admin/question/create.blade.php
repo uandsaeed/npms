@@ -32,4 +32,12 @@
         @endisset
     </div>
 
+    @isset($question)
+        <div class="row" >
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @include('npms.admin.question.answer_table')
+            </div>
+        </div>
+    @endisset
+
 @stop

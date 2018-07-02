@@ -38,7 +38,7 @@ $(document).ready(function () {
 
                     let sort = '<td>'+response.answer.sort+'</td>';
                     let title = '<td>'+response.answer.title+'</td>';
-                    let row = '<tr class="success">'+sort+title+'<td>...</td></tr>';
+                    let row = '<tr class="success">'+sort+title+'<td>...</td><td>...</td></tr>';
                     $('#answer-body').append(row);
 
                     if (type === 'update'){
