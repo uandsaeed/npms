@@ -45,9 +45,11 @@
             $data = Cache::tags(['QUESTION_LIST'])
                     ->remember('QUESTION_BY_LIST_'.$page, 10, function () {
 
-                return Question::with(['createdBy', 'updatedBy'])
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate(10);
+                    return Question::with(['createdBy', 'updatedBy', 'answers'])
+                        ->orderBy('is_active', 'desc')
+                        ->orderBy('sort', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
 
             });
 
@@ -65,6 +67,8 @@
             $question = new Question();
             $question->title = $data['title'];
             $question->description = $data['description'];
+            $question->sort = $data['sort'];
+            $question->is_active = $data['is_active'];
 
             $question->created_by = getAuthUser()->id;
             $question->updated_by = getAuthUser()->id;
@@ -86,13 +90,18 @@
 
             $question = $this->findById($id);
 
+//            dd($data);
+
             $question->title = $data['title'];
             $question->description = $data['description'];
+            $question->sort = $data['sort'];
+            $question->is_active = isset($posts['is_active']) ? $posts['is_active']: 0;
 
             $question->updated_by = getAuthUser()->id;
 
             $question->save();
 
+            $this->flushById($id);
             $this->flushQuestionListCache();
 
             return $question;

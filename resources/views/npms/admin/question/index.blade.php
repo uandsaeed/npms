@@ -40,10 +40,10 @@
                     <thead>
                     <tr>
                         <th width="20px">ID</th>
+                        <th width="30px">Sort</th>
                         <th width="350px">Title</th>
-                        <th width="550px">Description</th>
                         <th width="350px">Answers</th>
-
+                        <th width=100px">Is Active</th>
                         <th width="100px">Updated By</th>
                         <th width="120px">Updated at</th>
                         <th width="150px">Action</th>
@@ -55,13 +55,23 @@
                     @foreach($questions as $question)
 
                         <tr id="row_{{ $question->id }}">
-                            <td>{{ $question->id }}</td>
+                            <td><small class="text-muted">{{ $question->id }}</small></td>
+                            <td>{{ $question->sort }}</td>
                             <td>{{ $question->title }}</td>
-                            <td>{{ $question->description }}</td>
                             <td>
+                                <ul class="list-unstyled">
                                 @foreach($question->answers->sortBy('sort') as $answer)
-                                    <label class="">{{ $answer->title }}</label><br/>
+                                    <li><span class="text-info"> {{ $answer->title }}</span></li>
                                 @endforeach
+                                </ul>
+                            </td>
+                            <td>
+                                @if($question->is_active == 1)
+                                    <span class="label label-success">Active</span>
+                                    @else
+                                    <span class="label label-default">Inactive</span>
+                                @endif
+
                             </td>
                             <td>{{ $question->updatedBy->name }}</td>
                             <td>{{ $question->updated_at->diffForHumans() }}</td>

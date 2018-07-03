@@ -28,6 +28,8 @@ class Question extends Model
     protected $fillable = [
         'title',
         'description',
+        'sort',
+        'is_active',
         'created_by',
         'updated_by'
     ];

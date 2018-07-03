@@ -15,12 +15,27 @@
                            placeholder="title" name="title">
                 @endcomponent
 
-
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'description'])
                     <textarea class="form-control" id="ingredients"
                            placeholder="Description" name="description">{{ isset($question) ? $question->description : ''  }}
 
                     </textarea>
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'sort'])
+                    <input type="number" class="form-control" id="sort"
+                           value="{{ isset($question) ? $question->sort : '0'  }}"
+                           placeholder="sort" name="sort">
+                @endcomponent
+
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'is_active'])
+                    {{--{{ $question->is_active }}--}}
+
+                    <div class="checkbox">
+                        <label><input name="is_active" value="1"
+                            type="checkbox" {{ isset($question) ? $question->is_active == 1 ?  'CHECKED' : ''  : '' }}>&nbsp;Is active</label>
+                    </div>
                 @endcomponent
 
             </div>

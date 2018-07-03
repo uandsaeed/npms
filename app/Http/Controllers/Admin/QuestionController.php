@@ -54,11 +54,13 @@ class QuestionController extends Controller
 
     public function update(Request $request, $id){
 
-        $question = $this->repo->findById($id);
+//        $question = $this->repo->findById($id);
 
         $posts = $request->all();
-        $question->title = $posts['title'];
-        $question->description = $posts['description'];
+//        $question->title = $posts['title'];
+//        $question->description = $posts['description'];
+//        $question->sort = $posts['sort'];
+//        $question->is_active = isset($posts['is_active']) ? $posts['is_active']: 0;
 
         $question = $this->repo->update($posts, $id);
 
