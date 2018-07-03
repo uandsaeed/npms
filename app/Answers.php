@@ -36,4 +36,14 @@ class Answers extends Model
         return $this->belongsTo(Question::class, 'question_id', 'id');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function labels(){
+
+        return $this->belongsToMany(Label::class, 'answers_label_pivot',
+            'answer_id', 'label_id');
+
+    }
+
 }

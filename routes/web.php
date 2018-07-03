@@ -108,10 +108,13 @@ Route::group(['namespace' => 'Admin',
 
         Route::post('/', 'LabelController@insert');
         Route::post('/{id}', 'LabelController@update');
+        Route::post('/answer/pivot', 'LabelController@addAnswer');
+
         Route::delete('/{id}', 'LabelController@delete');
 
         Route::get('/create', 'LabelController@create');
         Route::get('/', 'LabelController@index');
+        Route::get('/list', 'LabelController@getList');
         Route::get('/{id}', 'LabelController@show');
         Route::get('/edit/{id}', 'LabelController@edit');
         Route::get('/sync/{id}', 'LabelController@sync');

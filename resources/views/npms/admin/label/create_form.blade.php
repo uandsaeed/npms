@@ -9,16 +9,6 @@
             <div class="box-body">
                 {{ csrf_field() }}
 
-                @component('npms.admin.components.bootstrap.form-group', ['name' => 'question'])
-                    <select class="form-control" name="question_id">
-                        @foreach($questions as $question)
-                            <option value="{{ $question->id }}"
-                            selected="{{ isset($label) ? $question->id == $label->question_id  ? 'SELECTED' : 'false' : false}}"
-                            >{{ $question->title }}</option>
-                        @endforeach
-                    </select>
-                @endcomponent
-
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'title'])
                     <input type="text" class="form-control" id="title"
                            value="{{ isset($label) ? $label->title : ''  }}"
@@ -35,7 +25,7 @@
                     <select class="form-control" id="match_type" name="match_type">
                         @foreach(LABEL_RELEVANCE as $matchKey => $match)
                             <option value="{{ $matchKey }}" {{ isset($label) ? $label->match == $matchKey ? 'SELECTED' : '' : ''  }}
-                            >{{ $match }}</option>
+                            >{{ $match['label'] }}</option>
                         @endforeach
                     </select>
                 @endcomponent

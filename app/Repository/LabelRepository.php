@@ -27,6 +27,19 @@
 
         }
 
+        public function getAllList(){
+
+            $data = Cache::tags(['LABEL_LIST'])
+                ->remember('LABEL_LIST_ALL', 20, function () {
+
+                    return Label::orderBy('updated_at', 'desc')
+                        ->get();
+
+                });
+
+            return $data;
+        }
+
         /**
          * @param $page
          * @return mixed
@@ -59,7 +72,6 @@
             $label->description             = trim($data['description']);
             $label->keywords                = trim($data['keywords']);
 
-            $label->question_id             = $data['question_id'];
             $label->match                   = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = trim($data['backend_description']);
@@ -90,7 +102,6 @@
             $label->title                   = $data['title'];
             $label->description             = $data['description'];
             $label->keywords                = $data['keywords'];
-            $label->question_id             = $data['question_id'];
             $label->match_type              = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = $data['backend_description'];

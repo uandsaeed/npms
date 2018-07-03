@@ -129,12 +129,22 @@
         public function findById($id)
         {
 
-            $data = Cache::remember('QUESTION_BY_ID_'.$id, 20, function () use($id){
+//            dd('hee');
+            $data = Cache::tags(['QUESTION_BY_ID'])->remember('QUESTION_BY_ID_'.$id, 20, function () use($id){
+//                @todo add with
                 return Question::find($id);
             });
 
             return $data;
 
+        }
+
+        /**
+         * @param $id
+         */
+        public function flushById($id){
+
+            Cache::tags(['QUESTION_BY_ID'])->flush(['QUESTION_BY_ID_'.$id]);
         }
 
         private function flushQuestionListCache(){

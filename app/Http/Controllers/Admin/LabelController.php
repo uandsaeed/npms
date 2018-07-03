@@ -39,16 +39,25 @@
         }
 
         /**
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function getList(){
+
+            $labels = $this->repo->getAllList();
+
+            return response()->json(['labels' => $labels])->setStatusCode(200);
+
+
+        }
+
+        /**
          * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
          */
         public function create(){
 
             $title = 'Create Label';
 
-            $questionRepo = new QuestionRepository();
-            $questions = $questionRepo->getAll();
-
-            return view('npms.admin.label.create', ['title' => $title, 'questions' => $questions]);
+            return view('npms.admin.label.create', ['title' => $title]);
         }
 
         /**
@@ -73,6 +82,23 @@
 
                 echo 'problem';
             }
+        }
+
+        /**
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function addAnswer(Request $request){
+
+            $data = $request->all();
+
+            $label = $this->repo->findById($data['labelId']);
+
+            $label->answers()->syncWithoutDetaching([$data['answerId']]);
+
+
+            return response()->json(['label' => $label] );
+
         }
 
         public function update(Request $request, $id){

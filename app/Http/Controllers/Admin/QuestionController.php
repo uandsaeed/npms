@@ -77,6 +77,7 @@ class QuestionController extends Controller
 
     public function edit($id){
 
+        $this->repo->flushById($id);
         $question = $this->repo->findById($id);
 
         $title = 'Edit '.$question->title;

@@ -31657,6 +31657,68 @@ $(document).ready(function () {
                 console.log('sync error: ', xhr);
             });
         });
+
+        tableAnswers.on('click', '.btn-add-label', function () {
+
+            var id = $(this).attr('data-id');
+
+            $('tr').removeClass('warning');
+            $('tr#answer_' + id).addClass('warning');
+            $('#js-answer-title').html($(this).attr('data-title'));
+            $('.btn-add-label-to-answer').attr('data-id', id);
+        });
+    }
+
+    var addLabel = $('.box-add-label');
+
+    if (addLabel.length > 0) {
+        var addLabelToAnswer = function addLabelToAnswer() {
+
+            $('.btn-add-label-to-answer').click(function () {
+
+                var answerId = $(this).attr('data-id');
+                var labelId = $('#js-label-list option:selected').val();
+
+                console.log('labelId', labelId);
+                $.ajax({
+                    url: '/admin/label/answer/pivot',
+                    method: 'post',
+                    data: {
+                        answerId: answerId,
+                        labelId: labelId
+                    }
+                }).done(function (response, textStatus, xhr) {
+
+                    console.log('response ', response);
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+            });
+        };
+
+        var loadLabels = function loadLabels() {
+
+            $.ajax({
+                url: '/admin/label/list',
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                var options = '';
+                $.each(response.labels, function (key, label) {
+                    options += '<option value="' + label.id + '" >' + label.title + ' (' + label.match.label + ' ' + label.weight + ')</option>';
+                });
+
+                $('#js-label-list').append(options);
+            }).fail(function (xhr, textStatus, errorThrown) {
+
+                console.log('sync error: ', xhr);
+            });
+        };
+
+        addLabelToAnswer();
+
+        loadLabels();
     }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
