@@ -167,6 +167,11 @@ return [
             'url'  => 'admin/brand',
         ],
         [
+            'text' => 'User Query',
+            'icon'  => 'fas fa-question',
+            'url'  => 'admin/query',
+        ],
+        [
             'text' => 'Settings',
             'icon'      => 'fas fa-cogs',
             'url'  => 'admin/settings',
