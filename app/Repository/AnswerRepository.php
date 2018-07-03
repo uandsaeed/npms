@@ -129,12 +129,17 @@
         public function findById($id)
         {
 
-            $data = Cache::remember('ANSWER_BY_ID_'.$id, 20, function () use($id){
+            $data = Cache::tags(['ANSWER_BY_ID'])->remember('ANSWER_BY_ID_'.$id, 20, function () use($id){
                 return Answers::find($id);
             });
 
             return $data;
 
+        }
+
+        public function flushById($id){
+
+            Cache::tags(['ANSWER_BY_ID'])->flush('ANSWER_BY_ID_'.$id);
         }
 
         private function flushQuestionListCache(){

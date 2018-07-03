@@ -31716,9 +31716,39 @@ $(document).ready(function () {
             });
         };
 
+        var removeLabelFromAnswer = function removeLabelFromAnswer() {
+
+            $('.js-remove-label-from-answer').click(function () {
+
+                var labelId = $(this).attr('data-label-id');
+                var answerId = $(this).attr('data-answer-id');
+                var label = $('#label_' + answerId + '_' + labelId);
+
+                $.ajax({
+                    url: '/admin/answer/' + answerId + '/' + labelId,
+                    method: 'delete'
+                }).done(function (response, textStatus, xhr) {
+
+                    if (xhr.status === 204) {
+                        console.log('remove ' + answerId);
+
+                        label.remove();
+                    }
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+
+                console.log('label id', labelId);
+                console.log('answer id', answerId);
+            });
+        };
+
         addLabelToAnswer();
 
         loadLabels();
+
+        removeLabelFromAnswer();
     }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))

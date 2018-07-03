@@ -5,7 +5,7 @@
     <div class="box-body">
         <div class="row">
             <div class="col-lg-4 col-sm-12">
-                <p style="font-weight: 600;padding: 10px; background-color: #eeeeee;" id="js-answer-title">Label Title</p>
+                <p style="font-weight: 600;padding: 10px; background-color: darkred;color: white;" id="js-answer-title">Label Title</p>
 
             </div>
             <div class="col-lg-6 col-sm-12">
@@ -14,7 +14,7 @@
 
             </div>
             <div class="col-lg-2 col-sm-12">
-                <button class="btn btn-default btn-add-label-to-answer btn-flat btn-sm">Add</button>
+                <button class="btn btn-primary btn-add-label-to-answer btn-flat ">Attach Label</button>
             </div>
         </div>
     </div>
@@ -48,9 +48,11 @@
                     </td>
                     <td>
                         @foreach($answer->labels as $label)
-                            <span class="tag label label-{{ $label->match['class'] }}">
+                            <span id="label_{{ $answer->id }}_{{ $label->id }}"
+                                    class="tag label label-{{ $label->match['class'] }}">
                               <span>{{ $label->title }}</span>
-                              <a href="javascript:void(0)" class="js-remove-label-from-answer"
+                              <a href="javascript:void(0)" class="js-remove-label-from-answer" data-label-id="{{ $label->id }}"
+                                 data-answer-id="{{ $answer->id }}"
                               ><i class="remove glyphicon glyphicon-remove-sign glyphicon-white"></i></a>
                             </span>
 

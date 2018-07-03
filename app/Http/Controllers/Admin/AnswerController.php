@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Repository\AnswerRepository;
+use App\Repository\QuestionRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -58,6 +59,27 @@ class AnswerController extends Controller
         $this->repo->delete($id);
 
         return response()->json([])->setStatusCode(204);
+
+    }
+
+    /**
+     * @param $answerId
+     * @param $labelId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function detachLabel($answerId, $labelId){
+
+        $answer = $this->repo->findById($answerId);
+
+        $answer->labels()->detach($labelId);
+
+        $questionRepo = new QuestionRepository();
+
+        $questionRepo->flushById($answer->question->id);
+        $this->repo->flushById($answerId);
+
+        return response()->json([])->setStatusCode(204);
+
 
     }
 

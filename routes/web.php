@@ -95,6 +95,7 @@ Route::group(['namespace' => 'Admin',
         Route::post('/', 'AnswerController@insert');
         Route::post('/{id}', 'AnswerController@update');
         Route::delete('/{id}', 'AnswerController@delete');
+        Route::delete('/{id}/{labelId}', 'AnswerController@detachLabel');
 
 //        Route::get('/create', 'QuestionController@create');
 //        Route::get('/', 'QuestionController@index');

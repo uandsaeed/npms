@@ -177,6 +177,42 @@ $(document).ready(function () {
 
         }
 
+        removeLabelFromAnswer();
+        function removeLabelFromAnswer() {
+
+            $('.js-remove-label-from-answer').click(function () {
+
+                let labelId = $(this).attr('data-label-id');
+                let answerId = $(this).attr('data-answer-id');
+                let label = $('#label_'+answerId+'_'+labelId);
+
+
+                $.ajax({
+                    url: '/admin/answer/'+answerId+'/'+labelId,
+                    method: 'delete',
+                }).done(function (response, textStatus, xhr) {
+
+                    if (xhr.status === 204){
+                        console.log('remove '+answerId);
+
+                        label.remove();
+
+                    }
+
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+
+                });
+
+                console.log('label id' , labelId);
+                console.log('answer id' , answerId);
+
+
+
+            });
+        }
+
     }
 
 });
