@@ -112,7 +112,7 @@ return [
         [
             'text'  => 'Dashboard',
             'icon'  => 'fas fa-tachometer-alt',
-            'url'   => 'home',
+            'url'   => 'admin/home',
 
         ],
         [

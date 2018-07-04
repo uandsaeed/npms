@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
 
 use App\Label;
 use App\Product;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
