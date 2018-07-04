@@ -43,6 +43,6 @@ class HomeController extends Controller
         });
 
 
-        return view('home' , ['products' => $productCount, 'questions' => $questionCount, 'labels' => $labelCount]);
+        return view('npms.admin.home' , ['products' => $productCount, 'questions' => $questionCount, 'labels' => $labelCount]);
     }
 }
