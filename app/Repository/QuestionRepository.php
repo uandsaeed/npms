@@ -71,6 +71,25 @@
 
         }
 
+        public function getActiveQuestions(){
+
+            $question = Cache::tags(['QUESTION_LIST'])
+                ->remember('QUESTION_LIST_FRONT_END', 60, function () {
+
+                    return Question::with(['answers'])
+                        ->where('is_active', true)
+                        ->orderBy('sort', 'asc')
+                        ->get();
+
+                });
+
+
+
+
+            return $question;
+
+        }
+
 
         /**
          * @param $data []

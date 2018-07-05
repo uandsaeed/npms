@@ -1,7 +1,12 @@
 {{--Footer--}}
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+        integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function () {
         console.log('console');
@@ -13,6 +18,11 @@
 
             console.log('question id: ', question_id);
             console.log('answer id: ', answer_id);
+
+//            $('#question-wizard').animate(
+//                {
+//                    scrollTop: 500
+//                }, 1000);
 
         });
 
@@ -57,6 +67,7 @@
 
                     $('.btn-user-query').attr('data-answer-id', answer);
 
+
                 } else {
 
                     var answers = previousId.split(',');
@@ -66,6 +77,19 @@
 
                     $('.btn-user-query').attr('data-answer-id', answers);
 
+                }
+
+//                console.log('current: ', $(this).parent().parent().parent());
+//
+                var next = $(this).parent().parent().parent().next();
+
+//                console.log('next ', next.offset().top);
+
+                if (next.offset().top !== undefined){
+                    $('html,body').animate(
+                        {
+                            scrollTop: next.offset().top
+                        }, 1000);
                 }
 
                 updateDisplay();

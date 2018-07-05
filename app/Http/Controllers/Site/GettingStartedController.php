@@ -20,10 +20,10 @@ class GettingStartedController extends Controller
 
     public function index(){
 
-        $question = $this->repo->firstQuestion();
+        $questions = $this->repo->getActiveQuestions();
 
         $title = 'Home';
-        return view('npms.site.home.index', ['title' => $title, 'question' => $question]);
+        return view('npms.site.home.index', ['title' => $title, 'questions' => $questions]);
 
     }
 

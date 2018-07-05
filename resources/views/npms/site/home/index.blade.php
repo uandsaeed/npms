@@ -4,21 +4,29 @@
 
 
 @section('content')
-    <div class="row">
+    <div  class="row">
 
-        <div class="col-lg-12">
+        {{--height: 800px;overflow: scroll;margin-top: 50px;--}}
+        <div id="question-wizard" class="col-lg-12" style="background-color: #fafafa; ">
 
-            <h1>{{ $question->title }}</h1>
-            <div class="well" >
-                <ul class="list-group checked-list-box">
-                    @foreach($question->answers->sortBy('sort') as  $answer)
-                        <li class="list-group-item" data-answer-id="{{ $answer->id }}">
-                            <div class="checkbox"></div> {{ $answer->title }}
-                        </li>
-                    @endforeach
-                </ul>
+            @foreach($questions as $question)
+                <div id="panel_{{ $question->sort }}" class="question-panel">
 
-            </div>
+                    <h1><a href="#question_{{ $question->sort }}">{{ $question->title }}</a></h1>
+                    <div class="well" >
+                        <ul class="list-group checked-list-box">
+                            @foreach($question->answers->sortBy('sort') as  $answer)
+                                <li class="list-group-item" data-answer-id="{{ $answer->id }}">
+                                    <div class="checkbox"></div> {{ $answer->title }}
+                                </li>
+                            @endforeach
+                        </ul>
+
+                    </div>
+                </div>
+
+            @endforeach
+
 
         </div>
 
