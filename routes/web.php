@@ -11,12 +11,15 @@
 |
 */
 
-Route::get('/', function () {
-    return view('npms.site.welcome');
-});
 
 Auth::routes();
 
+Route::group(['namespace' => 'Site', ], function() {
+
+    Route::get('/', 'GettingStartedController@index' );
+
+
+});
 
 
 Route::group(['namespace' => 'Admin',

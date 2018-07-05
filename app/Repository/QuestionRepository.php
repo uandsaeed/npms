@@ -57,6 +57,20 @@
 
         }
 
+        /**
+         * @return mixed
+         */
+        public function firstQuestion(){
+
+            $question = Question::where('is_active', true)
+                ->orderBy('sort', 'asc')
+                ->first();
+
+
+            return $question;
+
+        }
+
 
         /**
          * @param $data []
