@@ -1,10 +1,48 @@
 $(document).ready(function () {
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('[name="_token"]').val()
+        }
+    });
+
     let tableAnswers = $('#table-answers');
 
     if(tableAnswers.length > 0){
 
         console.log('Table Answer');
+
+        // submit();
+        // function submit() {
+        //
+        //
+        //     $('.btn-user-query').click(function () {
+        //
+        //         var questionId = $(this).attr('data-question-id');
+        //         var answerId = $(this).attr('data-answer-id');
+        //
+        //         console.log('question: ', questionId + ' |  answer ', answerId);
+        //
+        //         $.ajax({
+        //             method: 'post',
+        //             url: '/search',
+        //             data: {
+        //                'answer_id': answerId,
+        //                 'question_id': questionId
+        //             }
+        //         }).done(function (response, textStatus, xhr) {
+        //             console.log('response', response);
+        //
+        //         }).fail(function (errors, textStatus, errorThrown) {
+        //
+        //             console.log('errors ', errorThrown);
+        //         });
+        //
+        //     });
+        //
+        // }
+
+
 
         addAnswer();
         function addAnswer() {

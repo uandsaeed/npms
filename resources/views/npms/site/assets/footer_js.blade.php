@@ -9,23 +9,43 @@
         integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
 <script type="text/javascript">
     $(function () {
-        console.log('console');
-
-        $('.btn-user-query').click(function () {
-
-            var question_id = $(this).attr('data-question-id');
-            var answer_id = $(this).attr('data-answer-id');
-
-            console.log('question id: ', question_id);
-            console.log('answer id: ', answer_id);
-
-//            $('#question-wizard').animate(
-//                {
-//                    scrollTop: 500
-//                }, 1000);
-
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
 
+
+        console.log('console');
+
+        submit();
+        function submit() {
+
+
+            $('.btn-user-query').click(function () {
+
+                var questionId = $(this).attr('data-question-id');
+                var answerId = $(this).attr('data-answer-id');
+
+                console.log('submit question: ', questionId + ' |  answer ', answerId);
+
+                $.ajax({
+                    method: 'post',
+                    url: '/search',
+                    data: {
+//                        '_token': $('[name="_token"]').val(),
+                        'answer_id': answerId,
+                        'question_id': questionId
+                    }
+                }).done(function (response, textStatus, xhr) {
+                    console.log('response', response);
+                }).fail(function (errors, textStatus, errorThrown) {
+                    console.log('errors ', errorThrown);
+                });
+
+            });
+
+        }
 
         $('.list-group.checked-list-box .list-group-item').each(function () {
 

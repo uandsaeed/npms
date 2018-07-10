@@ -18,6 +18,8 @@ Route::group(['namespace' => 'Site', ], function() {
 
     Route::get('/', 'GettingStartedController@index' );
 
+    Route::post('/search', 'GettingStartedController@searchProducts' );
+
 
 });
 

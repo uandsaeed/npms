@@ -33,8 +33,12 @@
     </div>
     <div class="row" style="margin-top: 20px;">
         <div class="col-lg-12 text-right">
-            <button class="btn btn-primary btn-user-query" data-answer-id="" data-question-id="{{ $question->id }}"
-                    type="button">Start</button>
+            {{--<form method="post" action="@">--}}
+                <input type="hidden" id="input-question" name="question" value="" />
+                <input type="hidden" id="input-answers" value="answers" />
+                <button class="btn btn-primary btn-user-query" data-answer-id="" data-question-id="{{ $question->id }}"
+                        type="submit">Submit</button>
+            {{--</form>--}}
         </div>
     </div>
 
