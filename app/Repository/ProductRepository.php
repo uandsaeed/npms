@@ -56,6 +56,7 @@
          */
         public function insert($data, $flushCache = false){
 
+            $user = Auth::user();
             $product = new Product();
             $product->title = $data['title'];
             $product->ingredients = $data['ingredients'];
@@ -73,8 +74,8 @@
             $product->product_type_id = $data['product_type_id'];
             $product->url = isset($data['url']) ? $data['url'] : 'test';
             $product->status = $data['status'];
-            $product->created_by = getAuthUser()->id;
-            $product->updated_by = getAuthUser()->id;
+            $product->created_by = $user->id;
+            $product->updated_by = $user->id;
 
             $product->save();
 

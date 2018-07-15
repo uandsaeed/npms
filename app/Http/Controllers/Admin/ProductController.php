@@ -182,6 +182,8 @@ class ProductController extends Controller
                     $product['brand'] = $row['brand'];
                     $product['size'] = $row['size'];
                     $product['unit'] = $row['size_unit'];
+                    $product['description'] = '';
+                    $product['instructions'] = '';
 
                     $product['type'] = $row['type'];
 
@@ -190,6 +192,7 @@ class ProductController extends Controller
 
                     $product['url'] = $row['url'];
                     $product['status'] = $row['status'];
+//                    $
 
                     $productRepo->insert($product);
 
