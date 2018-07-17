@@ -47,7 +47,6 @@
 
             return response()->json(['labels' => $labels])->setStatusCode(200);
 
-
         }
 
         /**

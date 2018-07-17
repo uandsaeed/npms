@@ -45,6 +45,16 @@
                            placeholder="Keywords" name="keywords" maxlength="250">
                 @endcomponent
 
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'Type'])
+                    <select class="form-control" id="type" name="type">
+                        @foreach(LABEL_TYPE as $typeKey => $weight)
+                            <option value="{{ $typeKey }}" {{ isset($label) ? $label->type == $typeKey ? 'SELECTED' : '' : ''  }}
+                            >{{ $weight }}</option>
+                        @endforeach
+                    </select>
+                @endcomponent
+
+
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'backend_description'])
                     <textarea class="form-control" id="backend_description" rows="3"
                               placeholder="Backend Description"

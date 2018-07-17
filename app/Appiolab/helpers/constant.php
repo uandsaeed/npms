@@ -102,3 +102,21 @@
 
         return $new_string;
     }
+
+
+    const LABEL_TYPE_GENDER         = 1;
+    const LABEL_TYPE_AGE            = 2;
+    const LABEL_TYPE_PRICE          = 3;
+    const LABEL_TYPE_SKIN_TONE      = 4;
+    const LABEL_TYPE_INGREDIENTS    = 5;
+    const LABEL_TYPE = [
+        1   => 'Gender',
+        2   => 'Age',
+        3   => 'Price',
+        4   => 'Skin Tone',
+        5   => 'Ingredients',
+    ];
+
+    function getLabelType($value){
+        return LABEL_TYPE[$value];
+    }

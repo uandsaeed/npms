@@ -30,9 +30,10 @@
         public function getAllList(){
 
             $data = Cache::tags(['LABEL_LIST'])
-                ->remember('LABEL_LIST_ALL', 20, function () {
+                ->remember('LABEL_LIST_ALL', 60, function () {
 
-                    return Label::orderBy('updated_at', 'desc')
+                    return Label::orderBy('type')
+                        ->orderBy('updated_at', 'desc')
                         ->get();
 
                 });
@@ -46,13 +47,13 @@
          */
         public function getAllPaginated($page){
 
-
             $data = Cache::tags(['LABEL_LIST'])
-                ->remember('LABEL_BY_LIST_'.$page, 20, function () {
+                ->remember('LABEL_BY_LIST_'.$page, 60, function () {
 
                     return Label::with(['createdBy', 'updatedBy', 'question', 'products'])
+                        ->orderBy('type')
                         ->orderBy('updated_at', 'desc')
-                        ->paginate(10);
+                        ->paginate(15);
 
                 });
 
@@ -72,6 +73,7 @@
             $label->description             = trim($data['description']);
             $label->keywords                = trim($data['keywords']);
 
+            $label->type                   = $data['type'];
             $label->match                   = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = trim($data['backend_description']);
@@ -102,7 +104,8 @@
             $label->title                   = $data['title'];
             $label->description             = $data['description'];
             $label->keywords                = $data['keywords'];
-            $label->match_type              = $data['match_type'];
+            $label->type                    = $data['type'];
+            $label->match                   = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = $data['backend_description'];
             $label->front_description       = $data['frontend_description'];

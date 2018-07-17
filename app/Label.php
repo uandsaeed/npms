@@ -34,6 +34,7 @@ class Label extends Model
         'keywords',
         'back_description',
         'front_description',
+        'type',
         'question_id',
         'weight',
         'match',
@@ -72,12 +73,32 @@ class Label extends Model
     }
 
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getWeightAttribute($value){
+
         return getLabelWeight($value);
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getMatchAttribute($value){
+
         return getLabelRelevance($value);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getTypeAttribute($value){
+
+        return $value;
+//        return getLabelType($value);
     }
 
     /**
