@@ -22,10 +22,6 @@
     class LabelRepository implements IRepository
     {
 
-        public function __construct()
-        {
-
-        }
 
         public function getAllList(){
 
@@ -49,9 +45,8 @@
          */
         public function search($keyword, $page){
 
-//            @todo search cache
-//            $data = Cache::tags(['LABEL_SEARCH'])
-//                ->remember('LABEL_SEARCH_'.str_slug($keyword).'_PAGE_'.$page, 60, function () use($keyword){
+            $data = Cache::tags(['LABEL_SEARCH'])
+                ->remember('LABEL_SEARCH_'.str_slug($keyword).'_PAGE_'.$page, 60, function () use($keyword){
 
                     return Label::where('keywords','like', '%' . $keyword . '%')
                         ->orWhere('title','like', '%' . $keyword . '%')
@@ -59,9 +54,9 @@
                         ->orderBy('updated_at', 'desc')
                         ->paginate(15);
 
-//                });
-//
-//            return $data;
+                });
+
+            return $data;
 
         }
 
@@ -72,11 +67,18 @@
          */
         public function searchAjax($keyword){
 
-            return Label::where('keywords','like', '%' . $keyword . '%')
-                ->orWhere('title','like', '%' . $keyword . '%')
-                ->orderBy('type')
-                ->orderBy('updated_at', 'desc')
-                ->get();
+            $data = Cache::tags(['LABEL_SEARCH'])
+                ->remember('LABEL_SEARCH_'.str_slug($keyword), 60, function () use($keyword){
+
+                    return Label::where('keywords','like', '%' . $keyword . '%')
+                        ->orWhere('title','like', '%' . $keyword . '%')
+                        ->orderBy('type')
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+
+                });
+
+            return $data;
 
         }
 

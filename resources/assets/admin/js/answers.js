@@ -132,8 +132,6 @@ $(document).ready(function () {
                 let dataAnswerId = $('#js-answer-title').attr('data-answer-id');
                 let isDisabled = dataAnswerId !== '' ? '' : 'DISABLED';
 
-                console.log('isDisabled', isDisabled);
-
                 table.html('');
 
                 $.ajax({
@@ -143,12 +141,19 @@ $(document).ready(function () {
 
                     let rows = '';
 
-                    $.each(response.labels, function (key, label) {
+                    if (response.labels.length > 0){
 
-                        let action='<button '+isDisabled+' data-label-id="'+label.id+'" class="btn btn-add-label-to-question btn-primary btn-flat btn-sm"><i class="fa fa-plus-square"></i> Attach</button>';
-                        rows += '<tr><td>'+label.title+'</td><td>'+label.keywords+'</td><td>'+label.match.label+'</td><td>'+getLabelType(label.type)+'</td><td class="text-right">'+action+'</td></tr>';
+                        $.each(response.labels, function (key, label) {
 
-                    });
+                            let action='<button '+isDisabled+' data-label-id="'+label.id+'" class="btn btn-add-label-to-question btn-primary btn-flat btn-sm"><i class="fa fa-plus-square"></i> Attach</button>';
+                            rows += '<tr><td>'+label.title+'</td><td>'+label.keywords+'</td><td>'+label.match.label+'</td><td>'+getLabelType(label.type)+'</td><td class="text-right">'+action+'</td></tr>';
+                        });
+
+                    } else {
+
+                        rows += '<tr><td colspan="4" class="text-danger"><i class="fa fa-exclamation-circle"></i> No records found</td></tr>';
+
+                    }
 
                     table.append(rows);
 
