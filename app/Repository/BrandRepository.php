@@ -133,6 +133,7 @@
         public function findByName($name){
 
             $brand = Cache::tags(['BRAND_BY_NAME_'])->remember('BRAND_BY_NAME_'.str_slug($name), 20,
+
                 function () use($name) {
 
                     return  Brand::with(['createdBy', 'updatedBy', 'products'])
@@ -150,13 +151,13 @@
          */
         public function findByNameOrCreate($name){
 
-            $brand = Brand::where('title', $name)->first();
+            $brand = $this->findByName($name);
 
-            if ($brand){
+            if ($brand) {
 
                 return $brand;
 
-            } else{
+            } else {
 
                 $brand = new Brand();
                 $brand->title = $name;
@@ -164,7 +165,6 @@
                 $brand->created_by = getAuthUser()->id;
                 $brand->updated_by = getAuthUser()->id;
                 $brand->save();
-
                 return $brand;
 
             }

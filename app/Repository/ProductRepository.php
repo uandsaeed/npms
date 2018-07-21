@@ -72,7 +72,7 @@
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
-            $product->url = isset($data['url']) ? $data['url'] : 'test';
+            $product->url = isset($data['url']) ? $data['url'] : '';
             $product->status = $data['status'];
             $product->created_by = $user->id;
             $product->updated_by = $user->id;
@@ -226,7 +226,7 @@
         }
 
         public function flushBrowseProducts(){
-            Cache::tags(['BROWSE_PRODUCTS'])->flush();
+            Cache::tags(['BROWSE_PRODUCTS', 'GLOBAL_PERMISSIONS', 'PENDING_PRODUCTS'])->flush();
         }
 
         /**

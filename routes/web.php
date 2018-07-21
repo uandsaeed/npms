@@ -19,6 +19,7 @@ Route::group(['namespace' => 'Site', ], function() {
     Route::get('/', 'GettingStartedController@index' );
 
     Route::post('/search', 'GettingStartedController@searchProducts' );
+    Route::get('/search/recommendation', 'GettingStartedController@getSearchResult' );
 
 
 });
@@ -77,6 +78,10 @@ Route::group(['namespace' => 'Admin',
         Route::get('/types', 'ProductTypeController@index');
         Route::get('/types/{id}', 'ProductTypeController@edit');
         Route::post('/types/{id}', 'ProductTypeController@update');
+
+        Route::post('/{id}/sync-label/', 'ProductController@syncLabel');
+        Route::post('/{id}/remove-label/', 'ProductController@removeLabel');
+
         Route::delete('/types/{id}', 'ProductTypeController@delete');
 
 

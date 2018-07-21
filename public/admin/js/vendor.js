@@ -31568,6 +31568,12 @@ $(document).ready(function () {
 
 /* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('[name="_token"]').val()
+        }
+    });
+
     var tableAnswers = $('#table-answers');
 
     if (tableAnswers.length > 0) {
@@ -31624,6 +31630,37 @@ $(document).ready(function () {
         };
 
         console.log('Table Answer');
+
+        // submit();
+        // function submit() {
+        //
+        //
+        //     $('.btn-user-query').click(function () {
+        //
+        //         var questionId = $(this).attr('data-question-id');
+        //         var answerId = $(this).attr('data-answer-id');
+        //
+        //         console.log('question: ', questionId + ' |  answer ', answerId);
+        //
+        //         $.ajax({
+        //             method: 'post',
+        //             url: '/search',
+        //             data: {
+        //                'answer_id': answerId,
+        //                 'question_id': questionId
+        //             }
+        //         }).done(function (response, textStatus, xhr) {
+        //             console.log('response', response);
+        //
+        //         }).fail(function (errors, textStatus, errorThrown) {
+        //
+        //             console.log('errors ', errorThrown);
+        //         });
+        //
+        //     });
+        //
+        // }
+
 
         addAnswer();
 
@@ -31999,6 +32036,88 @@ $(document).ready(function () {
             }).fail(function (error, textStatus, errorThrown) {}).always(function () {
                 permission.find('#permission_' + permissionId).removeClass('warning');
             });
+        });
+    }
+
+    var product_labels = $('#product_labels');
+
+    if (product_labels.length > 0) {
+        var loadProductLabels = function loadProductLabels() {
+
+            // console.log('load product labels');
+            $('#js-select-product-labels').html('<option>Loading...</option>');
+
+            $.ajax({
+                url: '/admin/label/list',
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                var options = '';
+                $.each(response.labels, function (key, item) {
+                    options += '<option value="' + item.id + '">' + item.title + ' [ ' + item.match.label + ' ]' + '</option>';
+                });
+
+                $('#js-select-product-labels').html(options);
+            }).fail(function (error, textStatus, errorThrown) {}).always(function () {
+                // permission.find('#permission_'+permissionId).removeClass('warning');
+            });
+        };
+
+        /**
+         * Add label to product
+         */
+
+        // let globalPermission = $('#page_global_permission');
+
+        loadProductLabels();
+        $('.btn-add-product-label').click(function () {
+
+            var productId = $(this).attr('data-product-id');
+            var labelId = $('#js-select-product-labels option:selected').val();
+
+            $.ajax({
+                url: '/admin/product/' + productId + '/sync-label',
+                method: 'post',
+                data: {
+                    labelId: labelId
+                }
+            }).done(function (response, textStatus, xhr) {
+
+                var row = '';
+
+                $.each(response.labels, function (key, item) {
+
+                    row += '<tr><td>' + item.title + '</td><td>' + item.match.label + '</td><td>' + item.weight + '</td><td>...</td><tr/>';
+                });
+
+                product_labels.find('table > tbody').append(row);
+            }).fail(function (error, textStatus, errorThrown) {});
+        });
+
+        /**
+         * Remove product
+         */
+        $('.btn-remove-product-label').click(function () {
+
+            var result = confirm('Are you sure to remove?');
+
+            if (result === true) {
+                var productId = $('#product-id').val();
+                var labelId = $(this).attr('data-label-id');
+
+                $('#row_label_' + labelId).addClass('warning');
+
+                $.ajax({
+                    url: '/admin/product/' + productId + '/remove-label',
+                    method: 'post',
+                    data: {
+                        labelId: labelId
+                    }
+                }).done(function (response, textStatus, xhr) {
+
+                    $('#row_label_' + labelId).remove();
+                }).fail(function (error, textStatus, errorThrown) {});
+            }
         });
     }
 });

@@ -18,11 +18,11 @@
 
         console.log('console');
 
-        submit();
+//        submit();
         function submit() {
 
 
-            $('.btn-user-query').click(function () {
+            $('.btn-user-query-CANCEL').click(function () {
 
                 var questionId = $(this).attr('data-question-id');
                 var answerId = $(this).attr('data-answer-id');
@@ -38,7 +38,10 @@
                         'question_id': questionId
                     }
                 }).done(function (response, textStatus, xhr) {
-                    console.log('response', response);
+
+                    window.location.href = "/search";
+
+//                    console.log('response', response);
                 }).fail(function (errors, textStatus, errorThrown) {
                     console.log('errors ', errorThrown);
                 });
@@ -50,6 +53,7 @@
         $('.list-group.checked-list-box .list-group-item').each(function () {
 
             var answerId = $(this).attr('data-answer-id') ;
+            var inputAnswer = $('#input-answers');
 
 
             // Settings
@@ -76,7 +80,8 @@
                 $checkbox.triggerHandler('change');
 
                 var answerId = $(this).attr('data-answer-id');
-                var previousId = $('.btn-user-query').attr('data-answer-id');
+//                var previousId = $('.btn-user-query').attr('data-answer-id');
+                var previousId = inputAnswer.val();
 
                 if (isChecked === true){
 
@@ -85,7 +90,8 @@
                         answer.push(previousId);
                     }
 
-                    $('.btn-user-query').attr('data-answer-id', answer);
+//                    $('.btn-user-query').attr('data-answer-id', answer);
+                    inputAnswer.val(answer);
 
 
                 } else {
@@ -95,7 +101,8 @@
                     var index = answers.indexOf(answerId);
                     if (index !== -1) answers.splice(index, 1);
 
-                    $('.btn-user-query').attr('data-answer-id', answers);
+//                    $('.btn-user-query').attr('data-answer-id', answers);
+                    inputAnswer.val(answers);
 
                 }
 

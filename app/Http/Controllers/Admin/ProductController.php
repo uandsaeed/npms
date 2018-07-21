@@ -136,6 +136,45 @@ class ProductController extends Controller
 
         return response()->redirectTo('admin/product/edit/'.$product->id);
 
+    }
+
+    /**
+     * @param Request $request
+     * @param         $productId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function syncLabel(Request $request, $productId){
+
+        $posts = $request->all();
+
+        $product = $this->repo->findById($productId);
+
+        $product->labels()->syncWithoutDetaching([$posts['labelId']]);
+        $this->repo->flushProductById($productId);
+
+        $product = $this->repo->findById($productId);
+
+        $label = $product->labels->where('id', $posts['labelId']);
+
+        return response()->json(['labels' => $label]);
+
+    }
+
+    /**
+     * @param Request $request
+     * @param         $productId
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function removeLabel(Request $request, $productId){
+
+        $posts = $request->all();
+
+        $product = $this->repo->findById($productId);
+
+        $product->labels()->detach($posts['labelId']);
+        $this->repo->flushProductById($productId);
+
+        return response()->json(['labels' => 'success']);
 
     }
 
@@ -175,24 +214,23 @@ class ProductController extends Controller
 
                 foreach ($reader->toArray() as $row) {
 
-                    $product['title'] = $row['title'];
-                    $product['ingredients'] = $row['ingredients'];
-                    $product['price'] = $row['price'];
-                    $product['currency'] = $row['currency'];
-                    $product['brand'] = $row['brand'];
-                    $product['size'] = $row['size'];
-                    $product['unit'] = $row['size_unit'];
-                    $product['description'] = '';
-                    $product['instructions'] = '';
+                    $product['title']           = $row['title'];
+                    $product['ingredients']     = isset($row['ingredients'])? $row['ingredients']: '';
+                    $product['price']           = formatePrice($row['price']);
+                    $product['currency']        = $row['currency'];
+                    $product['brand']           = $row['brand'];
+                    $product['size']            = $row['size'];
+                    $product['unit']            = $row['size_unit'];
+                    $product['description']     = '';
+                    $product['instructions']    = '';
 
-                    $product['type'] = $row['type'];
+                    $product['type']            = $row['type'];
 
                     $type = $productRepo->type->findByNameOrCreate($row['type']);
                     $product['product_type_id'] = $type->id;
 
-                    $product['url'] = $row['url'];
-                    $product['status'] = $row['status'];
-//                    $
+                    $product['url']             = $row['url'];
+                    $product['status']          = $row['status'];
 
                     $productRepo->insert($product);
 
@@ -201,6 +239,8 @@ class ProductController extends Controller
                 }
 
             });
+
+            $this->repo->flushBrowseProducts();
 
             return response()->json(['products' => $rows, 'success' => true] );
 

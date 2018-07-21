@@ -120,3 +120,24 @@
     function getLabelType($value){
         return LABEL_TYPE[$value];
     }
+
+    /**
+     * @param $price
+     * @return int|mixed
+     */
+    function formatePrice($price){
+
+        if ($price== null or $price ==''){
+
+            return 0;
+
+        } else {
+
+            $_price = str_replace('$','', $price);
+            $_price = str_replace('£', '', $_price);
+
+            return $_price;
+
+        }
+
+    }

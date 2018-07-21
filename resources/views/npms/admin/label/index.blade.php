@@ -44,7 +44,8 @@
                         <th width="350px">Keywords</th>
                         <th width="100px">Products</th>
                         <th width="530px">Description</th>
-                        <th width="530px">Question</th>
+                        <th width="430px">Question</th>
+                        <th width="50px">Type</th>
                         <th width="50px">Weight</th>
                         <th width="50px">Match Type</th>
 
@@ -68,6 +69,7 @@
                                 >{{ $label->products->count() }}</label> <small>synced</small></td>
                             <td>{{ $label->description }}</td>
                             <td>{{ isset($label->question) ? $label->question->title : '' }}</td>
+                            <td>{{ getLabelType($label->type) }}</td>
                             <td>{{ $label->weight }}</td>
                             <td> <label class="label label-{{ $label->match['class'] }}">{{ $label->match['label'] }}</label> </td>
                             <td>{{ $label->updatedBy->name }}</td>
