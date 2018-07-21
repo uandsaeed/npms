@@ -41,6 +41,29 @@
             return $data;
         }
 
+
+        /**
+         * @param $keyword
+         * @param $page
+         * @return mixed
+         */
+        public function search($keyword, $page){
+
+//            $data = Cache::tags(['LABEL_SEARCH'])
+//                ->remember('LABEL_SEARCH_'.str_slug($keyword).'_PAGE_'.$page, 60, function () use($keyword){
+
+                    return Label::where('keywords','like', '%' . $keyword . '%')
+                        ->orWhere('title','like', '%' . $keyword . '%')
+                        ->orderBy('type')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(15);
+
+//                });
+//
+//            return $data;
+
+        }
+
         /**
          * @param $page
          * @return mixed
@@ -161,7 +184,7 @@
          */
         public function flushLabelListCache(){
 
-            Cache::tags(['LABEL_LIST'])->flush();
+            Cache::tags(['LABEL_LIST', 'LABEL_SEARCH'])->flush();
             Log::info('Cache Flush ', ['LABEL_LIST']);
 
         }

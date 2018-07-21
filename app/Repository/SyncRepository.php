@@ -40,7 +40,7 @@
              * if negative, ?
              *
              */
-            $keywords = explode(',', $label->keywords);
+            $keywords = ingredient_explode(',', $label->keywords);
 
             Log::info('Label '.$label->title . ' keywords', $keywords);
 
@@ -90,15 +90,18 @@
         public function syncByProductId(Product $product){
 
 
-            $keywords = explode(',', $product->ingredients);
+            $keywords = ingredient_explode($product->ingredients);
 
 
+            // @get the label using cache for better and fast earch
             $labels = Label::where(function ($query) use($keywords) {
 
                 $first = true;
 
                 // make a like search for each keyword
                 foreach ($keywords as $keyword){
+
+                    //@todo sync with keywords only. add title
 
                     if ( $first== true){
                         $query->where('keywords' , 'like', '%'.$keyword.'%');
@@ -117,9 +120,9 @@
                     'updated_at' => Carbon::now()
                 ]);
 
-//                $label->require_sync = false;
-//                $label->last_sync = Carbon::now();
-//                $label->save();
+                $label->require_sync = false;
+                $label->last_sync = Carbon::now();
+                $label->save();
 
                 Log::info( 'Syncing product ['.$product->title . '] with label ['.$label->title. '] ('.$product->id.')');
 

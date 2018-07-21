@@ -232,7 +232,9 @@ class ProductController extends Controller
                     $product['url']             = $row['url'];
                     $product['status']          = $row['status'];
 
-                    $productRepo->insert($product);
+                    $newProduct = $productRepo->insert($product);
+
+                    event(new ProductCreated($newProduct));
 
                     array_push($rows, $product);
 

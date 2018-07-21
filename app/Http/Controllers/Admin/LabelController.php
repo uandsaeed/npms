@@ -33,7 +33,6 @@
             $posts = $request->all();
             $page = isset($posts['page']) ? $posts['page'] : 1;
 
-//            $this->repo->flushLabelListCache();
             $labels = $this->repo->getAllPaginated($page);
 
             return view('npms.admin.label.index', ['title' => $title, 'labels' => $labels]);
@@ -69,6 +68,25 @@
             $title = 'Import Label';
 
             return view('npms.admin.label.import', ['title' => $title]);
+        }
+
+
+        /**
+         * @param Request $request
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function getSearch(Request $request){
+
+            $posts = $request->all();
+
+            $title = 'Search Label: '.$posts['search'];
+            $page = isset($posts['page']) ? $posts['page'] : 1;
+
+            //@todo if $posts['search'] not found..
+            $labels = $this->repo->search($posts['search'], $page);
+
+            return view('npms.admin.label.index', ['title' => $title, 'labels'=> $labels]);
+
         }
 
         public function postUploadList(Request $request){

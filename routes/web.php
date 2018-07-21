@@ -127,6 +127,7 @@ Route::group(['namespace' => 'Admin',
 
         Route::get('/create', 'LabelController@create');
         Route::get('/', 'LabelController@index');
+        Route::get('/search', 'LabelController@getSearch');
         Route::get('/import', 'LabelController@getImport');
         Route::get('/list', 'LabelController@getList');
         Route::get('/{id}', 'LabelController@show');
