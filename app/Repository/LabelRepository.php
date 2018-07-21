@@ -49,6 +49,7 @@
          */
         public function search($keyword, $page){
 
+//            @todo search cache
 //            $data = Cache::tags(['LABEL_SEARCH'])
 //                ->remember('LABEL_SEARCH_'.str_slug($keyword).'_PAGE_'.$page, 60, function () use($keyword){
 
@@ -61,6 +62,21 @@
 //                });
 //
 //            return $data;
+
+        }
+
+        /**
+         *
+         *
+         * @param $keyword
+         */
+        public function searchAjax($keyword){
+
+            return Label::where('keywords','like', '%' . $keyword . '%')
+                ->orWhere('title','like', '%' . $keyword . '%')
+                ->orderBy('type')
+                ->orderBy('updated_at', 'desc')
+                ->get();
 
         }
 

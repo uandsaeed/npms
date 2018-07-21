@@ -1,20 +1,46 @@
 <div class="box box-default box-add-label">
     <div class="box-header">
         <h3 class="box-title">Add Label</h3>
+        <div class="box-tools">
+            <button type="button" class="btn btn-warning btn-sm btn-clear-label">Clear Table</button>
+        </div>
     </div>
-    <div class="box-body">
+    <div class="box-body no-padding">
         <div class="row">
             <div class="col-lg-4 col-sm-12">
-                <p style="font-weight: 600;padding: 10px; background-color: darkred;color: white;" id="js-answer-title">Label Title</p>
+                <p style="font-weight: 600;padding: 10px; background-color: darkred;color: white;"
+                   id="js-answer-title" data-answer-id="">Please select an answer</p>
+            </div>
+            <div class="col-lg-8 col-sm-12">
+
+                <div class="input-group">
+                    <input type="text" class="input-lg form-control" placeholder="Search Label" maxlength="50"
+                        id="input-search-label" />
+                    <span class="input-group-btn">
+                        <button type="button"
+                                class="btn btn-default btn-search-label input-lg"><i class="fa fa-search"></i> Search</button>
+                    </span>
+                </div>
 
             </div>
-            <div class="col-lg-6 col-sm-12">
-                <select class="form-control" id="js-label-list">
-                </select>
+        </div>
 
-            </div>
-            <div class="col-lg-2 col-sm-12">
-                <button class="btn btn-primary btn-add-label-to-answer btn-flat ">Attach Label</button>
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table table-responsive table-sm">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Keywords</th>
+                            <th>Match</th>
+                            <th>Type</th>
+                            <th class="text-right">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody class="js-label-table">
+                    </tbody>
+                </table>
+
             </div>
         </div>
     </div>
@@ -26,7 +52,7 @@
             All Answers
         </h3>
     </div>
-    <div class="box-body">
+    <div class="box-body no-padding">
         <table class="table table-responsive table-sm" id="table-answers">
 
             <thead>
@@ -61,12 +87,11 @@
                     <td class="text-right">
                         <div class="btn-group bt-xs">
                             <button class="btn btn-default btn-edit btn-xs btn-flat" data-id="{{ $answer->id }}"
-                                    data-title="{{ $answer->title }}" data-sort="{{ $answer->sort }}"
-                            >Edit</button>
+                                    data-title="{{ $answer->title }}"
+                                    data-sort="{{ $answer->sort }}">Edit</button>
                             <button class="btn btn-default btn-xs btn-remove btn-flat" data-id="{{ $answer->id }}">Remove</button>
                             <button class="btn btn-info btn-xs btn-add-label btn-flat" data-id="{{ $answer->id }}"
-                                    data-title="{{ $answer->title }}"
-                            >Add Label</button>
+                                    data-title="{{ $answer->title }}">Add Label</button>
                         </div>
                     </td>
                 </tr>

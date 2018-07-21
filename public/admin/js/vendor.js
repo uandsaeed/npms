@@ -31592,8 +31592,8 @@ $(document).ready(function () {
                 var url = '/admin/answer/';
 
                 if (type === 'update') {
-                    var id = $(this).attr('data-id');
 
+                    var id = $(this).attr('data-id');
                     url = url + id;
 
                     $('tr#answer_' + id).addClass('warning');
@@ -31629,38 +31629,51 @@ $(document).ready(function () {
             $('.btn-add-answer').attr('data-type', 'insert');
         };
 
-        console.log('Table Answer');
+        var searchLabel = function searchLabel() {
 
-        // submit();
-        // function submit() {
-        //
-        //
-        //     $('.btn-user-query').click(function () {
-        //
-        //         var questionId = $(this).attr('data-question-id');
-        //         var answerId = $(this).attr('data-answer-id');
-        //
-        //         console.log('question: ', questionId + ' |  answer ', answerId);
-        //
-        //         $.ajax({
-        //             method: 'post',
-        //             url: '/search',
-        //             data: {
-        //                'answer_id': answerId,
-        //                 'question_id': questionId
-        //             }
-        //         }).done(function (response, textStatus, xhr) {
-        //             console.log('response', response);
-        //
-        //         }).fail(function (errors, textStatus, errorThrown) {
-        //
-        //             console.log('errors ', errorThrown);
-        //         });
-        //
-        //     });
-        //
-        // }
+            $('.btn-search-label').click(function () {
 
+                var keyword = $('#input-search-label').val();
+                var table = $('.js-label-table');
+                var dataAnswerId = $('#js-answer-title').attr('data-answer-id');
+                var isDisabled = dataAnswerId !== '' ? '' : 'DISABLED';
+
+                console.log('isDisabled', isDisabled);
+
+                table.html('');
+
+                $.ajax({
+                    url: '/admin/label/search?search=' + keyword + '&type=ajax',
+                    method: 'get'
+                }).done(function (response, textStatus, xhr) {
+
+                    var rows = '';
+
+                    $.each(response.labels, function (key, label) {
+
+                        var action = '<button ' + isDisabled + ' data-label-id="' + label.id + '" class="btn btn-add-label-to-question btn-primary btn-flat btn-sm"><i class="fa fa-plus-square"></i> Attach</button>';
+                        rows += '<tr><td>' + label.title + '</td><td>' + label.keywords + '</td><td>' + label.match.label + '</td><td>' + getLabelType(label.type) + '</td><td class="text-right">' + action + '</td></tr>';
+                    });
+
+                    table.append(rows);
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+            });
+        };
+
+        var clearLabelSearch = function clearLabelSearch() {
+
+            $('.btn-clear-label').click(function () {
+
+                $('.js-label-table').html('');
+
+                var answerTitle = $('#js-answer-title');
+                answerTitle.attr('data-answer-id', '');
+                answerTitle.html('Please select an answer');
+            });
+        };
 
         addAnswer();
 
@@ -31698,12 +31711,44 @@ $(document).ready(function () {
         tableAnswers.on('click', '.btn-add-label', function () {
 
             var id = $(this).attr('data-id');
+            var answerTitle = $('#js-answer-title');
 
             $('tr').removeClass('warning');
             $('tr#answer_' + id).addClass('warning');
-            $('#js-answer-title').html($(this).attr('data-title'));
+            answerTitle.html($(this).attr('data-title'));
+            answerTitle.attr('data-answer-id', id);
+
             $('.btn-add-label-to-answer').attr('data-id', id);
+            $('.btn-add-label-to-question').removeAttr('DISABLED');
         });
+
+        searchLabel();
+
+        clearLabelSearch();
+    }
+
+    function getLabelType(key) {
+
+        switch (key) {
+            case 1:
+                return 'Gender';
+                break;
+            case 2:
+                return 'Age';
+
+                break;
+            case 3:
+                return 'Price';
+
+                break;
+            case 4:
+                return 'Skin Tone';
+
+                break;
+            case 5:
+                return 'Ingredients';
+                break;
+        }
     }
 
     var addLabel = $('.box-add-label');
@@ -31711,12 +31756,11 @@ $(document).ready(function () {
     if (addLabel.length > 0) {
         var addLabelToAnswer = function addLabelToAnswer() {
 
-            $('.btn-add-label-to-answer').click(function () {
+            $('.js-label-table').on('click', '.btn-add-label-to-question', function () {
 
-                var answerId = $(this).attr('data-id');
-                var labelId = $('#js-label-list option:selected').val();
+                var answerId = $('#js-answer-title').attr('data-answer-id');
+                var labelId = $(this).attr('data-label-id');
 
-                console.log('labelId', labelId);
                 $.ajax({
                     url: '/admin/label/answer/pivot',
                     method: 'post',
@@ -31726,7 +31770,8 @@ $(document).ready(function () {
                     }
                 }).done(function (response, textStatus, xhr) {
 
-                    console.log('response ', response);
+                    var title = '<span class="tag label label-success">' + response.label.title + '</span>';
+                    $('#answer_' + answerId).find("td:eq(2)").append(title);
                 }).fail(function (xhr, textStatus, errorThrown) {
 
                     console.log('sync error: ', xhr);
@@ -31775,9 +31820,6 @@ $(document).ready(function () {
 
                     console.log('sync error: ', xhr);
                 });
-
-                console.log('label id', labelId);
-                console.log('answer id', answerId);
             });
         };
 

@@ -83,10 +83,24 @@
             $title = 'Search Label: '.$posts['search'];
             $page = isset($posts['page']) ? $posts['page'] : 1;
 
-            //@todo if $posts['search'] not found..
-            $labels = $this->repo->search($posts['search'], $page);
+            if (isset($posts['type'])){
 
-            return view('npms.admin.label.index', ['title' => $title, 'labels'=> $labels]);
+                if ($posts['type'] == 'ajax'){
+
+                    //@todo if $posts['search'] not found..
+                    $labels = $this->repo->searchAjax($posts['search']);
+
+
+                    return response()->json(['labels' => $labels]);
+                }
+
+            } else {
+
+                //@todo if $posts['search'] not found..
+                $labels = $this->repo->search($posts['search'], $page);
+
+                return view('npms.admin.label.index', ['title' => $title, 'labels'=> $labels]);
+            }
 
         }
 
