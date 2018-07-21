@@ -19,9 +19,9 @@
 
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'ingredients'])
-                    <input type="text" class="form-control" id="ingredients"
-                           value="{{ isset($product) ? $product->ingredients : ''  }}"
-                           placeholder="ingredients" name="ingredients">
+                    <textarea {{ isset($product) ? $product->ingredients : ''  }} class="form-control" id="ingredients"
+                              rows="5"
+                              placeholder="ingredients" name="ingredients">{{ isset($product) ? $product->ingredients : ''  }}</textarea>
                 @endcomponent
 
 
