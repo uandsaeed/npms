@@ -11,14 +11,14 @@ class SycnProducts extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'npms:sync-products';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Sync All Products';
 
     /**
      * Create a new command instance.

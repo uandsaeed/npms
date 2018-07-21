@@ -7,6 +7,7 @@
     use App\Repository\LabelRepository;
 
     use App\Repository\QuestionRepository;
+    use App\Repository\SyncRepository;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
     use Illuminate\Support\Facades\Storage;
@@ -256,7 +257,11 @@
 
             $label = $this->repo->findById($id);
 
-            SyncLabelJob::dispatch($label);
+//            dd($label);
+//            SyncLabelJob::dispatch($label);
+
+            $sync_repo = new SyncRepository();
+            $sync_repo->syncByLabelId($label);
 
             $this->repo->flushLabelListCache();
 

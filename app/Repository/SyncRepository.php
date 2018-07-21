@@ -40,9 +40,8 @@
              * if negative, ?
              *
              */
-            $keywords = ingredient_explode(',', $label->keywords);
 
-            Log::info('Label '.$label->title . ' keywords', $keywords);
+            $keywords = ingredient_explode(trim($label->keywords));
 
             $products = Product::where(function ($query) use($keywords) {
 
@@ -54,11 +53,15 @@
                 // make a like search for each keyword
                 foreach ($keywords as $keyword){
 
-                    if ( $first== true){
-                        $query->where('ingredients' , 'like', '%'.$keyword.'%');
-                        $first = false;
-                    } else{
-                        $query->orWhere('ingredients' , 'like', '%'.$keyword.'%');
+                    if($keyword !==''){
+
+                        if ( $first== true){
+                            $query->where('ingredients' , 'like', '%'.$keyword.'%');
+                            $first = false;
+                        } else{
+                            $query->orWhere('ingredients' , 'like', '%'.$keyword.'%');
+                        }
+
                     }
                 }
 
@@ -66,11 +69,15 @@
 
             foreach ($products as $product) {
 
-                $product->labels()->syncWithoutDetaching([$label->id], [
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now()
-                ]);
-                Log::info( 'Syncing label ['.$label->title . '] with product ['.$product->title. '] ('.$product->id.')');
+                if (strlen(trim($product->ingredients)) > 0) {
+
+                    $product->labels()->syncWithoutDetaching([$label->id], [
+                        'created_at' => Carbon::now(),
+                        'updated_at' => Carbon::now()
+                    ]);
+
+                    Log::info( 'Syncing label ['.$label->title . '] with product ['.$product->title. '] ('.$product->id.')');
+                }
 
             }
 
@@ -90,11 +97,12 @@
         public function syncByProductId(Product $product){
 
 
-            $keywords = ingredient_explode($product->ingredients);
+            if (strlen(trim($product->ingredients)) > 0) {
 
+                $keywords = ingredient_explode($product->ingredients);
 
-            // @get the label using cache for better and fast earch
-            $labels = Label::where(function ($query) use($keywords) {
+                // @get the label using cache for better and fast earch
+                $labels = Label::where(function ($query) use($keywords) {
 
                 $first = true;
 
@@ -111,9 +119,9 @@
                     }
                 }
 
-            })->get();
+                })->get();
 
-            foreach ($labels as $label) {
+                foreach ($labels as $label) {
 
                 $label->products()->syncWithoutDetaching([$product->id], [
                     'created_at' => Carbon::now(),
@@ -126,6 +134,7 @@
 
                 Log::info( 'Syncing product ['.$product->title . '] with label ['.$label->title. '] ('.$product->id.')');
 
+            }
             }
 
         }

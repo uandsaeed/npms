@@ -37,6 +37,7 @@ class ProductController extends Controller
         $page = isset($posts['page']) ? $posts['page'] : 1;
         $title = 'Browse Products';
 
+        $this->repo->flushBrowseProducts();
         $products = $this->repo->getAllPaginated($page);
 
         return view('npms.admin.product.index', ['title' => $title, 'products' => $products]);
