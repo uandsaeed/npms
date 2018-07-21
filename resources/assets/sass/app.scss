@@ -10,9 +10,9 @@
 
 // fine uploader
 //@import "../../../node_modules/fine-uploader/jquery.fine-uploader/fine-uploader.css";
-//@import "../../../node_modules/fine-uploader/jquery.fine-uploader/fine-uploader-new.css";
-//
-//.navbar-laravel {
-//  background-color: #fff;
-//  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-//}
+@import "../../../node_modules/fine-uploader/jquery.fine-uploader/fine-uploader-new.css";
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}

@@ -35,7 +35,6 @@ class Label extends Model
         'back_description',
         'front_description',
         'type',
-        'question_id',
         'weight',
         'match',
         'last_sync',

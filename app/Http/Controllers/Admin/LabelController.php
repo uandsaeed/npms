@@ -9,6 +9,8 @@
     use App\Repository\QuestionRepository;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Storage;
+    use Maatwebsite\Excel\Facades\Excel;
 
     /**
      * Class LabelController
@@ -57,6 +59,84 @@
             $title = 'Create Label';
 
             return view('npms.admin.label.create', ['title' => $title]);
+        }
+
+        /**
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function getImport(){
+
+            $title = 'Import Label';
+
+            return view('npms.admin.label.import', ['title' => $title]);
+        }
+
+        public function postUploadList(Request $request){
+
+
+            $storage = Storage::disk();
+
+            $year   = date('Y', strtotime(now()));
+            $month  = date('m', strtotime(now()));
+            $day    = date('d', strtotime(now()));
+
+            $originalName = $request->file('qqfile')->getClientOriginalName();
+
+            $path = 'labels/'.$year.'/'.$month.'/'.$day;
+
+            $path = $storage->putFileAs($path, $request->file('qqfile'), $originalName);
+
+            $path = storage_path('app/'.$path);
+
+
+
+            try {
+                $rows = [];
+
+
+                $labelRepo = $this->repo;
+                Excel::load($path, function ($reader) use(&$rows, $labelRepo ){
+
+                    foreach ($reader->toArray() as $item) {
+
+                        foreach ($item as $title){
+
+                            if ($title !== null){
+
+                                $label['title']           = $title;
+                                $label['description']     = $title;
+                                $label['keywords']        = $title;
+                                $label['type']            = LABEL_TYPE_INGREDIENTS;
+                                $label['weight']          = LABEL_WEIGHT_MEDIUM;
+                                $label['match_type']           = LABEL_RELEVANCE_NEUTRAL;
+                                $label['last_sync']       = null;
+                                $label['require_sync']    = true;
+                                $label['backend_description']    = '';
+                                $label['frontend_description']    = '';
+
+                                $labelRepo->insert($label);
+
+                                array_push($rows, $title);
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+                $this->repo->flushLabelListCache();
+
+                return response()->json(['labels' => $rows, 'success' => true] );
+
+            } catch (\Exception $e) {
+
+                return response()->json(['error' => $e->getMessage(), 'file' => $path]);
+            }
+
+            return response()->json(['path'=> $path, 'success' => true]);
+
         }
 
         /**

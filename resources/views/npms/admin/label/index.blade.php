@@ -7,7 +7,10 @@
     @component('npms.admin.components.bootstrap.breadcrumb')
         <li class="active"><i class="fas fa-tags"></i> Label</li>
         <li class="">
-            <a href="{{ url('/admin/label/create') }}"><i class="fas fa-plus"></i> create</a>
+            <a href="{{ url('/admin/label/create') }}"><i class="fas fa-plus"></i> Create</a>
+        </li>
+        <li class="">
+            <a href="{{ url('/admin/label/import') }}"><i class="fas fa-upload"></i> Import</a>
         </li>
     @endcomponent
 @stop

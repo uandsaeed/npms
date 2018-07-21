@@ -119,6 +119,7 @@ Route::group(['namespace' => 'Admin',
     Route::prefix('label')->group(function () {
 
         Route::post('/', 'LabelController@insert');
+        Route::post('/upload', 'LabelController@postUploadList');
         Route::post('/{id}', 'LabelController@update');
         Route::post('/answer/pivot', 'LabelController@addAnswer');
 
@@ -126,6 +127,7 @@ Route::group(['namespace' => 'Admin',
 
         Route::get('/create', 'LabelController@create');
         Route::get('/', 'LabelController@index');
+        Route::get('/import', 'LabelController@getImport');
         Route::get('/list', 'LabelController@getList');
         Route::get('/{id}', 'LabelController@show');
         Route::get('/edit/{id}', 'LabelController@edit');
