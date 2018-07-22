@@ -37,14 +37,14 @@
          */
         public function getAllPaginated($page){
 
-            $products = Cache::tags(['BROWSE_PRODUCTS'])->remember('BROWSE_PRODUCTS_'.$page, 10, function (){
+//            $products = Cache::tags(['BROWSE_PRODUCTS'])->remember('BROWSE_PRODUCTS_'.$page, 10, function (){
 
                 return Product::where('status', 1)
                         ->orderBy('updated_at', 'desc')
                         ->paginate(10);
-            });
-
-            return $products;
+//            });
+//
+//            return $products;
         }
 
 
@@ -56,6 +56,7 @@
          */
         public function insert($data, $flushCache = false){
 
+            $user = Auth::user();
             $product = new Product();
             $product->title = $data['title'];
             $product->ingredients = $data['ingredients'];
@@ -67,14 +68,15 @@
 
             $product->description = trim($data['description']);
             $product->instructions = trim($data['instructions']);
+            $product->keywords = isset($data['keywords']) ? trim($data['keywords']): '';
 
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
             $product->product_type_id = $data['product_type_id'];
-            $product->url = isset($data['url']) ? $data['url'] : 'test';
+            $product->url = isset($data['url']) ? $data['url'] : '';
             $product->status = $data['status'];
-            $product->created_by = getAuthUser()->id;
-            $product->updated_by = getAuthUser()->id;
+            $product->created_by = $user->id;
+            $product->updated_by = $user->id;
 
             $product->save();
 
@@ -109,6 +111,7 @@
 
             $product->description = trim($data['description']);
             $product->instructions = trim($data['instructions']);
+            $product->keywords = isset($data['keywords']) ? trim($data['keywords']): '';
 
             $brand = $this->brand->findByNameOrCreate($data['brand']);
 
@@ -225,7 +228,7 @@
         }
 
         public function flushBrowseProducts(){
-            Cache::tags(['BROWSE_PRODUCTS'])->flush();
+            Cache::tags(['BROWSE_PRODUCTS', 'GLOBAL_PERMISSIONS', 'PENDING_PRODUCTS'])->flush();
         }
 
         /**

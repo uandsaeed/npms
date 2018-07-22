@@ -7,8 +7,11 @@
     use App\Repository\LabelRepository;
 
     use App\Repository\QuestionRepository;
+    use App\Repository\SyncRepository;
     use Illuminate\Http\Request;
     use App\Http\Controllers\Controller;
+    use Illuminate\Support\Facades\Storage;
+    use Maatwebsite\Excel\Facades\Excel;
 
     /**
      * Class LabelController
@@ -31,10 +34,20 @@
             $posts = $request->all();
             $page = isset($posts['page']) ? $posts['page'] : 1;
 
-//            $this->repo->flushLabelListCache();
             $labels = $this->repo->getAllPaginated($page);
 
             return view('npms.admin.label.index', ['title' => $title, 'labels' => $labels]);
+
+        }
+
+        /**
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function getList(){
+
+            $labels = $this->repo->getAllList();
+
+            return response()->json(['labels' => $labels])->setStatusCode(200);
 
         }
 
@@ -45,10 +58,118 @@
 
             $title = 'Create Label';
 
-            $questionRepo = new QuestionRepository();
-            $questions = $questionRepo->getAll();
+            return view('npms.admin.label.create', ['title' => $title]);
+        }
 
-            return view('npms.admin.label.create', ['title' => $title, 'questions' => $questions]);
+        /**
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function getImport(){
+
+            $title = 'Import Label';
+
+            return view('npms.admin.label.import', ['title' => $title]);
+        }
+
+
+        /**
+         * @param Request $request
+         * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+         */
+        public function getSearch(Request $request){
+
+            $posts = $request->all();
+
+            $title = 'Search Label: '.$posts['search'];
+            $page = isset($posts['page']) ? $posts['page'] : 1;
+
+            if (isset($posts['type'])){
+
+                if ($posts['type'] == 'ajax'){
+
+                    //@todo if $posts['search'] not found..
+                    $labels = $this->repo->searchAjax($posts['search']);
+
+
+                    return response()->json(['labels' => $labels]);
+                }
+
+            } else {
+
+                //@todo if $posts['search'] not found..
+                $labels = $this->repo->search($posts['search'], $page);
+
+                return view('npms.admin.label.index', ['title' => $title, 'labels'=> $labels]);
+            }
+
+        }
+
+        public function postUploadList(Request $request){
+
+
+            $storage = Storage::disk();
+
+            $year   = date('Y', strtotime(now()));
+            $month  = date('m', strtotime(now()));
+            $day    = date('d', strtotime(now()));
+
+            $originalName = $request->file('qqfile')->getClientOriginalName();
+
+            $path = 'labels/'.$year.'/'.$month.'/'.$day;
+
+            $path = $storage->putFileAs($path, $request->file('qqfile'), $originalName);
+
+            $path = storage_path('app/'.$path);
+
+
+
+            try {
+                $rows = [];
+
+
+                $labelRepo = $this->repo;
+                Excel::load($path, function ($reader) use(&$rows, $labelRepo ){
+
+                    foreach ($reader->toArray() as $item) {
+
+                        foreach ($item as $title){
+
+                            if ($title !== null){
+
+                                $label['title']           = $title;
+                                $label['description']     = $title;
+                                $label['keywords']        = $title;
+                                $label['type']            = LABEL_TYPE_INGREDIENTS;
+                                $label['weight']          = LABEL_WEIGHT_MEDIUM;
+                                $label['match_type']           = LABEL_RELEVANCE_NEUTRAL;
+                                $label['last_sync']       = null;
+                                $label['require_sync']    = true;
+                                $label['backend_description']    = '';
+                                $label['frontend_description']    = '';
+
+                                $labelRepo->insert($label);
+
+                                array_push($rows, $title);
+
+                            }
+
+                        }
+
+                    }
+
+                });
+
+                $this->repo->flushLabelListCache();
+
+                return response()->json(['labels' => $rows, 'success' => true] );
+
+            } catch (\Exception $e) {
+
+                return response()->json(['error' => $e->getMessage(), 'file' => $path]);
+            }
+
+            return response()->json(['path'=> $path, 'success' => true]);
+
         }
 
         /**
@@ -73,6 +194,23 @@
 
                 echo 'problem';
             }
+        }
+
+        /**
+         * @param Request $request
+         * @return \Illuminate\Http\JsonResponse
+         */
+        public function addAnswer(Request $request){
+
+            $data = $request->all();
+
+            $label = $this->repo->findById($data['labelId']);
+
+            $label->answers()->syncWithoutDetaching([$data['answerId']]);
+
+
+            return response()->json(['label' => $label] );
+
         }
 
         public function update(Request $request, $id){
@@ -133,7 +271,11 @@
 
             $label = $this->repo->findById($id);
 
-            SyncLabelJob::dispatch($label);
+//            dd($label);
+//            SyncLabelJob::dispatch($label);
+
+            $sync_repo = new SyncRepository();
+            $sync_repo->syncByLabelId($label);
 
             $this->repo->flushLabelListCache();
 

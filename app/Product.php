@@ -32,6 +32,7 @@ class Product extends Model
         'brand_id',
         'description',
         'instructions',
+        'keywords',
         'size',
         'size_unit',
         'product_type_id',

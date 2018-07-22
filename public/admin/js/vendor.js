@@ -31563,6 +31563,281 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/admin/js/answers.js":
+/***/ (function(module, exports, __webpack_require__) {
+
+/* WEBPACK VAR INJECTION */(function($) {$(document).ready(function () {
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('[name="_token"]').val()
+        }
+    });
+
+    var tableAnswers = $('#table-answers');
+
+    if (tableAnswers.length > 0) {
+        var addAnswer = function addAnswer() {
+
+            $('.btn-add-answer').click(function () {
+
+                var data = {
+                    title: $('#answer_title').val(),
+                    question_id: $('#question_id').val(),
+                    sort: $('#answer_sort').val()
+                };
+
+                var type = $(this).attr('data-type');
+
+                var url = '/admin/answer/';
+
+                if (type === 'update') {
+
+                    var id = $(this).attr('data-id');
+                    url = url + id;
+
+                    $('tr#answer_' + id).addClass('warning');
+                }
+
+                $.ajax({
+                    data: data,
+                    method: 'post',
+                    url: url
+                }).done(function (response, textStatus, xhr) {
+
+                    var sort = '<td>' + response.answer.sort + '</td>';
+                    var title = '<td>' + response.answer.title + '</td>';
+                    var row = '<tr class="success">' + sort + title + '<td>...</td><td>...</td></tr>';
+                    $('#answer-body').append(row);
+
+                    if (type === 'update') {
+                        $('tr#answer_' + response.answer.id).remove();
+                    }
+
+                    clear();
+                }).fail(function (error, textStatus, errorThrown) {});
+            });
+        };
+
+        var clear = function clear() {
+
+            $('#answer_title').val('');
+            $('#answer_sort').val('');
+
+            $('.btn-add-answer').text('Insert');
+            $('.btn-add-answer').attr('data-id', '');
+            $('.btn-add-answer').attr('data-type', 'insert');
+        };
+
+        var searchLabel = function searchLabel() {
+
+            $('.btn-search-label').click(function () {
+
+                var keyword = $('#input-search-label').val();
+                var table = $('.js-label-table');
+                var dataAnswerId = $('#js-answer-title').attr('data-answer-id');
+                var isDisabled = dataAnswerId !== '' ? '' : 'DISABLED';
+
+                table.html('');
+
+                $.ajax({
+                    url: '/admin/label/search?search=' + keyword + '&type=ajax',
+                    method: 'get'
+                }).done(function (response, textStatus, xhr) {
+
+                    var rows = '';
+
+                    if (response.labels.length > 0) {
+
+                        $.each(response.labels, function (key, label) {
+
+                            var action = '<button ' + isDisabled + ' data-label-id="' + label.id + '" class="btn btn-add-label-to-question btn-primary btn-flat btn-sm"><i class="fa fa-plus-square"></i> Attach</button>';
+                            rows += '<tr><td>' + label.title + '</td><td>' + label.keywords + '</td><td>' + label.match.label + '</td><td>' + getLabelType(label.type) + '</td><td class="text-right">' + action + '</td></tr>';
+                        });
+                    } else {
+
+                        rows += '<tr><td colspan="4" class="text-danger"><i class="fa fa-exclamation-circle"></i> No records found</td></tr>';
+                    }
+
+                    table.append(rows);
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+            });
+        };
+
+        var clearLabelSearch = function clearLabelSearch() {
+
+            $('.btn-clear-label').click(function () {
+
+                $('.js-label-table').html('');
+
+                var answerTitle = $('#js-answer-title');
+                answerTitle.attr('data-answer-id', '');
+                answerTitle.html('Please select an answer');
+            });
+        };
+
+        addAnswer();
+
+        tableAnswers.on('click', '.btn-edit', function () {
+
+            var id = $(this).attr('data-id');
+
+            $('#answer_title').val($(this).attr('data-title'));
+            $('#answer_sort').val($(this).attr('data-sort'));
+            $('.btn-add-answer').text('Update');
+            $('.btn-add-answer').attr('data-id', id);
+            $('.btn-add-answer').attr('data-type', 'update');
+        });
+
+        tableAnswers.on('click', '.btn-remove', function () {
+
+            var id = $(this).attr('data-id');
+
+            $('tr#answer_' + id).addClass('warning');
+
+            $.ajax({
+                url: '/admin/answer/' + id,
+                method: 'delete'
+            }).done(function (response, textStatus, xhr) {
+
+                if (xhr.status === 204) {
+                    $('tr#answer_' + id).remove();
+                }
+            }).fail(function (xhr, textStatus, errorThrown) {
+
+                console.log('sync error: ', xhr);
+            });
+        });
+
+        tableAnswers.on('click', '.btn-add-label', function () {
+
+            var id = $(this).attr('data-id');
+            var answerTitle = $('#js-answer-title');
+
+            $('tr').removeClass('warning');
+            $('tr#answer_' + id).addClass('warning');
+            answerTitle.html($(this).attr('data-title'));
+            answerTitle.attr('data-answer-id', id);
+
+            $('.btn-add-label-to-answer').attr('data-id', id);
+            $('.btn-add-label-to-question').removeAttr('DISABLED');
+        });
+
+        searchLabel();
+
+        clearLabelSearch();
+    }
+
+    function getLabelType(key) {
+
+        switch (key) {
+            case 1:
+                return 'Gender';
+                break;
+            case 2:
+                return 'Age';
+
+                break;
+            case 3:
+                return 'Price';
+
+                break;
+            case 4:
+                return 'Skin Tone';
+
+                break;
+            case 5:
+                return 'Ingredients';
+                break;
+        }
+    }
+
+    var addLabel = $('.box-add-label');
+
+    if (addLabel.length > 0) {
+        var addLabelToAnswer = function addLabelToAnswer() {
+
+            $('.js-label-table').on('click', '.btn-add-label-to-question', function () {
+
+                var answerId = $('#js-answer-title').attr('data-answer-id');
+                var labelId = $(this).attr('data-label-id');
+
+                $.ajax({
+                    url: '/admin/label/answer/pivot',
+                    method: 'post',
+                    data: {
+                        answerId: answerId,
+                        labelId: labelId
+                    }
+                }).done(function (response, textStatus, xhr) {
+
+                    var title = '<span class="tag label label-success">' + response.label.title + '</span>';
+                    $('#answer_' + answerId).find("td:eq(2)").append(title);
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+            });
+        };
+
+        var loadLabels = function loadLabels() {
+
+            $.ajax({
+                url: '/admin/label/list',
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                var options = '';
+                $.each(response.labels, function (key, label) {
+                    options += '<option value="' + label.id + '" >' + label.title + ' (' + label.match.label + ' ' + label.weight + ')</option>';
+                });
+
+                $('#js-label-list').append(options);
+            }).fail(function (xhr, textStatus, errorThrown) {
+
+                console.log('sync error: ', xhr);
+            });
+        };
+
+        var removeLabelFromAnswer = function removeLabelFromAnswer() {
+
+            $('.js-remove-label-from-answer').click(function () {
+
+                var labelId = $(this).attr('data-label-id');
+                var answerId = $(this).attr('data-answer-id');
+                var label = $('#label_' + answerId + '_' + labelId);
+
+                $.ajax({
+                    url: '/admin/answer/' + answerId + '/' + labelId,
+                    method: 'delete'
+                }).done(function (response, textStatus, xhr) {
+
+                    if (xhr.status === 204) {
+                        console.log('remove ' + answerId);
+
+                        label.remove();
+                    }
+                }).fail(function (xhr, textStatus, errorThrown) {
+
+                    console.log('sync error: ', xhr);
+                });
+            });
+        };
+
+        addLabelToAnswer();
+
+        loadLabels();
+
+        removeLabelFromAnswer();
+    }
+});
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
+
+/***/ }),
+
 /***/ "./resources/assets/admin/js/import.js":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31586,7 +31861,7 @@ $(document).ready(function () {
 
     if (importPage.length > 0) {
 
-        console.log('import page');
+        // console.log('import page');
 
         $('#import-product-wrapper').fineUploader({
             template: 'qq_product_upload_manual_template',
@@ -31621,6 +31896,52 @@ $(document).ready(function () {
 
         $('#btn-upload-product').click(function () {
             $('#import-product-wrapper').fineUploader('uploadStoredFiles');
+        });
+    }
+
+    var importLabelPage = $('#page_label_import');
+
+    if (importLabelPage.length > 0) {
+
+        $('#import-label-wrapper').fineUploader({
+            template: 'qq_label_upload_manual_template',
+            multiple: false,
+            request: {
+                endpoint: '/admin/label/upload',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            validation: {
+                itemLimit: 1
+                // allowedExtensions:  ['zip'],
+            },
+            callbacks: {
+                onSubmit: function onSubmit(id, name) {},
+                onComplete: function onComplete(id, name, response, xhr) {
+
+                    var table = $('#import-label-list');
+
+                    console.log('response ', response);
+                    // $.each(response.products, function(index, product){
+
+                    //                         let row = `<tr><td>${index+1}</td><td>${product.title}</td><td>${product.ingredients.substr(0, product.ingredients.lastIndexOf(' ', 97))}
+                    // <button class="btn btn-link btn-sm" data-content="${product.ingredients}" rel="popover">Show all</button></td>
+                    // <td>${product.price}</td><td>${product.currency}</td><td>${product.brand}</td><td>${product.size}</td><td>${product.unit}</td>
+                    // <td>${product.type}</td><td>${product.url}</td><td>${product.status}</td></tr>`;
+                    //
+                    //                         table.append(row);
+
+                    // });
+                },
+                onStatusChange: function onStatusChange(id, oldStatus, newStatus) {},
+                onCancel: function onCancel(id, name) {}
+            },
+            autoUpload: false
+        });
+
+        $('#btn-upload-label').click(function () {
+            $('#import-label-wrapper').fineUploader('uploadStoredFiles');
         });
     }
 });
@@ -31809,6 +32130,120 @@ $(document).ready(function () {
             });
         });
     }
+
+    var product_labels = $('#product_labels');
+
+    if (product_labels.length > 0) {
+        var loadProductLabels = function loadProductLabels() {
+
+            // console.log('load product labels');
+            $('#js-select-product-labels').html('<option>Loading...</option>');
+
+            $.ajax({
+                url: '/admin/label/list',
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                var options = '';
+                $.each(response.labels, function (key, item) {
+                    options += '<option value="' + item.id + '">' + item.title + ' [ ' + item.match.label + ' ]' + '</option>';
+                });
+
+                $('#js-select-product-labels').html(options);
+            }).fail(function (error, textStatus, errorThrown) {}).always(function () {
+                // permission.find('#permission_'+permissionId).removeClass('warning');
+            });
+        };
+
+        /**
+         * Add label to product
+         */
+
+        // show/hide suggestions
+
+        $('.btn-show-keywords-suggestions').click(function () {
+
+            $('.js-keyword-hide').removeClass('hidden');
+            $('.js-keyword-show').addClass('hidden');
+            $('.js-keyword-suggestion-box').removeClass('hidden');
+        });
+
+        $('.btn-hide-keywords-suggestions').click(function () {
+
+            $('.js-keyword-show').removeClass('hidden');
+            $('.js-keyword-hide').addClass('hidden');
+            $('.js-keyword-suggestion-box').addClass('hidden');
+        });
+
+        $('.js-keyword-suggestion-box .js-add-keyword-tag').click(function () {
+
+            var label = $(this).attr('data-label');
+
+            var keywords = $('#keywords').text().trim();
+
+            if (keywords.length === 0) {
+
+                keywords += label;
+            } else {
+                keywords += ', ' + label;
+            }
+
+            $('#keywords').text(keywords);
+        });
+
+        // let globalPermission = $('#page_global_permission');
+
+        loadProductLabels();
+        $('.btn-add-product-label').click(function () {
+
+            var productId = $(this).attr('data-product-id');
+            var labelId = $('#js-select-product-labels option:selected').val();
+
+            $.ajax({
+                url: '/admin/product/' + productId + '/sync-label',
+                method: 'post',
+                data: {
+                    labelId: labelId
+                }
+            }).done(function (response, textStatus, xhr) {
+
+                var row = '';
+
+                $.each(response.labels, function (key, item) {
+
+                    row += '<tr><td>' + item.title + '</td><td>' + item.match.label + '</td><td>' + item.weight + '</td><td>...</td><tr/>';
+                });
+
+                product_labels.find('table > tbody').append(row);
+            }).fail(function (error, textStatus, errorThrown) {});
+        });
+
+        /**
+         * Remove product
+         */
+        $('.btn-remove-product-label').click(function () {
+
+            var result = confirm('Are you sure to remove?');
+
+            if (result === true) {
+                var productId = $('#product-id').val();
+                var labelId = $(this).attr('data-label-id');
+
+                $('#row_label_' + labelId).addClass('warning');
+
+                $.ajax({
+                    url: '/admin/product/' + productId + '/remove-label',
+                    method: 'post',
+                    data: {
+                        labelId: labelId
+                    }
+                }).done(function (response, textStatus, xhr) {
+
+                    $('#row_label_' + labelId).remove();
+                }).fail(function (error, textStatus, errorThrown) {});
+            }
+        });
+    }
 });
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__("./node_modules/jquery/dist/jquery.js")))
 
@@ -31831,6 +32266,7 @@ __webpack_require__("./node_modules/fine-uploader/jquery.fine-uploader/jquery.fi
 __webpack_require__("./resources/assets/admin/js/ajax.js");
 __webpack_require__("./resources/assets/admin/js/import.js");
 __webpack_require__("./resources/assets/admin/js/label.js");
+__webpack_require__("./resources/assets/admin/js/answers.js");
 __webpack_require__("./resources/assets/admin/js/product_pending.js");
 module.exports = __webpack_require__("./resources/assets/sass/app.scss");
 

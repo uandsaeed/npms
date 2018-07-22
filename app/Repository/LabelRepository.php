@@ -22,8 +22,63 @@
     class LabelRepository implements IRepository
     {
 
-        public function __construct()
-        {
+
+        public function getAllList(){
+
+            $data = Cache::tags(['LABEL_LIST'])
+                ->remember('LABEL_LIST_ALL', 60, function () {
+
+                    return Label::orderBy('type')
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+
+                });
+
+            return $data;
+        }
+
+
+        /**
+         * @param $keyword
+         * @param $page
+         * @return mixed
+         */
+        public function search($keyword, $page){
+
+            $data = Cache::tags(['LABEL_SEARCH'])
+                ->remember('LABEL_SEARCH_'.str_slug($keyword).'_PAGE_'.$page, 60, function () use($keyword){
+
+                    return Label::where('keywords','like', '%' . $keyword . '%')
+                        ->orWhere('title','like', '%' . $keyword . '%')
+                        ->orderBy('type')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(15);
+
+                });
+
+            return $data;
+
+        }
+
+        /**
+         *
+         *
+         * @param $keyword
+         */
+        public function searchAjax($keyword){
+
+            $data = Cache::tags(['LABEL_SEARCH'])
+                ->remember('LABEL_SEARCH_'.str_slug($keyword), 60, function () use($keyword){
+
+                    return Label::where('keywords','like', '%' . $keyword . '%')
+                        ->orWhere('title','like', '%' . $keyword . '%')
+                        ->orderBy('type')
+                        ->orderBy('updated_at', 'desc')
+                        ->get();
+
+                });
+
+            return $data;
 
         }
 
@@ -33,13 +88,13 @@
          */
         public function getAllPaginated($page){
 
-
             $data = Cache::tags(['LABEL_LIST'])
-                ->remember('LABEL_BY_LIST_'.$page, 20, function () {
+                ->remember('LABEL_BY_LIST_'.$page, 60, function () {
 
                     return Label::with(['createdBy', 'updatedBy', 'question', 'products'])
+                        ->orderBy('type')
                         ->orderBy('updated_at', 'desc')
-                        ->paginate(10);
+                        ->paginate(15);
 
                 });
 
@@ -59,7 +114,7 @@
             $label->description             = trim($data['description']);
             $label->keywords                = trim($data['keywords']);
 
-            $label->question_id             = $data['question_id'];
+            $label->type                   = $data['type'];
             $label->match                   = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = trim($data['backend_description']);
@@ -90,8 +145,8 @@
             $label->title                   = $data['title'];
             $label->description             = $data['description'];
             $label->keywords                = $data['keywords'];
-            $label->question_id             = $data['question_id'];
-            $label->match_type              = $data['match_type'];
+            $label->type                    = $data['type'];
+            $label->match                   = $data['match_type'];
             $label->weight                  = $data['weight'];
             $label->back_description        = $data['backend_description'];
             $label->front_description       = $data['frontend_description'];
@@ -128,6 +183,37 @@
         }
 
         /**
+         * @param array  $typeIds
+         * @param string $key
+         * @return mixed
+         */
+        public function getKeywordsByType($typeIds = [], $key='1234'){
+
+
+            $data = Cache::tags(['LABEL_BY_IDS'])->remember('LABEL_BY_IDS_'.$key, 60, function () use($typeIds){
+
+                $keywords = [];
+
+                $labels = Label::whereIn('type', $typeIds)
+                    ->orderBy('type')
+                    ->get();
+
+                foreach ($labels as $label){
+                    $keyword = explode(',', $label->keywords);
+                    array_push($keywords, $keyword[0]);
+                }
+
+                return $keywords;
+
+            });
+
+            return $data;
+
+
+
+        }
+
+        /**
          * @param $id
          * @return mixed
          */
@@ -147,7 +233,7 @@
          */
         public function flushLabelListCache(){
 
-            Cache::tags(['LABEL_LIST'])->flush();
+            Cache::tags(['LABEL_LIST', 'LABEL_SEARCH'])->flush();
             Log::info('Cache Flush ', ['LABEL_LIST']);
 
         }
