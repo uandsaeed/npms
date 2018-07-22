@@ -183,6 +183,37 @@
         }
 
         /**
+         * @param array  $typeIds
+         * @param string $key
+         * @return mixed
+         */
+        public function getKeywordsByType($typeIds = [], $key='1234'){
+
+
+            $data = Cache::tags(['LABEL_BY_IDS'])->remember('LABEL_BY_IDS_'.$key, 60, function () use($typeIds){
+
+                $keywords = [];
+
+                $labels = Label::whereIn('type', $typeIds)
+                    ->orderBy('type')
+                    ->get();
+
+                foreach ($labels as $label){
+                    $keyword = explode(',', $label->keywords);
+                    array_push($keywords, $keyword[0]);
+                }
+
+                return $keywords;
+
+            });
+
+            return $data;
+
+
+
+        }
+
+        /**
          * @param $id
          * @return mixed
          */

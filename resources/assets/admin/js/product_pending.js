@@ -171,6 +171,44 @@ $(document).ready(function () {
 
     if (product_labels.length > 0){
 
+        // show/hide suggestions
+
+        $('.btn-show-keywords-suggestions').click(function () {
+
+            $('.js-keyword-hide').removeClass('hidden');
+            $('.js-keyword-show').addClass('hidden');
+            $('.js-keyword-suggestion-box').removeClass('hidden');
+
+        });
+
+        $('.btn-hide-keywords-suggestions').click(function () {
+
+            $('.js-keyword-show').removeClass('hidden');
+            $('.js-keyword-hide').addClass('hidden');
+            $('.js-keyword-suggestion-box').addClass('hidden');
+
+        });
+
+        $('.js-keyword-suggestion-box .js-add-keyword-tag').click(function () {
+
+            let label = $(this).attr('data-label');
+
+            let keywords  = $('#keywords').text().trim();
+
+            if(keywords.length === 0){
+
+                keywords+=label;
+
+            } else{
+                keywords+=', '+label;
+            }
+
+            $('#keywords').text(keywords);
+
+        });
+
+
+
         // let globalPermission = $('#page_global_permission');
 
         loadProductLabels();

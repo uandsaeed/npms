@@ -68,6 +68,7 @@
 
             $product->description = trim($data['description']);
             $product->instructions = trim($data['instructions']);
+            $product->keywords = isset($data['keywords']) ? trim($data['keywords']): '';
 
             $product->size = $data['size'];
             $product->size_unit = $data['unit'];
@@ -110,6 +111,7 @@
 
             $product->description = trim($data['description']);
             $product->instructions = trim($data['instructions']);
+            $product->keywords = isset($data['keywords']) ? trim($data['keywords']): '';
 
             $brand = $this->brand->findByNameOrCreate($data['brand']);
 

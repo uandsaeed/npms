@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Events\ProductCreated;
 use App\Http\Requests\ProductInsertRequest;
 use App\Http\Requests\ProductUpdateRequest;
+use App\Repository\LabelRepository;
 use App\Repository\ProductRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -20,10 +21,13 @@ class ProductController extends Controller
 {
 
     private  $repo = null;
+    private $labelRepo = null;
 
     public function __construct()
     {
         $this->repo = new ProductRepository();
+        $this->labelRepo = new LabelRepository();
+
     }
 
     /**
@@ -78,8 +82,10 @@ class ProductController extends Controller
         $title = 'Create Product';
         $types = $this->repo->type->getAllList();
 
+        $keywords = $this->labelRepo->getKeywordsByType([1,2,3,4], '1234');
 
-        return view('npms.admin.product.create', ['title' => $title, 'types' => $types]);
+        return view('npms.admin.product.create',
+            ['title' => $title, 'types' => $types, 'keywords' => $keywords]);
     }
 
     /**
@@ -100,7 +106,11 @@ class ProductController extends Controller
         $types = $this->repo->type->getAllList();
         $product = $this->repo->findById($id);
 
-        return view('npms.admin.product.create', ['title' => $title, 'types' => $types, 'product' => $product]);
+        $keywords = $this->labelRepo->getKeywordsByType([1,2,3,4], '1234');
+
+        return view('npms.admin.product.create',
+                    ['title' => $title, 'types' => $types, 'product' => $product,
+                          'keywords' => $keywords]);
 
 
     }
