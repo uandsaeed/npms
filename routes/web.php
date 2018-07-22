@@ -14,6 +14,18 @@
 
 Auth::routes();
 
+
+Route::get('/test', function (){
+
+    $brand = 'KIEHLS';
+
+    $brandRepo = new \App\Repository\BrandRepository();
+
+    $result = $brandRepo->findByNameOrCreate($brand);
+
+    var_dump($result);
+
+});
 Route::group(['namespace' => 'Site', ], function() {
 
     Route::get('/', 'GettingStartedController@index' );

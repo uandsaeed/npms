@@ -137,7 +137,7 @@
                 function () use($name) {
 
                     return  Brand::with(['createdBy', 'updatedBy', 'products'])
-                        ->where('title', $name)->first();
+                        ->where('slug', str_slug($name, '-'))->first();
 
             });
 
@@ -152,6 +152,8 @@
         public function findByNameOrCreate($name){
 
             $brand = $this->findByName($name);
+//            @todo for console command, need user to find by query
+            $user = Auth::user();
 
             if ($brand) {
 
@@ -162,8 +164,8 @@
                 $brand = new Brand();
                 $brand->title = $name;
                 $brand->slug = str_slug($name);
-                $brand->created_by = getAuthUser()->id;
-                $brand->updated_by = getAuthUser()->id;
+                $brand->created_by = $user->id;
+                $brand->updated_by = $user->id;
                 $brand->save();
                 return $brand;
 
@@ -183,8 +185,10 @@
 
         public function flushBrowseBrand(){
 
-            Cache::tags(['BROWSE_BRAND_ALL'])->flush();
-            Cache::tags(['BROWSE_BRAND'])->flush();
+//            Cache::tags(['BROWSE_BRAND_ALL'])->flush();
+//            Cache::tags(['BROWSE_BRAND'])->flush();
+            Cache::tags(['BROWSE_BRAND_ALL', 'BROWSE_BRAND', 'BRAND_BY_ID', 'BRAND_BY_NAME_'])->flush();
+
 
         }
 
