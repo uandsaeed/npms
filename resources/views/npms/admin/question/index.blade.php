@@ -41,12 +41,12 @@
                     <tr>
                         <th width="20px">ID</th>
                         <th width="30px">Sort</th>
-                        <th width="350px">Title</th>
-                        <th width="350px">Answers</th>
-                        <th width=100px">Is Active</th>
-                        <th width="100px">Updated By</th>
-                        <th width="120px">Updated at</th>
-                        <th width="150px">Action</th>
+                        <th width="320px">Title</th>
+                        <th width="380px">Answers</th>
+                        <th width=50px">Is Active</th>
+                        <th width="80px">Updated By</th>
+                        <th width="80px">Updated at</th>
+                        <th width="50px" class="text-right">Action</th>
                     </tr>
                     </thead>
 
@@ -61,7 +61,9 @@
                             <td>
                                 <ul class="list-unstyled">
                                 @foreach($question->answers->sortBy('sort') as $answer)
-                                    <li><span class="text-info"> {{ $answer->title }}</span></li>
+                                    <li><span class="text-info"> {{ $answer->title }}</span>&nbsp;
+                                        <span class="badge badge-info">{{ $answer->labels->count() }}</span>
+                                    </li>
                                 @endforeach
                                 </ul>
                             </td>
@@ -75,7 +77,7 @@
                             </td>
                             <td>{{ $question->updatedBy->name }}</td>
                             <td>{{ $question->updated_at->diffForHumans() }}</td>
-                            <td>
+                            <td class="text-right">
                                 <form action="/admin/question/{{ $question->id }}" method="post">
                                     {{ csrf_field() }}
                                     <input type="hidden" name="_method" value="DELETE">

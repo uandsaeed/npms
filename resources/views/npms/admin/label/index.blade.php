@@ -57,7 +57,7 @@
                         <th width="50px">Match Type</th>
 
                         <th width="150px">Updated By</th>
-                        <th width="120px">Updated at</th>
+                        {{--<th width="120px">Updated at</th>--}}
                         <th width="120px">Last Sync</th>
 
                         <th width="300px">Action</th>
@@ -79,8 +79,12 @@
                             <td>{{ getLabelType($label->type) }}</td>
                             <td>{{ $label->weight }}</td>
                             <td> <label class="label label-{{ $label->match['class'] }}">{{ $label->match['label'] }}</label> </td>
-                            <td>{{ $label->updatedBy->name }}</td>
-                            <td>{{ $label->updated_at->diffForHumans() }}</td>
+                            <td>{{ $label->updatedBy->name }}
+                                @isset($label->updated_at)
+                                    <br/><small>at {{ $label->updated_at->diffForHumans() }}</small>
+                                @endisset
+                            </td>
+                            {{--<td></td>--}}
                             <td>{{ isset($label->last_sync )? $label->last_sync->diffForHumans() : 'New'}}</td>
                             <td>
                                 <form action="/admin/label/{{ $label->id }}" method="post">

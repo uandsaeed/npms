@@ -1,6 +1,6 @@
 <div class="box box-default box-add-label">
     <div class="box-header">
-        <h3 class="box-title">Add Label</h3>
+        <h3 class="box-title">Attach Label to Answer</h3>
         <div class="box-tools">
             <button type="button" class="btn btn-warning btn-sm btn-clear-label">Clear Table</button>
         </div>
@@ -91,7 +91,7 @@
                                     data-sort="{{ $answer->sort }}">Edit</button>
                             <button class="btn btn-default btn-xs btn-remove btn-flat" data-id="{{ $answer->id }}">Remove</button>
                             <button class="btn btn-info btn-xs btn-add-label btn-flat" data-id="{{ $answer->id }}"
-                                    data-title="{{ $answer->title }}">Add Label</button>
+                                    data-title="{{ $answer->title }}">Select Label</button>
                         </div>
                     </td>
                 </tr>
