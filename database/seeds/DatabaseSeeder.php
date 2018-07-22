@@ -17,5 +17,7 @@ use Illuminate\Database\Seeder;
          $this->call(UserTableSeeder::class);
          $this->call(ProductTypeSeeder::class);
          $this->call(GlobalPermissionsTableSeeder::class);
+         $this->call(QuestionsTableSeeder::class);
+         $this->call(LabelsTableSeeder::class);
     }
 }

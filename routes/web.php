@@ -11,19 +11,26 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-    
+Route::group(['namespace' => 'Site', ], function() {
+
+    Route::get('/', 'GettingStartedController@index' );
+
+    Route::post('/search', 'GettingStartedController@searchProducts' );
+    Route::get('/search/recommendation', 'GettingStartedController@getSearchResult' );
+
+
+});
+
 
 Route::group(['namespace' => 'Admin',
               'prefix' => 'admin',
               'middleware' => ['auth.basic', 'auth']], function() {
 
+
+        Route::get('/home', 'HomeController@index')->name('home');
 
 //    Route::get('/unauthorized', 'HomeController@unauthorized');
 
@@ -71,6 +78,10 @@ Route::group(['namespace' => 'Admin',
         Route::get('/types', 'ProductTypeController@index');
         Route::get('/types/{id}', 'ProductTypeController@edit');
         Route::post('/types/{id}', 'ProductTypeController@update');
+
+        Route::post('/{id}/sync-label/', 'ProductController@syncLabel');
+        Route::post('/{id}/remove-label/', 'ProductController@removeLabel');
+
         Route::delete('/types/{id}', 'ProductTypeController@delete');
 
 
@@ -90,14 +101,35 @@ Route::group(['namespace' => 'Admin',
 
     });
 
+    Route::prefix('answer')->group(function () {
+
+        Route::post('/', 'AnswerController@insert');
+        Route::post('/{id}', 'AnswerController@update');
+        Route::delete('/{id}', 'AnswerController@delete');
+        Route::delete('/{id}/{labelId}', 'AnswerController@detachLabel');
+
+//        Route::get('/create', 'QuestionController@create');
+//        Route::get('/', 'QuestionController@index');
+//        Route::get('/{id}', 'QuestionController@show');
+//        Route::get('/edit/{id}', 'QuestionController@edit');
+
+
+    });
+
     Route::prefix('label')->group(function () {
 
         Route::post('/', 'LabelController@insert');
+        Route::post('/upload', 'LabelController@postUploadList');
         Route::post('/{id}', 'LabelController@update');
+        Route::post('/answer/pivot', 'LabelController@addAnswer');
+
         Route::delete('/{id}', 'LabelController@delete');
 
         Route::get('/create', 'LabelController@create');
         Route::get('/', 'LabelController@index');
+        Route::get('/search', 'LabelController@getSearch');
+        Route::get('/import', 'LabelController@getImport');
+        Route::get('/list', 'LabelController@getList');
         Route::get('/{id}', 'LabelController@show');
         Route::get('/edit/{id}', 'LabelController@edit');
         Route::get('/sync/{id}', 'LabelController@sync');

@@ -23,6 +23,21 @@
 
         </div>
 
+        @isset($question)
+            <div class="col-lg-6 col-md-8 col-sm-12">
+
+                @include('npms.admin.question.create_answers')
+
+            </div>
+        @endisset
     </div>
+
+    @isset($question)
+        <div class="row" >
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                @include('npms.admin.question.answer_table')
+            </div>
+        </div>
+    @endisset
 
 @stop

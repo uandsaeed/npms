@@ -9,7 +9,10 @@
             <a href="{{ url('/admin/label') }}"><i class="fas fa-tags"></i> Label</a>
         </li>
         <li class="">
-            <i class="fas fa-plus"></i> create
+            <i class="fas fa-plus"></i> Create
+        </li>
+        <li class="">
+            <a href="{{ url('/admin/label/import') }}"><i class="fas fa-upload"></i> Import</a>
         </li>
     @endcomponent
 @stop

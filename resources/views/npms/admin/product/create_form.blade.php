@@ -19,9 +19,9 @@
 
 
                 @component('npms.admin.components.bootstrap.form-group', ['name' => 'ingredients'])
-                    <input type="text" class="form-control" id="ingredients"
-                           value="{{ isset($product) ? $product->ingredients : ''  }}"
-                           placeholder="ingredients" name="ingredients">
+                    <textarea {{ isset($product) ? $product->ingredients : ''  }} class="form-control" id="ingredients"
+                              rows="5"
+                              placeholder="ingredients" name="ingredients">{{ isset($product) ? $product->ingredients : ''  }}</textarea>
                 @endcomponent
 
 
@@ -112,6 +112,30 @@
                             </label>
                         </div>
 
+                @endcomponent
+
+                @component('npms.admin.components.bootstrap.form-group', ['name' => 'keywords'])
+                    <textarea {{ isset($product) ? $product->keywords : ''  }} class="form-control" id="keywords"
+                              rows="3" placeholder="keywords"
+                              name="keywords">{{ isset($product) ? $product->keywords : ''  }}</textarea>
+
+                            <div class="js-keyword-show hidden">
+                                <i class="fa fa-plus-circle"></i>&nbsp;
+                                <a href="javascript:void(0)"
+                                   class="btn-show-keywords-suggestions text-right">Show suggestions</a>
+                            </div>
+
+                            <div class="js-keyword-hide ">
+                                <i class="fa fa-minus-circle"></i>&nbsp;
+                                <a href="javascript:void(0)"
+                                   class="btn-hide-keywords-suggestions text-right">Hide suggestions</a>
+                            </div>
+
+                            <div class="js-keyword-suggestion-box">
+
+                                @each('npms.admin.components.parts.tag', $keywords, 'title')
+
+                            </div>
                 @endcomponent
 
             </div>

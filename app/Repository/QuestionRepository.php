@@ -45,13 +45,48 @@
             $data = Cache::tags(['QUESTION_LIST'])
                     ->remember('QUESTION_BY_LIST_'.$page, 10, function () {
 
-                return Question::with(['createdBy', 'updatedBy'])
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate(10);
+                    return Question::with(['createdBy', 'updatedBy', 'answers'])
+                        ->orderBy('is_active', 'desc')
+                        ->orderBy('sort', 'asc')
+                        ->orderBy('updated_at', 'desc')
+                        ->paginate(10);
 
             });
 
             return $data;
+
+        }
+
+        /**
+         * @return mixed
+         */
+        public function firstQuestion(){
+
+            $question = Question::where('is_active', true)
+                ->orderBy('sort', 'asc')
+                ->first();
+
+
+            return $question;
+
+        }
+
+        public function getActiveQuestions(){
+
+            $question = Cache::tags(['QUESTION_LIST'])
+                ->remember('QUESTION_LIST_FRONT_END', 60, function () {
+
+                    return Question::with(['answers'])
+                        ->where('is_active', true)
+                        ->orderBy('sort', 'asc')
+                        ->get();
+
+                });
+
+
+
+
+            return $question;
 
         }
 
@@ -65,6 +100,8 @@
             $question = new Question();
             $question->title = $data['title'];
             $question->description = $data['description'];
+            $question->sort = $data['sort'];
+            $question->is_active = $data['is_active'];
 
             $question->created_by = getAuthUser()->id;
             $question->updated_by = getAuthUser()->id;
@@ -86,13 +123,18 @@
 
             $question = $this->findById($id);
 
+//            dd($data);
+
             $question->title = $data['title'];
             $question->description = $data['description'];
+            $question->sort = $data['sort'];
+            $question->is_active = isset($posts['is_active']) ? $posts['is_active']: 0;
 
             $question->updated_by = getAuthUser()->id;
 
             $question->save();
 
+            $this->flushById($id);
             $this->flushQuestionListCache();
 
             return $question;
@@ -129,12 +171,22 @@
         public function findById($id)
         {
 
-            $data = Cache::remember('QUESTION_BY_ID_'.$id, 20, function () use($id){
+//            dd('hee');
+            $data = Cache::tags(['QUESTION_BY_ID'])->remember('QUESTION_BY_ID_'.$id, 20, function () use($id){
+//                @todo add with
                 return Question::find($id);
             });
 
             return $data;
 
+        }
+
+        /**
+         * @param $id
+         */
+        public function flushById($id){
+
+            Cache::tags(['QUESTION_BY_ID'])->flush(['QUESTION_BY_ID_'.$id]);
         }
 
         private function flushQuestionListCache(){

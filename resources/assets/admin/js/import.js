@@ -19,8 +19,7 @@ $(document).ready(function () {
 
     if(importPage.length > 0){
 
-        console.log('import page');
-
+        // console.log('import page');
 
         $('#import-product-wrapper').fineUploader({
             template: 'qq_product_upload_manual_template',
@@ -68,8 +67,62 @@ $(document).ready(function () {
             $('#import-product-wrapper').fineUploader('uploadStoredFiles');
         });
 
+    }
 
+    let importLabelPage = $('#page_label_import');
+
+    if(importLabelPage.length > 0){
+
+        $('#import-label-wrapper').fineUploader({
+            template: 'qq_label_upload_manual_template',
+            multiple: false,
+            request: {
+                endpoint: '/admin/label/upload',
+                customHeaders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            },
+            validation: {
+                itemLimit: 1,
+                // allowedExtensions:  ['zip'],
+            },
+            callbacks: {
+                onSubmit: function (id, name) {
+
+                },
+                onComplete: function (id, name, response, xhr ) {
+
+                    let table = $('#import-label-list');
+
+                    console.log('response ', response);
+                    // $.each(response.products, function(index, product){
+
+//                         let row = `<tr><td>${index+1}</td><td>${product.title}</td><td>${product.ingredients.substr(0, product.ingredients.lastIndexOf(' ', 97))}
+// <button class="btn btn-link btn-sm" data-content="${product.ingredients}" rel="popover">Show all</button></td>
+// <td>${product.price}</td><td>${product.currency}</td><td>${product.brand}</td><td>${product.size}</td><td>${product.unit}</td>
+// <td>${product.type}</td><td>${product.url}</td><td>${product.status}</td></tr>`;
+//
+//                         table.append(row);
+
+                    // });
+
+                },
+                onStatusChange: function (id, oldStatus, newStatus) {
+
+                },
+                onCancel: function (id, name) {
+
+                }
+            },
+            autoUpload: false
+        });
+
+        $('#btn-upload-label').click(function() {
+            $('#import-label-wrapper').fineUploader('uploadStoredFiles');
+        });
 
     }
+
+
 
 });

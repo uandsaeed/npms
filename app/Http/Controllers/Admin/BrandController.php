@@ -95,9 +95,13 @@ class BrandController extends Controller
 
     }
 
+    /**
+     * @param $id
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function delete($id){
 
-        $user = getAuthUser();
+        $user = Auth::user();
 
         if ($user->role == getUserRole(USER_ROLE_ADMIN)){
 

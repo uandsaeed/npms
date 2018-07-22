@@ -1,12 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
+
 
 use App\Label;
 use App\Product;
 use App\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use App\Http\Controllers\Controller;
+
 
 class HomeController extends Controller
 {
@@ -43,6 +46,6 @@ class HomeController extends Controller
         });
 
 
-        return view('home' , ['products' => $productCount, 'questions' => $questionCount, 'labels' => $labelCount]);
+        return view('npms.admin.home' , ['products' => $productCount, 'questions' => $questionCount, 'labels' => $labelCount]);
     }
 }

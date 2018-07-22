@@ -37,3 +37,4 @@
         </table>
     </div>
 </div>
+@include('npms.admin.product.product_labels')

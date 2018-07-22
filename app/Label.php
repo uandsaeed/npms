@@ -34,7 +34,7 @@ class Label extends Model
         'keywords',
         'back_description',
         'front_description',
-        'question_id',
+        'type',
         'weight',
         'match',
         'last_sync',
@@ -43,6 +43,15 @@ class Label extends Model
         'updated_by'
 
     ];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function answers(){
+        return $this->belongsToMany(Answers::class, 'answers_label_pivot',
+            'label_id', 'answer_id');
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -63,12 +72,32 @@ class Label extends Model
     }
 
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getWeightAttribute($value){
+
         return getLabelWeight($value);
     }
 
+    /**
+     * @param $value
+     * @return mixed
+     */
     public function getMatchAttribute($value){
+
         return getLabelRelevance($value);
+    }
+
+    /**
+     * @param $value
+     * @return mixed
+     */
+    public function getTypeAttribute($value){
+
+        return $value;
+//        return getLabelType($value);
     }
 
     /**

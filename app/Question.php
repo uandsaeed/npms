@@ -28,16 +28,19 @@ class Question extends Model
     protected $fillable = [
         'title',
         'description',
+        'sort',
+        'is_active',
         'created_by',
         'updated_by'
     ];
 
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function labels(){
+    public function answers(){
 
-        return $this->hasMany(Label::class, 'question_id', 'id');
+        return $this->hasMany(Answers::class, 'question_id', 'id');
     }
 
 

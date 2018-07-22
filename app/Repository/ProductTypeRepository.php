@@ -8,7 +8,9 @@
 
     namespace App\Repository;
 
+
     use App\ProductType;
+    use Illuminate\Support\Facades\Auth;
     use Illuminate\Support\Facades\Cache;
 
 
@@ -57,14 +59,15 @@
          */
         public function insert($data){
 
+            $user = Auth::user();
             $type = new ProductType();
             $type->title = $data['title'];
             $type->slug = $data['slug'];
-            $type->description = $data['description'];
+            $type->description = isset($data['description']) ? $data['description'] : '';
 
 
-            $type->created_by = getAuthUser()->id;
-            $type->updated_by = getAuthUser()->id;
+            $type->created_by = $user->id;
+            $type->updated_by = $user->id;
 
             $type->save();
 
@@ -80,6 +83,7 @@
          */
         public function update($data, $id)
         {
+            $user = Auth::user();
 
             $type = $this->findById($id);
 
@@ -88,7 +92,7 @@
             $type->description = $data['description'];
 
 
-            $type->updated_by = getAuthUser()->id;
+            $type->updated_by = $user->id;
             $type->save();
 
             $this->flushProductTypeById($id);
@@ -121,7 +125,7 @@
         public function findById($id)
         {
 
-            $type = Cache::tags(['PRODUCT_TYPE_BY_ID'])->remember('PRODUCT_BY_ID_'.$id, 10, function () use($id){
+            $type = Cache::tags(['PRODUCT_TYPE_BY_ID'])->remember('PRODUCT_BY_ID_'.$id, 60, function () use($id){
 
                 return ProductType::with(['createdBy', 'updatedBy'])
                     ->find($id);
@@ -133,7 +137,29 @@
 
         public function findByNameOrCreate($name){
 
-            $type = ProductType::firstOrCreate(['title' => $name, 'slug' => str_slug($name)]);
+            $type = $this->findByName($name);
+
+            if ($type){
+                return $type;
+            } else {
+
+                $type['title'] = $name;
+                $type['slug'] = str_slug($name, '-');
+
+                return $this->insert($type);
+            }
+
+        }
+
+        public function findByName($name){
+
+            $type = Cache::tags(['PRODUCT_TYPE_BY_NAME'])->remember('PRODUCT_BY_NAME_'.$name, 60, function () use($name){
+
+                return ProductType::with(['createdBy', 'updatedBy'])
+                    ->where('title',$name)
+                    ->first();
+            });
+
 
             return $type;
 
@@ -153,6 +179,8 @@
 
             Cache::tags(['BROWSE_PRODUCT_TYPE'])->flush();
             Cache::tags(['PRODUCT_TYPES'])->flush();
+            Cache::tags(['PRODUCT_TYPE_BY_NAME'])->flush();
+            Cache::tags(['PRODUCT_TYPE_BY_ID'])->flush();
 
         }
 

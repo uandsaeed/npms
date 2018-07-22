@@ -163,7 +163,142 @@ $(document).ready(function () {
                 permission.find('#permission_'+permissionId).removeClass('warning');
             });
 
-        })
+        });
+
+    }
+
+    let product_labels = $('#product_labels');
+
+    if (product_labels.length > 0){
+
+        // show/hide suggestions
+
+        $('.btn-show-keywords-suggestions').click(function () {
+
+            $('.js-keyword-hide').removeClass('hidden');
+            $('.js-keyword-show').addClass('hidden');
+            $('.js-keyword-suggestion-box').removeClass('hidden');
+
+        });
+
+        $('.btn-hide-keywords-suggestions').click(function () {
+
+            $('.js-keyword-show').removeClass('hidden');
+            $('.js-keyword-hide').addClass('hidden');
+            $('.js-keyword-suggestion-box').addClass('hidden');
+
+        });
+
+        $('.js-keyword-suggestion-box .js-add-keyword-tag').click(function () {
+
+            let label = $(this).attr('data-label');
+
+            let keywords  = $('#keywords').text().trim();
+
+            if(keywords.length === 0){
+
+                keywords+=label;
+
+            } else{
+                keywords+=', '+label;
+            }
+
+            $('#keywords').text(keywords);
+
+        });
+
+
+
+        // let globalPermission = $('#page_global_permission');
+
+        loadProductLabels();
+        function loadProductLabels() {
+
+            // console.log('load product labels');
+            $('#js-select-product-labels').html('<option>Loading...</option>');
+
+            $.ajax({
+                url : '/admin/label/list',
+                method: 'get'
+            }).done(function (response, textStatus, xhr) {
+
+                let options = '';
+                $.each(response.labels, function (key, item) {
+                    options+='<option value="'+item.id+'">'+item.title+ ' [ '+item.match.label+' ]' +'</option>';
+                });
+
+
+                $('#js-select-product-labels').html(options);
+
+
+            }).fail(function (error, textStatus, errorThrown) {
+
+            }).always(function () {
+                // permission.find('#permission_'+permissionId).removeClass('warning');
+            });
+
+        }
+
+        /**
+         * Add label to product
+         */
+        $('.btn-add-product-label').click(function () {
+
+            let productId = $(this).attr('data-product-id');
+            let labelId = $('#js-select-product-labels option:selected').val();
+
+            $.ajax({
+                url : '/admin/product/'+productId+'/sync-label',
+                method: 'post',
+                data: {
+                    labelId: labelId
+                }
+            }).done(function (response, textStatus, xhr) {
+
+                let row = '';
+
+                $.each(response.labels, function (key, item) {
+
+                    row+= '<tr><td>'+item.title+'</td><td>'+item.match.label+'</td><td>'+item.weight+'</td><td>...</td><tr/>'
+                });
+
+                product_labels.find('table > tbody').append(row);
+
+            }).fail(function (error, textStatus, errorThrown) {
+
+            });
+
+        });
+
+        /**
+         * Remove product
+         */
+        $('.btn-remove-product-label').click(function () {
+
+            let result = confirm('Are you sure to remove?');
+
+            if (result=== true){
+                let productId = $('#product-id').val();
+                let labelId = $(this).attr('data-label-id');
+
+                $('#row_label_'+labelId).addClass('warning');
+
+                $.ajax({
+                    url : '/admin/product/'+productId+'/remove-label',
+                    method: 'post',
+                    data: {
+                        labelId: labelId
+                    }
+                }).done(function (response, textStatus, xhr) {
+
+                    $('#row_label_'+labelId).remove();
+
+                }).fail(function (error, textStatus, errorThrown) {
+
+                });
+            }
+
+        });
 
     }
 

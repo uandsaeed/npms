@@ -112,7 +112,7 @@ return [
         [
             'text'  => 'Dashboard',
             'icon'  => 'fas fa-tachometer-alt',
-            'url'   => 'home',
+            'url'   => 'admin/home',
 
         ],
         [
@@ -165,6 +165,11 @@ return [
             'text' => 'Brands',
             'icon'  => 'fas fa-globe',
             'url'  => 'admin/brand',
+        ],
+        [
+            'text' => 'User Query',
+            'icon'  => 'fas fa-question',
+            'url'  => 'admin/query',
         ],
         [
             'text' => 'Settings',
