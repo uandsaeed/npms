@@ -26,6 +26,7 @@ Route::get('/test', function (){
     var_dump($result);
 
 });
+
 Route::group(['namespace' => 'Site', ], function() {
 
     Route::get('/', 'GettingStartedController@index' );
@@ -55,6 +56,31 @@ Route::group(['namespace' => 'Admin',
         Route::get('/create', 'BrandController@create');
         Route::get('/', 'BrandController@index');
         Route::get('/{id}', 'BrandController@edit');
+
+
+    });
+
+    Route::prefix('users')->group(function () {
+
+//        @todo block
+        //@todo unblock
+        Route::get('/', 'UserController@index');
+//        Route::get('/{id}', 'UserController@edit');
+        Route::delete('/{id}', 'UserController@delete');
+
+
+    });
+
+
+    Route::prefix('moderator')->group(function () {
+
+        Route::post('/', 'AdminController@insert');
+        Route::post('/{id}', 'AdminController@update');
+        Route::delete('/{id}', 'AdminController@delete');
+
+        Route::get('/create', 'AdminController@create');
+        Route::get('/', 'AdminController@index');
+        Route::get('/edit/{id}', 'AdminController@edit');
 
 
     });
