@@ -179,21 +179,17 @@ return [
         [
             'text'    => 'User Management',
             'icon'    => 'fas fa-user-secret',
+            'url'   => '/admin/users',
             'submenu' => [
                 [
                     'text' => 'admins',
                     'icon' => 'fas fa-user-secret',
-                    'url'  => 'admin/moderator/browse',
-                ],
-                [
-                    'text' => 'Create',
-                    'icon' => 'fas fa-plus',
-                    'url'  => 'admin/moderator/create',
+                    'url'  => 'admin/moderator',
                 ],
                 [
                     'text'    => 'Users Management',
                     'icon'    => 'fas fa-users',
-                    'url'  => 'admin/users/browse',
+                    'url'  => '/admin/users',
                 ]
             ],
         ],
