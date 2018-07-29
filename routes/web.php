@@ -35,6 +35,10 @@ Route::group(['namespace' => 'Site', ], function() {
 //    Route::get('/search/recommendation', 'GettingStartedController@getSearchResult' );
 
     Route::get('/', 'PageController@getHome' );
+    Route::get('/about', 'PageController@getAbout' );
+    Route::get('/process', 'PageController@getProcess' );
+    Route::get('/assessment', 'PageController@getAssessment' );
+    Route::get('/contact', 'PageController@getContact' );
 
 
 

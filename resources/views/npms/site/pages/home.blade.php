@@ -5,6 +5,18 @@
 
 @section('content')
 
+    <!-- Header -->
+    <header class="masthead masthead-home">
+        <div class="container d-flex h-100 align-items-center">
+            <div class="mx-auto text-center">
+                <h1 class="mx-auto my-0 text-uppercase">SkinLyst</h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">You are different. Your skincare regime should be too. SkinLyst offers personalised beauty product recommendations.</h2>
+                <a href="assessment.html" class="btn btn-primary">Get Started</a>
+            </div>
+        </div>
+    </header>
+
+
     <!-- About Section -->
     <section id="about" class="about-section text-center">
         <div class="container">
@@ -85,82 +97,12 @@
         </div>
     </section>
 
-    <!-- Signup Section -->
-    <section id="signup" class="signup-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-10 col-lg-8 mx-auto text-center">
+    {{--signup--}}
+    @include('npms.site.pages.widgets.signup')
 
-                    <i class="far fa-paper-plane fa-2x mb-2"></i>
-                    <h2 class="mb-5">Subscribe to receive updates and newsletters</h2>
+    {{--contact--}}
+    @include('npms.site.pages.widgets.contact')
 
-                    <form class="form-inline d-flex">
-                        <input type="email" class="form-control flex-fill mr-0 mr-sm-2 mb-3 mb-sm-0" id="inputEmail"
-                               placeholder="Enter email address...">
-                        <button type="submit" class="btn btn-primary mx-auto">Subscribe</button>
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Contact Section -->
-    <section class="contact-section bg-black">
-        <div class="container">
-
-            <div class="row">
-
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-map-marked-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Address</h4>
-                            <hr class="my-4">
-                            <div class="small text-black-50">20-22 Wenlock Road, London N17GU</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-envelope text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Email</h4>
-                            <hr class="my-4">
-                            <div class="small text-black-50">
-                                <a href="#">hello@skinlyst.com</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4 mb-3 mb-md-0">
-                    <div class="card py-4 h-100">
-                        <div class="card-body text-center">
-                            <i class="fas fa-mobile-alt text-primary mb-2"></i>
-                            <h4 class="text-uppercase m-0">Phone</h4>
-                            <hr class="my-4">
-                            <div class="small text-black-50">+44 (0) 208 123 1234</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="social d-flex justify-content-center">
-                <a href="#" class="mx-2">
-                    <i class="fab fa-twitter"></i>
-                </a>
-                <a href="#" class="mx-2">
-                    <i class="fab fa-facebook-f"></i>
-                </a>
-                <a href="#" class="mx-2">
-                    <i class="fab fa-github"></i>
-                </a>
-            </div>
-
-        </div>
-    </section>
 
 
 @endsection
