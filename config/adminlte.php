@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'NPMS',
+    'title' =>  env('APP_NAME', 'SkinLyst'),
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>NP</b>MS',
+    'logo' => '<b>Skin</b>Lyst',
 
-    'logo_mini' => '<b>N</b>PMS',
+    'logo_mini' => '<b>S</b>L',
 
     /*
     |--------------------------------------------------------------------------
