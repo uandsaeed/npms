@@ -182,7 +182,7 @@ return [
             'url'   => '/admin/users',
             'submenu' => [
                 [
-                    'text' => 'admins',
+                    'text' => 'Admins',
                     'icon' => 'fas fa-user-secret',
                     'url'  => 'admin/moderator',
                 ],
