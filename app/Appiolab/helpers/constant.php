@@ -9,6 +9,16 @@
     use Illuminate\Support\Facades\Cache;
 
     /**
+     * PATHS
+     */
+
+    const IMAGE_PATH= '/front-end/skinlyst/img/';
+    const JAVASCRIPT_PATH= '/front-end/skinlyst/js/';
+    const CSS_PATH= '/front-end/skinlyst/css/';
+    const VENDOR_PATH= '/front-end/skinlyst/vendor/';
+
+
+    /**
      * User
      */
 

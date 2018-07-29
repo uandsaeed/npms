@@ -29,10 +29,13 @@ Route::get('/test', function (){
 
 Route::group(['namespace' => 'Site', ], function() {
 
-    Route::get('/', 'GettingStartedController@index' );
+//    Route::get('/', 'GettingStartedController@index' );
+//
+//    Route::post('/search', 'GettingStartedController@searchProducts' );
+//    Route::get('/search/recommendation', 'GettingStartedController@getSearchResult' );
 
-    Route::post('/search', 'GettingStartedController@searchProducts' );
-    Route::get('/search/recommendation', 'GettingStartedController@getSearchResult' );
+    Route::get('/', 'PageController@getHome' );
+
 
 
 });
