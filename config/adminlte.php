@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'title' => 'NPMS',
+    'title' =>  env('APP_NAME', 'SkinLyst'),
 
     'title_prefix' => '',
 
@@ -30,9 +30,9 @@ return [
     |
     */
 
-    'logo' => '<b>NP</b>MS',
+    'logo' => '<b>Skin</b>Lyst',
 
-    'logo_mini' => '<b>N</b>PMS',
+    'logo_mini' => '<b>S</b>L',
 
     /*
     |--------------------------------------------------------------------------
@@ -179,21 +179,17 @@ return [
         [
             'text'    => 'User Management',
             'icon'    => 'fas fa-user-secret',
+            'url'   => '/admin/users',
             'submenu' => [
                 [
-                    'text' => 'admins',
+                    'text' => 'Admins',
                     'icon' => 'fas fa-user-secret',
-                    'url'  => 'admin/moderator/browse',
-                ],
-                [
-                    'text' => 'Create',
-                    'icon' => 'fas fa-plus',
-                    'url'  => 'admin/moderator/create',
+                    'url'  => 'admin/moderator',
                 ],
                 [
                     'text'    => 'Users Management',
                     'icon'    => 'fas fa-users',
-                    'url'  => 'admin/users/browse',
+                    'url'  => '/admin/users',
                 ]
             ],
         ],

@@ -6,6 +6,7 @@ use App\Events\LabelCreated;
 use App\Events\ProductCreated;
 use App\Events\ProductImported;
 use App\Listeners\ClearAuthUserCacheOnLogout;
+use App\Listeners\SuccessfullLoginListener;
 use App\Listeners\SyncLabel;
 use App\Listeners\SyncProduct;
 use App\Listeners\SyncProducts;
@@ -23,6 +24,9 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         'App\Events\Event' => [
             'App\Listeners\EventListener',
+        ],
+        'Illuminate\Auth\Events\Login' => [
+            SuccessfullLoginListener::class,
         ],
         ProductCreated::class => [
 

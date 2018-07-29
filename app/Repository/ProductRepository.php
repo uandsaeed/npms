@@ -37,14 +37,14 @@
          */
         public function getAllPaginated($page){
 
-//            $products = Cache::tags(['BROWSE_PRODUCTS'])->remember('BROWSE_PRODUCTS_'.$page, 10, function (){
+            $products = Cache::tags(['BROWSE_PRODUCTS'])->remember('BROWSE_PRODUCTS_'.$page, 10, function (){
 
                 return Product::where('status', 1)
                         ->orderBy('updated_at', 'desc')
                         ->paginate(10);
-//            });
-//
-//            return $products;
+            });
+
+            return $products;
         }
 
 
